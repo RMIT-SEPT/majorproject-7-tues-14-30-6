@@ -1,18 +1,18 @@
 # RMIT SEPT 2020 Major Project
 
-# Group 00
+# Group 06
 
 ## Members
-* SURNAME, GivenName (sXXXX)
-* SURNAME, GivenName (sXXXX)
-* SURNAME, GivenName (sXXXX)
-* SURNAME, GivenName (sXXXX)
-* SURNAME, GivenName (sXXXX)
+* CERVENJAK, Joshua (s3783156)
+* NG, Kaye (s3766374)
+* SHRESTHA, Mahima (s3602400)
+* HAIDARI, khatina (s3599065)
+* RANDALL, Rylee (s3780297)
 
 ## Records
 
-* Github repository : https://github.com/RMIT-SEPT/MajorProject/Groupx
-* ClickUp Workspace : https://app.clickup.com/xxxx/yyyy
+* Github repository : https://github.com/RMIT-SEPT/majorproject-7-tues-14-30-6
+* Trello board : https://trello.com/b/Ew3N2kJB/sept-7tues-1430-6
 
 
 ## Code documentation
