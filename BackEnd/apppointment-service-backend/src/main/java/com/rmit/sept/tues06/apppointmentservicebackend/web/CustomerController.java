@@ -35,8 +35,8 @@ public class CustomerController {
     }
 
     @GetMapping(value = "/{id}")
-    public Customer getCustomer(@PathVariable(value = "id") Long userId) {
-        return customerRepository.findById(userId).orElseThrow(() -> new CustomerNotFoundException(userId);
+    public Customer getCustomer(@PathVariable(value = "id") Long userId) throws CustomerNotFoundException {
+        return customerRepository.findById(userId).orElseThrow(() -> new CustomerNotFoundException(userId));
     }
 
     @PostMapping(value = "/add")
