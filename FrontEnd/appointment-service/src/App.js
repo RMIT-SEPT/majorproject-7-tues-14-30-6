@@ -8,15 +8,16 @@ import AddPerson from './components/Persons/AddPerson';
 import { Provider } from "react-redux";
 import store from './store';
 
-
 function App() {
   return (
     <Provider store={store}>
       <Router>
+
         <div>
           <Header />
-          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/dashboard" component={Dashboard} />  
           <Route exact path="/addPerson" component={AddPerson} />
+
         </div>
       </Router>
     </Provider>
