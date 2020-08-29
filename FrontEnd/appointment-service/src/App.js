@@ -7,7 +7,9 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import AddPerson from './components/Persons/AddPerson';
 import { Provider } from "react-redux";
 import store from './store';
+import Home from './components/Layout/Home.js'
 
+// this is the main page/home page
 function App() {
   return (
     <Provider store={store}>
@@ -15,9 +17,9 @@ function App() {
 
         <div>
           <Header />
-          <Route exact path="/dashboard" component={Dashboard} />  
+          <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/addPerson" component={AddPerson} />
-
+          <Home />
         </div>
       </Router>
     </Provider>

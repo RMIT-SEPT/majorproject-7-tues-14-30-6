@@ -1,0 +1,13 @@
+#doctor {
+    height: auto;
+    width: 350px;
+}
+
+#homePage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* uncomment this for debugging */
+    /* border: 1px solid black; */
+    width: 60%;
+}
