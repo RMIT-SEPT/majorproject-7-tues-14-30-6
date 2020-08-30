@@ -9,28 +9,51 @@ export default class Home extends Component {
         return (
             <div id="homePage">
                 {/*Title*/}
-                <h1 className="display-5 text-center">Welcome to AGME</h1>
+                <h1 className="display-5 text-center">AGME</h1>
                 <h5 className="display-5 text-center">Essential booking service for any bussiness</h5>
                 {/* end of title */}
 
                 {/* content */}
-                {/* Perhaps display inline block? */}
-                <div className="block-content">
-                    <div className="card bg-primary text-white" style={{ width: '18rem' }}>
-                        <Card.Body>
-                            <Card.Title>Who we are</Card.Title>
-                            <Card.Text>
-                                We are a service for busines
-                     </Card.Text>
-                        </Card.Body>
-                    </div>
+                {/* first inline block */}
+                <div className="block-content clearfix">
 
-                    <div className="align-right">
-                        <Image src={doctor}  id="doctor" alt="Doctors appointment" rounded />
-                    </div>
+                        <div className="card text-black d-inline-block card-left" style={{ width: '22rem' }}>
+                            <Card.Body>
+                                <Card.Title><h3>Who we are</h3></Card.Title>
+                                <Card.Text>
+                                   <p>Here at AGME, we provide booking services for bussinesses to integrate into their site.
+                                       <br></br><br></br>
+                                       Through us, you will be able to provide working booking services for your customers.
+                                   </p>
+                                </Card.Text>
+                            </Card.Body>
+                        </div>
+                    <Image src={doctor} className="d-inline-block float-right" id="doctor" alt="Doctors appointment" rounded />
+
                 </div>
-                {/* end of content */}
+                {/* end of first inline block */}
 
+                {/* second inline block */}
+                <div className="block-content clearfix">
+                <Image src={doctor} className="d-inline-block float-left" id="doctor" alt="Doctors appointment" rounded />
+
+                <div className="card text-black d-inline-block card-right" style={{ width: '22rem' }}>
+                            <Card.Body>
+                                <Card.Title><h3>Why choose us</h3></Card.Title>
+                                <Card.Text>
+                                   <p>
+                                    Not only are we one of the cheapest services out there, we also make our booking service 
+                                    easy to integrate into your site. 
+                                    <br></br>
+                                    So you can get your booking service up and running quick and easily.
+                                   </p>
+                                </Card.Text>
+                            </Card.Body>
+                        </div>
+                    
+                </div>
+{               /*end of second inline block */} 
+                {/* end of content */}
             </div >
         )
     }
