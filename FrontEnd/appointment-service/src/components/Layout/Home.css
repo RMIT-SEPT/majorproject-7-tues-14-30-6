@@ -1,4 +1,4 @@
-#doctor {
+.image {
     height: auto;
     width: 375px;
 }
@@ -23,9 +23,8 @@ body{
 }
 
 .block-content{
-    overflow: hidden;
     margin-top: 50px;
-    margin-bottom: 75px;
+    margin-bottom: 110px;
     width: 100%;
     height: auto;
     position: relative;
@@ -37,12 +36,14 @@ body{
     position: absolute;
     top: 50%;
     right: 0%;
+    font-size: 110%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
     transform: translate(0%, -50%);
 }
 
 .card-left{
+    font-size: 110%;
     border: none;
     margin: 0;
     position: absolute;
