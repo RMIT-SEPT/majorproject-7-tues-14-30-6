@@ -46,7 +46,7 @@ export default class Home extends Component {
                                 <p>
                                     Not only are we one of the cheapest services out there, we also make our booking service
                                     easy to integrate into your site.
-                                    <br></br>
+                                    <br></br><br></br>
                                     So you can get your booking service up and running quickly and easily.
                                    </p>
                             </Card.Text>
