@@ -1,11 +1,12 @@
 .image {
     height: auto;
-    width: 375px;
+    width: 450px;
 }
 
 body{
     background-color: rgba(0, 123, 255, 0.15);
 }
+
 
 #homePage{
     display: block;
@@ -13,7 +14,7 @@ body{
     margin-right: auto;
     /* uncomment this for debugging */
     /* border: 1px solid black; */
-    width: 57%;
+    width: 62%;
     border: 5px;
     margin-top: -30px;
     padding-top: 35px;
@@ -24,11 +25,15 @@ body{
 
 .block-content{
     margin-top: 50px;
-    margin-bottom: 110px;
+    margin-bottom: 90px;
     width: 100%;
     height: auto;
     position: relative;
     display: block;
+}
+
+.card{
+    font-size: 115%;
 }
 
 .card-right{
@@ -36,14 +41,12 @@ body{
     position: absolute;
     top: 50%;
     right: 0%;
-    font-size: 110%;
     background-color: rgba(0, 0, 0, 0);
     border: none;
     transform: translate(0%, -50%);
 }
 
 .card-left{
-    font-size: 110%;
     border: none;
     margin: 0;
     position: absolute;

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import doctor from "../images/doctors.png";
 import './Home.css'
-import Card from 'react-bootstrap/Card'
 import Image from 'react-bootstrap/Image'
+import Card from 'react-bootstrap/Card'
 import laptop from "../images/laptop_booking.jpg";
+import handshake from "../images/handshake.jpg";
 
 export default class Home extends Component {
     render() {
@@ -29,14 +30,14 @@ export default class Home extends Component {
                             </Card.Text>
                         </Card.Body>
                     </Card>
-                    <Image src={doctor} className="d-inline-block float-right image"  alt="Doctors appointment" rounded />
+                    <Image src={doctor} className="d-inline-block float-right image" alt="Doctors appointment" rounded />
 
                 </div>
                 {/* end of first inline block */}
 
                 {/* second inline block */}
                 <div className="block-content clearfix">
-                    <Image src={laptop} className="d-inline-block float-left image"  alt="Laptop booking" rounded />
+                    <Image src={laptop} className="d-inline-block float-left image" alt="Laptop booking" rounded />
 
                     <Card className="bg-primary text-white d-inline-block card-right" style={{ width: '22rem' }}>
                         <Card.Body>
@@ -53,7 +54,27 @@ export default class Home extends Component {
                     </Card>
 
                 </div>
-                {               /*end of second inline block */}
+                {/*end of second inline block */}
+
+                {/* start of third inline block */}
+                <div className="block-content clearfix">
+                    <Card className="bg-primary text-white d-inline-block card-left" style={{ width: '22rem' }}>
+                        <Card.Body>
+                            <Card.Title><h3>Get started</h3></Card.Title>
+                            <Card.Text>
+                                <p> 
+                                    First register an account if you haven't already. 
+                                    <br></br><br></br>
+                                    Once signed in, visit the "Get Started" page to view more information.
+                                </p>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
+                    <Image src={handshake} className="d-inline-block float-right image" alt="Handshake" rounded />
+
+                </div>
+                {/* end of third inline block */}
+
                 {/* end of content */}
             </div >
         )
