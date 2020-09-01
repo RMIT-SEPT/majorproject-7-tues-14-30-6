@@ -12,14 +12,15 @@ import Home from './components/Layout/Home.js'
 // this is displayed on all pages
 function App() {
   return (
+
     <Provider store={store}>
       <Router>
 
         <div>
           <Header />
+          <Route exact path="/" component={Home} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/addPerson" component={AddPerson} />
-          <Route exact path="/home" component={Home} />
         </div>
       </Router>
     </Provider>
