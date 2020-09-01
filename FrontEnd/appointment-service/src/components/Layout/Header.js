@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { home } from "./Home.js"
 
 class Header extends Component {
     render() {
@@ -6,9 +7,9 @@ class Header extends Component {
             <div>
                 <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
                     <div className="container">
-                        <a className="navbar-brand" href="">
+                        <a className="navbar-brand" href="/home">
                             AGME
-                    </a>
+                     </a>
                             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
                             <span className="navbar-toggler-icon" />
                         </button>
@@ -16,15 +17,15 @@ class Header extends Component {
                         <div className="collapse navbar-collapse" id="mobile-nav">
 
                             {/* not needed for now*/}
-                            {/* 
-                            <ul className="navbar-nav mr-auto">
+                            
+                            {/* <ul className="navbar-nav mr-auto">
                                 <li className="nav-item">
                                     <a className="nav-link" href="/dashboard">
                                         Dashboard
                             </a>
                                 </li>
-                            </ul>
-                            */}
+                            </ul> */}
+                           
                             <ul className="navbar-nav ml-auto">
                                 <li className="nav-item">
                                     <a className="nav-link" href="login.html">

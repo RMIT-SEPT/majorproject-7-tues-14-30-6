@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import doctor from "../images/doctors.png";
-import './Home.css'
 import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card'
 import laptop from "../images/laptop_booking.jpg";
 import handshake from "../images/handshake.jpg";
+import "bootstrap/dist/css/bootstrap.min.css";
+import './Home.css'
 
 export default class Home extends Component {
     render() {

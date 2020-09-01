@@ -9,7 +9,7 @@ import { Provider } from "react-redux";
 import store from './store';
 import Home from './components/Layout/Home.js'
 
-// this is the main page/home page
+// this is displayed on all pages
 function App() {
   return (
     <Provider store={store}>
@@ -19,7 +19,7 @@ function App() {
           <Header />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/addPerson" component={AddPerson} />
-          <Home />
+          <Route exact path="/home" component={Home} />
         </div>
       </Router>
     </Provider>
