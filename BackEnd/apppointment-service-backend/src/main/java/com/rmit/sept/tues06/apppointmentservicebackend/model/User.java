@@ -2,20 +2,26 @@ package com.rmit.sept.tues06.apppointmentservicebackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 
-
+@MappedSuperclass
 public abstract class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @NotBlank(message = "Name is required")
     private String name;
 
-    @Size(min=4, message = "Please enter at least 4 characters")
+    @Column(updatable = false, unique = true)
+    @Size(min = 4, message = "Please enter at least 4 characters")
     private String username;
 
+    @Email
     @NotBlank(message = "Email is required")
     private String email;
 
@@ -25,11 +31,45 @@ public abstract class User {
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
-    @JsonFormat(pattern ="yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date created_At;
 
-    @JsonFormat(pattern ="yyyy-mm-dd")
+    @JsonFormat(pattern = "yyyy-mm-dd")
     private Date updated_At;
+
+    public Long getId() {
+        return id;
+    }
+
+    public boolean isPersisted() {
+        return id != null;
+    }
+
+    @Override
+    public int hashCode() {
+        if (getId() != null) {
+            return getId().hashCode();
+        }
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        User other = (User) obj;
+        if (getId() == null || other.getId() == null) {
+            return false;
+        }
+        return getId().equals(other.getId());
+    }
 
     public String getName() {
         return name;
