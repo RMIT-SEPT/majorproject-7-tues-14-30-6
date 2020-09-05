@@ -1,6 +1,6 @@
-package com.rmit.sept.tues06.apppointmentservicebackend.repository;
+package com.rmit.sept.tues06.appointmentservicebackend.repository;
 
-import com.rmit.sept.tues06.apppointmentservicebackend.model.Customer;
+import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

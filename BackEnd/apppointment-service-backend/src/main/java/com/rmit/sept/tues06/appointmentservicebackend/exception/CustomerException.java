@@ -1,4 +1,4 @@
-package com.rmit.sept.tues06.apppointmentservicebackend.exception;
+package com.rmit.sept.tues06.appointmentservicebackend.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

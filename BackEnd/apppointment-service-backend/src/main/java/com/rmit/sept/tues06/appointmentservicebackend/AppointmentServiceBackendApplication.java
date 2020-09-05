@@ -1,13 +1,13 @@
-package com.rmit.sept.tues06.apppointmentservicebackend;
+package com.rmit.sept.tues06.appointmentservicebackend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ApppointmentServiceBackendApplication {
+public class AppointmentServiceBackendApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ApppointmentServiceBackendApplication.class, args);
+        SpringApplication.run(AppointmentServiceBackendApplication.class, args);
     }
 
 }

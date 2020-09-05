@@ -1,8 +1,8 @@
-package com.rmit.sept.tues06.apppointmentservicebackend.service;
+package com.rmit.sept.tues06.appointmentservicebackend.service;
 
-import com.rmit.sept.tues06.apppointmentservicebackend.exception.CustomerException;
-import com.rmit.sept.tues06.apppointmentservicebackend.model.Customer;
-import com.rmit.sept.tues06.apppointmentservicebackend.repository.CustomerRepository;
+import com.rmit.sept.tues06.appointmentservicebackend.exception.CustomerException;
+import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
+import com.rmit.sept.tues06.appointmentservicebackend.repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-package com.rmit.sept.tues06.apppointmentservicebackend.model;
+package com.rmit.sept.tues06.appointmentservicebackend.model;
 
 
 import javax.persistence.Entity;

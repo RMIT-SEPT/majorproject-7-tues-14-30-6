@@ -1,4 +1,4 @@
-package com.rmit.sept.tues06.apppointmentservicebackend.service;
+package com.rmit.sept.tues06.appointmentservicebackend.service;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

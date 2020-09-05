@@ -1,9 +1,9 @@
-package com.rmit.sept.tues06.apppointmentservicebackend.web;
+package com.rmit.sept.tues06.appointmentservicebackend.web;
 
-import com.rmit.sept.tues06.apppointmentservicebackend.exception.CustomerException;
-import com.rmit.sept.tues06.apppointmentservicebackend.model.Customer;
-import com.rmit.sept.tues06.apppointmentservicebackend.service.CustomerService;
-import com.rmit.sept.tues06.apppointmentservicebackend.service.MapValidationErrorService;
+import com.rmit.sept.tues06.appointmentservicebackend.exception.CustomerException;
+import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
+import com.rmit.sept.tues06.appointmentservicebackend.service.CustomerService;
+import com.rmit.sept.tues06.appointmentservicebackend.service.MapValidationErrorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
