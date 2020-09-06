@@ -18,11 +18,11 @@ public class UserRepositoryIntegrationTest {
 
     @Before
     public void setup() {
-        User customer1 = new Customer("customer1", "customer1@email.com", "Customer One", "123 ABC Street", "0400000000");
+        User customer1 = new Customer("customer1", "customer1@email.com", "password", "Customer One", "123 ABC Street", "0400000000");
         userService.saveOrUpdateUser(customer1);
-        User customer2 = new Customer("customer2", "customer2@email.com", "Customer Two", "123 ABC Street", "0400000000");
+        User customer2 = new Customer("customer2", "customer2@email.com", "password", "Customer Two", "123 ABC Street", "0400000000");
         userService.saveOrUpdateUser(customer2);
-        User customer3 = new Customer("customer3", "customer3@email.com", "Customer Three", "123 ABC Street", "0400000000");
+        User customer3 = new Customer("customer3", "customer3@email.com", "password", "Customer Three", "123 ABC Street", "0400000000");
         userService.saveOrUpdateUser(customer3);
     }
 

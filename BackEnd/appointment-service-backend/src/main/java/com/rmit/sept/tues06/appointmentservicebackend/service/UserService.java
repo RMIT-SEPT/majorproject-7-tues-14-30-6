@@ -15,30 +15,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Boolean existsByUsername(String username) {
-        return findByUsername(username)!= null;
-    }
-
     public User findByUsername(String username) {
-        User user = userRepository.findByUsername(username.toLowerCase());
-
-        if (user == null)
-            throw new UserException("User '" + username + "' does not exist");
-
-        return user;
-    }
-
-    public Boolean existsByEmail(String email) {
-        return findByEmail(email) != null;
+        return userRepository.findByUsername(username.toLowerCase());
     }
 
     public User findByEmail(String email) {
-        User user = userRepository.findByEmail(email.toLowerCase());
-
-        if (user == null)
-            throw new UserException("User with email '" + email + "' does not exist");
-
-        return user;
+        return userRepository.findByEmail(email.toLowerCase());
     }
 
     public User saveOrUpdateUser(User user) {

@@ -1,5 +1,7 @@
 package com.rmit.sept.tues06.appointmentservicebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -34,6 +36,7 @@ public abstract class User extends BaseEntity {
     private String email;
     @NotBlank(message = "Password is required")
     @Size(min = 6, max = 120)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @NotBlank(message = "Address is required")
     private String address;
