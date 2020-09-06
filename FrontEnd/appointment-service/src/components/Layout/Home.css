@@ -1,0 +1,57 @@
+.image {
+    height: auto;
+    width: 450px;
+}
+
+body{
+    background-color: rgba(0, 123, 255, 0.15);
+}
+
+
+#homePage{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    /* uncomment this for debugging */
+    /* border: 1px solid black; */
+    width: 64%;
+    border: 5px;
+    margin-top: -30px;
+    padding-top: 35px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgba(0, 123, 255, 0.03);
+}
+
+.block-content{
+    margin-top: 50px;
+    min-width: 850px;
+    margin-bottom: 75px;
+    height: auto;
+    position: relative;
+    display: block;
+}
+
+.card{
+    font-size: 115%;
+}
+
+.card-right{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    right: 0%;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    transform: translate(0%, -50%);
+}
+
+.card-left{
+    border: none;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    background-color: rgba(0, 0, 0, 0.0);
+    transform: translate(0%, -50%);
+}
