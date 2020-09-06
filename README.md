@@ -5,8 +5,7 @@
 ## Members
 * CERVENJAK, Joshua (s3783156)
 * NG, Kaye (s3766374)
-* SHRESTHA, Mahima (s3602400)
-* HAIDARI, khatina (s3599065)
+* HAIDARI, Khatina (s3599065)
 * RANDALL, Rylee (s3780297)
 
 ## Records
