@@ -9,12 +9,14 @@ import java.util.Iterator;
 import java.util.Set;
 
 @Entity
+@Inheritance
+@DiscriminatorColumn(name = "user_type")
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "username"),
         @UniqueConstraint(columnNames = "email")
 })
 public abstract class User extends BaseEntity {
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -26,16 +28,30 @@ public abstract class User extends BaseEntity {
     @Size(min = 4, max = 20, message = "Please enter at least 4 characters")
     private String username;
     @Email
+    @Size(max = 50)
     @Column(nullable = false, unique = true)
     @NotBlank(message = "Email is required")
     private String email;
     @NotBlank(message = "Password is required")
-    @Size(max = 120)
+    @Size(min = 6, max = 120)
     private String password;
     @NotBlank(message = "Address is required")
     private String address;
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
+
+    public User() {
+
+    }
+
+    public User(String username, String email, String password, String name, String address, String phoneNumber) {
+        setUsername(username);
+        setEmail(email);
+        setPassword(password);
+        setName(name);
+        setAddress(address);
+        setPhoneNumber(phoneNumber);
+    }
 
     public Set<Role> getRoles() {
         return roles;

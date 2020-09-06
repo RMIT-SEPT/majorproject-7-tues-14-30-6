@@ -3,7 +3,7 @@ package com.rmit.sept.tues06.appointmentservicebackend.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name = "roles")
 public class Role extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
