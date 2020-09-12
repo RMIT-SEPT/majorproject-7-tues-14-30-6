@@ -23,7 +23,7 @@ public class UserService {
         return userRepository.findByEmail(email.toLowerCase());
     }
 
-    public User saveOrUpdateUser(User user) {
+    public User createUser(User user) {
         try {
             user.setUsername(user.getUsername().toLowerCase());
             user.setEmail(user.getEmail());

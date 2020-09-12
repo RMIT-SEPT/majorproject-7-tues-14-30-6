@@ -1,9 +1,7 @@
 package com.rmit.sept.tues06.appointmentservicebackend.web;
 
-import com.rmit.sept.tues06.appointmentservicebackend.exception.UserException;
 import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
 import com.rmit.sept.tues06.appointmentservicebackend.model.User;
-import com.rmit.sept.tues06.appointmentservicebackend.service.CustomerService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.MapValidationErrorService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +20,6 @@ public class UserController {
     private UserService userService;
 
     @Autowired
-    private CustomerService customerService;
-
-    @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
     @GetMapping("")
@@ -33,13 +28,13 @@ public class UserController {
     }
 
     @GetMapping(value = "/{username}")
-    public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username") String username) throws UserException {
+    public ResponseEntity<?> getUserByUsername(@PathVariable(value = "username") String username) {
         User user = userService.findByUsername(username);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{email}")
-    public ResponseEntity<?> getUserByEmail(@PathVariable(value = "email") String email) throws UserException {
+    public ResponseEntity<?> getUserByEmail(@PathVariable(value = "email") String email) {
         User user = userService.findByEmail(email);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -50,8 +45,7 @@ public class UserController {
 
         if (errorMap != null) return errorMap;
 
-        User newUser = userService.saveOrUpdateUser(customer);
-        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+        return new ResponseEntity<>(userService.createUser(customer), HttpStatus.CREATED);
     }
 
 }

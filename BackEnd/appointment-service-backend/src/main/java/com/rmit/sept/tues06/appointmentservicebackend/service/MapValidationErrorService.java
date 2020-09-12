@@ -3,6 +3,7 @@ package com.rmit.sept.tues06.appointmentservicebackend.service;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
+@Transactional(readOnly = true)
 public class MapValidationErrorService {
 
     public ResponseEntity<?> MapValidationService(BindingResult result) {
