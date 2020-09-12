@@ -30,24 +30,24 @@ public class BookingController {
     private MapValidationErrorService mapValidationErrorService;
 
     @GetMapping("")
-    public List<Booking> getBookings(@RequestParam(value = "username", required = false) String username, @RequestParam(value = "past") boolean includePast,
+    public List<Booking> getBookings(@RequestParam(value = "customer", required = false) String username, @RequestParam(value = "past") boolean includePast,
                                      @RequestParam(value = "current") boolean includeCurrentAndFuture, @RequestParam(value = "cancelled", required = false) boolean includeCancelled) {
         List<Booking> bookings = new ArrayList<>();
         Date currentDateTime = new Date();
 
         if (!StringUtils.isEmpty(username)) {
-            if (includePast)
-                bookings.addAll(bookingService.findActivePastBookingsByCustomer(currentDateTime, username));
             if (includeCurrentAndFuture)
                 bookings.addAll(bookingService.findActiveCurrentBookingsByCustomer(currentDateTime, username));
+            if (includePast)
+                bookings.addAll(bookingService.findActivePastBookingsByCustomer(currentDateTime, username));
 
             if (CollectionUtils.isEmpty(bookings))
                 throw new BookingNotFoundForCustomerException(username);
         } else {
-            if (includePast)
-                bookings.addAll(bookingService.findActivePastBookings(currentDateTime));
             if (includeCurrentAndFuture)
                 bookings.addAll(bookingService.findActiveCurrentBookings(currentDateTime));
+            if (includePast)
+                bookings.addAll(bookingService.findActivePastBookings(currentDateTime));
 
             // TODO additional filtering for cancelled bookings
 //            if (includeCancelled)
