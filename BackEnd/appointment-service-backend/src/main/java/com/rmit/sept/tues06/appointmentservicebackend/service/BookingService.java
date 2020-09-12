@@ -18,19 +18,19 @@ public class BookingService {
         return bookingRepository.findById(bookingId).orElseThrow(() -> new BookingNotFoundException(bookingId + ""));
     }
 
-    public List<Booking> findAllPastBookings(Date date) {
+    public List<Booking> findActivePastBookings(Date date) {
         return bookingRepository.findActivePastBookings(date);
     }
 
-    public List<Booking> findAllCurrentBookings(Date date) {
+    public List<Booking> findActiveCurrentBookings(Date date) {
         return bookingRepository.findActiveCurrentBookings(date);
     }
 
-    public List<Booking> findPastBookingsByCustomer(Date date, String username) {
+    public List<Booking> findActivePastBookingsByCustomer(Date date, String username) {
         return bookingRepository.findActivePastBookingsByCustomer(date, username);
     }
 
-    public List<Booking> findCurrentBookingsByCustomer(Date date, String username) {
+    public List<Booking> findActiveCurrentBookingsByCustomer(Date date, String username) {
         return bookingRepository.findActiveCurrentBookingsByCustomer(date, username);
     }
 
