@@ -1,5 +1,7 @@
 package com.rmit.sept.tues06.appointmentservicebackend.model;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,8 +16,10 @@ public class Booking extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date bookingDateTime;
 
+    @Schema(example = "true", description = "Booking status (active, cancelled)")
     private boolean isActive;
 
+    @Schema(description = "")
     public Customer getCustomer() {
         return customer;
     }
@@ -24,6 +28,7 @@ public class Booking extends BaseEntity {
         this.customer = customer;
     }
 
+    @Schema(example = "Service name", description = "")
     public String getServiceName() {
         return serviceName;
     }
@@ -32,6 +37,7 @@ public class Booking extends BaseEntity {
         this.serviceName = serviceType;
     }
 
+    @Schema(description = "")
     public Date getBookingDateTime() {
         return bookingDateTime;
     }
