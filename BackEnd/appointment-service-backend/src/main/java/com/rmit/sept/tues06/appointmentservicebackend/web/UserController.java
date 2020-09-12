@@ -53,7 +53,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class)) }),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content) })
-    @GetMapping(value = "/{email}")
+    @GetMapping(value = "/find/{email}")
     public ResponseEntity<?> getUserByEmail(@Parameter(description = "The email that needs to be fetched.", required = true)
                                                 @PathVariable(value = "email") String email) {
         User user = userService.findByEmail(email);
