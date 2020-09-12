@@ -58,9 +58,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .antMatchers("/api/users/**").permitAll()
-                .antMatchers("/api/bookings/**").permitAll()
-                .anyRequest().authenticated();
+                .antMatchers( "/api/bookings/**").permitAll()
+                .antMatchers("/h2-console/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**",
+                        "/configuration/ui", "/configuration/**", "/webjars/**").permitAll()
+                .anyRequest().authenticated()
+                .and().headers().frameOptions().sameOrigin(); // allow use of frame to same origin urls;
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+
+        // TO ALLOW ALL ROUTES
+//        http.csrf().disable();
+//        http.authorizeRequests().antMatchers("/").permitAll();
     }
 }
