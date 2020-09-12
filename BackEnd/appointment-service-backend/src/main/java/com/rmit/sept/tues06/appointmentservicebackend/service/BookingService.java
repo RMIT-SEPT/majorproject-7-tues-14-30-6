@@ -19,19 +19,19 @@ public class BookingService {
     }
 
     public List<Booking> findAllPastBookings(Date date) {
-        return bookingRepository.findAllPastBookings(date);
+        return bookingRepository.findActivePastBookings(date);
     }
 
     public List<Booking> findAllCurrentBookings(Date date) {
-        return bookingRepository.findAllCurrentBookings(date);
+        return bookingRepository.findActiveCurrentBookings(date);
     }
 
     public List<Booking> findPastBookingsByCustomer(Date date, String username) {
-        return bookingRepository.findPastBookingsByCustomer(date, username);
+        return bookingRepository.findActivePastBookingsByCustomer(date, username);
     }
 
     public List<Booking> findCurrentBookingsByCustomer(Date date, String username) {
-        return bookingRepository.findCurrentBookingsByCustomer(date, username);
+        return bookingRepository.findActiveCurrentBookingsByCustomer(date, username);
     }
 
     public Booking createBooking(Booking booking) {
@@ -39,7 +39,14 @@ public class BookingService {
         newBooking.setBookingDateTime(booking.getBookingDateTime());
         newBooking.setCustomer(booking.getCustomer());
         newBooking.setServiceName(booking.getServiceName());
+        newBooking.setActive(true);
 
         return bookingRepository.save(newBooking);
+    }
+
+    public Booking cancelBooking(Booking booking) {
+        booking.setActive(false);
+
+        return bookingRepository.save(booking);
     }
 }

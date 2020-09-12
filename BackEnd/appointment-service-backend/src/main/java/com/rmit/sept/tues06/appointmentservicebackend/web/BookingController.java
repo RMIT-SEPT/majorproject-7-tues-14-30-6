@@ -70,4 +70,15 @@ public class BookingController {
 
         return new ResponseEntity<>(bookingService.createBooking(booking), HttpStatus.CREATED);
     }
+
+    @PostMapping(value = "/cancel")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<?> cancelBooking(@Valid @RequestBody Booking booking, BindingResult result) {
+
+        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
+
+        if (errorMap != null) return errorMap;
+
+        return new ResponseEntity<>(bookingService.cancelBooking(booking), HttpStatus.OK);
+    }
 }

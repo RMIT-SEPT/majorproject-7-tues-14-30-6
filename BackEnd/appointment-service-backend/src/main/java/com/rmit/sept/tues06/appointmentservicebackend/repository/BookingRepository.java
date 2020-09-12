@@ -11,15 +11,15 @@ import java.util.List;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
-    @Query("select b from Booking b where b.bookingDateTime < :bookingDateTime")
-    List<Booking> findAllPastBookings(@Param("bookingDateTime") Date bookingDateTime);
+    @Query("select b from Booking b where b.isActive and b.bookingDateTime < :bookingDateTime")
+    List<Booking> findActivePastBookings(@Param("bookingDateTime") Date bookingDateTime);
 
-    @Query("select b from Booking b where b.bookingDateTime >= :bookingDateTime")
-    List<Booking> findAllCurrentBookings(@Param("bookingDateTime") Date bookingDateTime);
+    @Query("select b from Booking b where b.isActive and b.bookingDateTime >= :bookingDateTime")
+    List<Booking> findActiveCurrentBookings(@Param("bookingDateTime") Date bookingDateTime);
 
-    @Query("select b from Booking b where b.bookingDateTime < :bookingDateTime and b.customer.username = :username")
-    List<Booking> findPastBookingsByCustomer(@Param("bookingDateTime") Date bookingDateTime, @Param("username") String username);
+    @Query("select b from Booking b where b.isActive and b.bookingDateTime < :bookingDateTime and b.customer.username = :username")
+    List<Booking> findActivePastBookingsByCustomer(@Param("bookingDateTime") Date bookingDateTime, @Param("username") String username);
 
-    @Query("select b from Booking b where b.bookingDateTime >= :bookingDateTime and b.customer.username = :username")
-    List<Booking> findCurrentBookingsByCustomer(@Param("bookingDateTime") Date bookingDateTime, @Param("username") String username);
+    @Query("select b from Booking b where b.isActive and b.bookingDateTime >= :bookingDateTime and b.customer.username = :username")
+    List<Booking> findActiveCurrentBookingsByCustomer(@Param("bookingDateTime") Date bookingDateTime, @Param("username") String username);
 }

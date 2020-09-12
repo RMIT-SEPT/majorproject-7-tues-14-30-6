@@ -14,6 +14,8 @@ public class Booking extends BaseEntity {
     @Temporal(TemporalType.TIMESTAMP)
     private Date bookingDateTime;
 
+    private boolean isActive;
+
     public Customer getCustomer() {
         return customer;
     }
@@ -36,5 +38,13 @@ public class Booking extends BaseEntity {
 
     public void setBookingDateTime(Date date) {
         this.bookingDateTime = date;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }
