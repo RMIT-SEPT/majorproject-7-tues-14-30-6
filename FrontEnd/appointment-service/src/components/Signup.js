@@ -34,20 +34,15 @@ export default class Signup extends Component {
             address: this.state.address,
             phoneNumber: this.state.phoneNumber
         }
-
         AuthService.register(newAccount);
-
     }
 
-
     render() {
-
         return (
             <div className="Person" >
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 m-auto">
-
 
                             {/* displays a message */}
                             <Alert variant="secondary" id="status" style={{ display: "none" }}>
