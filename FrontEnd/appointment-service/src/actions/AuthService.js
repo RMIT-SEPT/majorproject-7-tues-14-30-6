@@ -9,8 +9,8 @@ const register = (newAccount, message) => {
     document.getElementById("message").innerHTML = response.data.message;
   }, (error) => {
     document.getElementById("message").innerHTML = "Error! Failed to sign up!";
-    console.log(error);
   });
+  // display the message
   document.getElementById("status").style.display = "block";
 }
 

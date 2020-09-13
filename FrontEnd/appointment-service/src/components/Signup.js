@@ -51,7 +51,7 @@ export default class Signup extends Component {
 
                             {/* displays a message */}
                             <Alert variant="secondary" id="status" style={{ display: "none" }}>
-                                <h5 id="message" style={{ margin: "0px" }}></h5>
+                                <h6 id="message" style={{ margin: "0px" }}></h6>
                             </Alert>
                             {/* displays a message */}
 
