@@ -1,5 +1,7 @@
 package com.rmit.sept.tues06.appointmentservicebackend.payload.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -27,38 +29,7 @@ public class SignupRequest {
 
     private Set<String> role;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
+    @Schema(example = "Jane Doe", description = "")
     public String getName() {
         return name;
     }
@@ -67,6 +38,16 @@ public class SignupRequest {
         this.name = name;
     }
 
+    @Schema(example = "customer", description = "")
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    @Schema(example = "123 ABC Street", description = "")
     public String getAddress() {
         return address;
     }
@@ -75,6 +56,34 @@ public class SignupRequest {
         this.address = address;
     }
 
+    @Schema(example = "customer@email.com", description = "")
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Schema(example = "password", description = "")
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    @Schema(example = "04xxxxxxxx", description = "")
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    @Schema(enumAsRef = true)
     public Set<String> getRole() {
         return this.role;
     }

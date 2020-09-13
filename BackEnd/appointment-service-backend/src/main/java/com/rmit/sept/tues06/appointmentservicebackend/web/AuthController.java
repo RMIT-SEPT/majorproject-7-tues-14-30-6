@@ -12,6 +12,12 @@ import com.rmit.sept.tues06.appointmentservicebackend.repository.RoleRepository;
 import com.rmit.sept.tues06.appointmentservicebackend.security.jwt.JwtUtils;
 import com.rmit.sept.tues06.appointmentservicebackend.security.service.UserDetailsImpl;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,28 +34,29 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@Tag(name = "auth", description = "the user authentication API")
+
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    RoleRepository roleRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
-    PasswordEncoder encoder;
+    private PasswordEncoder encoder;
 
     @Autowired
-    JwtUtils jwtUtils;
+    private JwtUtils jwtUtils;
 
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
@@ -68,6 +75,12 @@ public class AuthController {
                 roles));
     }
 
+    @Operation(summary = "Register user", description = "New users are customers by default.", tags = {"auth"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content)
+            })
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userService.findByUsername(signUpRequest.getUsername()) != null) {
@@ -118,7 +131,7 @@ public class AuthController {
         }
 
         user.setRoles(roles);
-        userService.saveOrUpdateUser(user);
+        userService.createUser(user);
 
         return ResponseEntity.ok(new MessageResponse("Customer successfully registered."));
     }

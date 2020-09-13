@@ -1,5 +1,7 @@
 package com.rmit.sept.tues06.appointmentservicebackend.payload.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import javax.validation.constraints.NotBlank;
 
 public class LoginRequest {
@@ -9,6 +11,7 @@ public class LoginRequest {
 	@NotBlank
 	private String password;
 
+	@Schema(example = "customer", description = "")
 	public String getUsername() {
 		return username;
 	}
@@ -17,6 +20,7 @@ public class LoginRequest {
 		this.username = username;
 	}
 
+	@Schema(example = "password", description = "")
 	public String getPassword() {
 		return password;
 	}

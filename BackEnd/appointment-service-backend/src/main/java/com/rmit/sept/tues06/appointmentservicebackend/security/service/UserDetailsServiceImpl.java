@@ -1,6 +1,6 @@
 package com.rmit.sept.tues06.appointmentservicebackend.security.service;
 
-import com.rmit.sept.tues06.appointmentservicebackend.exception.UserException;
+import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
 import com.rmit.sept.tues06.appointmentservicebackend.model.User;
 import com.rmit.sept.tues06.appointmentservicebackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         if (user == null)
-            throw new UserException("User '" + username + "' does not exist");
+            throw new UserNotFoundException(username);
 
         return UserDetailsImpl.build(user);
     }

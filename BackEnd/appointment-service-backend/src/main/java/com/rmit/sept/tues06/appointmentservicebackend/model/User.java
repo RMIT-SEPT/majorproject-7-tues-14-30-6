@@ -1,13 +1,13 @@
 package com.rmit.sept.tues06.appointmentservicebackend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
 
 @Entity
@@ -64,20 +64,7 @@ public abstract class User extends BaseEntity {
         this.roles = roles;
     }
 
-    boolean hasRole(ERole name) {
-        boolean found = false;
-        Iterator<Role> itr = roles.iterator();
-
-        while (!found && itr.hasNext()) {
-            Role role = itr.next();
-
-            if (name.equals(role.getName()))
-                found = true;
-        }
-
-        return found;
-    }
-
+    @Schema(example = "Jane Doe", description = "")
     public String getName() {
         return name;
     }
@@ -86,6 +73,7 @@ public abstract class User extends BaseEntity {
         this.name = name;
     }
 
+    @Schema(example = "customer", description = "")
     public String getUsername() {
         return username;
     }
@@ -94,6 +82,7 @@ public abstract class User extends BaseEntity {
         this.username = username;
     }
 
+    @Schema(example = "123 ABC Street", description = "")
     public String getAddress() {
         return address;
     }
@@ -102,6 +91,7 @@ public abstract class User extends BaseEntity {
         this.address = address;
     }
 
+    @Schema(example = "customer@email.com", description = "")
     public String getEmail() {
         return email;
     }
@@ -110,6 +100,7 @@ public abstract class User extends BaseEntity {
         this.email = email;
     }
 
+    @Schema(example = "password", description = "")
     public String getPassword() {
         return password;
     }
@@ -118,6 +109,7 @@ public abstract class User extends BaseEntity {
         this.password = password;
     }
 
+    @Schema(example = "04xxxxxxxx", description = "")
     public String getPhoneNumber() {
         return phoneNumber;
     }
