@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import axios from "axios";
+import AuthService from "../actions/AuthService";
+import Alert from 'react-bootstrap/Alert'
+
 
 export default class Signup extends Component {
     constructor() {
@@ -33,21 +35,26 @@ export default class Signup extends Component {
             phoneNumber: this.state.phoneNumber
         }
 
-        axios.post("http://localhost:8080/api/auth/register", JSON.parse(JSON.stringify(newAccount))
-        ).then((response) => {
-            console.log(response);
-        }, (error) => {
-            console.log(error);
-        });
+        AuthService.register(newAccount);
 
     }
+
+
     render() {
 
         return (
-            <div className="Person">
+            <div className="Person" >
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 m-auto">
+
+
+                            {/* displays a message */}
+                            <Alert variant="secondary" id="status" style={{ display: "none" }}>
+                                <h5 id="message" style={{ margin: "0px" }}></h5>
+                            </Alert>
+                            {/* displays a message */}
+
                             <h5 className="display-4 text-center">Register an account</h5>
                             <hr />
                             <form onSubmit={this.onSubmit}>
@@ -113,7 +120,8 @@ export default class Signup extends Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div >
         )
     }
 }
+
