@@ -29,7 +29,6 @@ class AddPerson extends Component {
             end_date: this.state.end_date
         }
 
-        console.log(newPerson);
     }
     render() {
         return (
@@ -94,4 +93,5 @@ class AddPerson extends Component {
         )
     }
 }
+
 export default AddPerson;

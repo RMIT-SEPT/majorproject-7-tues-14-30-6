@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import AuthService from "../actions/AuthService";
+import Alert from 'react-bootstrap/Alert';
 
 export default class Login extends Component {
 
@@ -23,9 +25,8 @@ export default class Login extends Component {
             username: this.state.username,
             password: this.state.password
         }
+        AuthService.login(login);
 
-        // Open the console and view the submitted information; good for debugging
-        console.log(login);
     }
     render() {
         return (
@@ -33,6 +34,14 @@ export default class Login extends Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-8 m-auto">
+
+                            {/* displays a message */}
+                            <Alert variant="secondary" id="status" style={{ display: "none" }}>
+                                <h6 id="message" style={{ margin: "0px" }}></h6>
+                            </Alert>
+                            {/* displays a message */}
+
+
                             <h5 className="display-4 text-center">Log in</h5>
                             <hr />
                             <form onSubmit={this.onSubmit}>

@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { home } from "./Home.js"
 
 class Header extends Component {
     render() {
