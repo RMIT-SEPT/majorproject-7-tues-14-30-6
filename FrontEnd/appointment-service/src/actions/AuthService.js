@@ -7,7 +7,6 @@ const API_URL = "http://localhost:8080/api/auth/";
 
 // register an account
 const register = (newAccount) => {
-  document.getElementById("status").style.display = "block";
   axios.post(API_URL + "register", JSON.parse(JSON.stringify(newAccount))).then((response) => {
     document.getElementById("message").innerHTML = response.data.message;
     document.getElementById("status").style.display = "block";
