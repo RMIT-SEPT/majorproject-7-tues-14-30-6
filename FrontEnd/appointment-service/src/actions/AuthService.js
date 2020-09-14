@@ -23,7 +23,7 @@ const login = (account) => {
 
   axios.post(API_URL + "login", JSON.parse(JSON.stringify(account))).then((response) => {
     document.getElementById("status").style.display = "block";
-    document.getElementById("message").innerHTML = "Successfully logged in as" + response.data.username;
+    document.getElementById("message").innerHTML = "Successfully logged in as " + response.data.username;
   }, (error) => {
     document.getElementById("message").innerHTML = "Failed to log in!";
     document.getElementById("status").style.display = "block";
