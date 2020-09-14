@@ -1,15 +1,14 @@
 version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
-    checkout:
-      checkout_path: /tmp/workspace
-      build_dir: BackEnd/appointment-service-backend
+    working_directory: ~/repo/BackEnd/appointment-service-backend
 
     docker: # run the steps with Docker
       - image: circleci/openjdk:8-jdk-stretch # ...with this image as the primary container; this is where all `steps` will run
 
     steps: # a collection of executable commands
-      # - checkout
+      - checkout:
+          path: ~/repo
 
       - restore_cache: # restore the saved cache after the first run or if `pom.xml` has changed
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
