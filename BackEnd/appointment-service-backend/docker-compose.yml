@@ -1,0 +1,11 @@
+version: "3"
+services:
+  appointment-service-backend:
+    image: appointment-service-backend:1
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+      - /data/appointment-service-backend
+    ports:
+      - "8080:8080"
