@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AuthService from "../actions/AuthService";
+import AuthService from "../../actions/AuthService";
 import Alert from 'react-bootstrap/Alert';
 
 export default class Login extends Component {

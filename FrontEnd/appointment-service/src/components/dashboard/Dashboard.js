@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import Person from './Persons/Person'
-import CreatePersonButton from './Persons/CreatePersonButton';
+import Person from '../Persons/Person'
+import CreatePersonButton from '../Persons/CreatePersonButton';
 
 class Dashboard extends Component {
     render() {

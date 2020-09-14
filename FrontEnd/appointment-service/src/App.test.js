@@ -1,9 +1,9 @@
 import React from 'react';
 import Enzyme, { shallow } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16'
-import Signup from './components/Signup';
+import Signup from './components/signup/Signup';
 import Home from './components/Layout/Home';
-import Login from './components/Login';
+import Login from './components/login/Login';
 
 Enzyme.configure({ adapter: new Adapter() });
 
@@ -19,17 +19,20 @@ describe('Signup', () => {
     const text = wrapper.find('div div div div');
     expect(text.find('h6').text()).toBe('');
   });
+})
 
+describe('Home', () =>{
   it('Test that the home page text is rendered', () => {
     const wrapper = shallow(<Home />);
     const text = wrapper.find('div');
     expect(text.find('h1').first().text()).toBe('AGME');
   });
+})
 
+describe('Login', () =>{
   it('Test that the Login page text is rendering', () => {
     const wrapper = shallow(<Login />);
     const text = wrapper.find('div div div div h5').first();
     expect(text.text()).toBe('Log in');
   });
-
 })
