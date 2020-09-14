@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import axios from "axios";
 
 export default class Signup extends Component {
     constructor() {
@@ -6,10 +7,11 @@ export default class Signup extends Component {
 
         this.state = {
             username: "",
+            email: "",
             password: "",
             name: "",
             address: "",
-            telephone: ""
+            phoneNumber: ""
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
@@ -21,17 +23,26 @@ export default class Signup extends Component {
     }
     onSubmit(e) {
         e.preventDefault();
+
         const newAccount = {
             username: this.state.username,
+            email: this.state.email,
             password: this.state.password,
             name: this.state.name,
             address: this.state.address,
-            telephone: this.state.telephone
+            phoneNumber: this.state.phoneNumber
         }
 
-        console.log(newAccount);
+        axios.post("http://localhost:8080/api/auth/register", JSON.parse(JSON.stringify(newAccount))
+        ).then((response) => {
+            console.log(response);
+        }, (error) => {
+            console.log(error);
+        });
+
     }
     render() {
+
         return (
             <div className="Person">
                 <div className="container">
@@ -46,6 +57,15 @@ export default class Signup extends Component {
                                         placeholder="Username"
                                         name="username"
                                         value={this.state.username}
+                                        onChange={this.onChange}
+                                    />
+                                </div>
+
+                                <div className="form-group">
+                                    <input type="email" className="form-control form-control-lg "
+                                        placeholder="E-mail"
+                                        name="email"
+                                        value={this.state.email}
                                         onChange={this.onChange}
                                     />
                                 </div>
@@ -81,13 +101,12 @@ export default class Signup extends Component {
                                 <div className="form-group">
                                     <input type="tel" className="form-control form-control-lg "
                                         placeholder="Phone number"
-                                        name="telephone"
+                                        name="phoneNumber"
                                         pattern="^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$"
-                                        value={this.state.telephone}
+                                        value={this.state.phoneNumber}
                                         onChange={this.onChange}
                                     />
                                 </div>
-
 
                                 <input type="submit" value="Register" className="btn btn-primary btn-block mt-4" />
                             </form>
