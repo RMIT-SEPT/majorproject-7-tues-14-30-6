@@ -22,7 +22,7 @@ public class UserServiceTest {
         List<User> userList = new ArrayList<User>();
         users.forEach(userList::add);
 
-        Assertions.assertEquals(userList, new ArrayList<User>());
+        Assertions.assertEquals(userList.size(), 0);
     }
 
     @Test
