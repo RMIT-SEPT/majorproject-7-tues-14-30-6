@@ -5,8 +5,7 @@ const API_URL = "http://localhost:8080/api/auth/";
 // register an account
 const register = (newAccount) => {
   axios.post(API_URL + "register", JSON.parse(JSON.stringify(newAccount))).then((response) => {
-    document.getElementById("message").innerHTML = response.data.message;
-    document.getElementById("status").style.display = "block";
+    window.location.href = '/login';
   }, (error) => {
     document.getElementById("status").style.display = "block";
     document.getElementById("message").innerHTML = "Error! Failed to sign up!";
@@ -17,9 +16,8 @@ const register = (newAccount) => {
 // login
 const login = (account) => {
   axios.post(API_URL + "login", JSON.parse(JSON.stringify(account))).then((response) => {
-    document.getElementById("status").style.display = "block";
-    document.getElementById("message").innerHTML = "Successfully logged in as " + response.data.username;
     localStorage.setItem('user', JSON.stringify(response.data));
+    window.location.href = '/ ';
   }, (error) => {
     document.getElementById("message").innerHTML = "Failed to log in!";
     document.getElementById("status").style.display = "block";
