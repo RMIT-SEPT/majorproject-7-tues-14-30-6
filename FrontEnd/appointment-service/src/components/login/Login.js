@@ -25,8 +25,9 @@ export default class Login extends Component {
             username: this.state.username,
             password: this.state.password
         }
-        AuthService.login(login);
 
+        // log in function
+        AuthService.login(login);
     }
     render() {
         return (
@@ -52,7 +53,6 @@ export default class Login extends Component {
                                         value={this.state.username}
                                         onChange={this.onChange}
                                     />
-
                                 </div>
                                 <div className="form-group">
                                     <input type="password" className="form-control form-control-lg"
@@ -62,7 +62,7 @@ export default class Login extends Component {
                                         onChange={this.onChange}
                                     />
                                 </div>
-                                <input type="submit" value = "Log in" className="btn btn-primary btn-block mt-4" />
+                                <input type="submit" value="Log in" className="btn btn-primary btn-block mt-4" />
                             </form>
                         </div>
                     </div>

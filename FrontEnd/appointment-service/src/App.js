@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from "react";
 import './App.css'
 import Dashboard from './components/dashboard/Dashboard'
 import Header from './components/Layout/Header'
@@ -14,6 +14,7 @@ import Booking from './components/booking/Booking'
 
 // this is displayed on all pages
 function App() {
+
   return (
 
     <Provider store={store}>
@@ -22,8 +23,8 @@ function App() {
         <div>
           <Header />
           <Route exact path="/" component={Home} />
-          <Route exacpt path ="/login" component = {Login}/>
-          <Route exacpt path ="/signup" component = {Signup}/>
+          <Route exacpt path="/login" component={Login} />
+          <Route exacpt path="/signup" component={Signup} />
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/addPerson" component={AddPerson} />
           <Route exact path="/booking" component={Booking} />

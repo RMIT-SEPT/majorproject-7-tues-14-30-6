@@ -10,6 +10,7 @@ export default class Booking extends Component {
                 <h5 className="display-5 text-center">On this page, you can view all 
                 your upcoming bookings and also create new bookings</h5>
             </div>
+            // TODO. create a get for all the upcoming bookings
         )
     }
 }
