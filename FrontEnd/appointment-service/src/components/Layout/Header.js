@@ -33,8 +33,8 @@ class Header extends Component {
                                 ?
                                 <ul className="navbar-nav ml-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link" href="">
-                                            Logout as {JSON.parse(localStorage.getItem("user")).username}
+                                        <a className="nav-link" href ="" onClick={() => localStorage.clear()}>
+                                            Log out as {JSON.parse(localStorage.getItem("user")).username}
                                         </a>
                                     </li>
                                 </ul>
