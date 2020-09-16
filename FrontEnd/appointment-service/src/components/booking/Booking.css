@@ -1,0 +1,22 @@
+#main{
+    display: block;
+    margin-left: auto;
+    position: relative;
+    margin-right: auto;
+    width: 55%;
+    border: 5px;
+    min-height: 100vh;
+    margin-top: -30px;
+    padding-top: 35px;
+    padding-left: 50px;
+    padding-right: 50px;
+    background-color: rgba(0, 123, 255, 0.03);
+}
+
+#viewBookings{
+    position: absolute;
+    border: 2px solid black;
+    background-image: linear-gradient(to right,rgba(0, 123, 255, 0.03), white,rgba(0, 123, 255, 0.03));
+    width: 250px;
+    left: -250px;
+}

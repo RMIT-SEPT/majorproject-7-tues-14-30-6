@@ -12,10 +12,9 @@ body{
     display: block;
     margin-left: auto;
     margin-right: auto;
-    /* uncomment this for debugging */
-    /* border: 1px solid black; */
     width: 64%;
     border: 5px;
+    min-height: 100vh;
     margin-top: -30px;
     padding-top: 35px;
     padding-left: 50px;

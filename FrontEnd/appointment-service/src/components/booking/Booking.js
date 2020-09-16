@@ -25,22 +25,27 @@ export default class Booking extends Component {
 
 
     render() {
-        if (this.state.users.length > 0) {
-            console.log(this.state.users[0]);
-        }
 
+        // display message if user is not logged in
         if (!sessionStorage.getItem("user")) {
             return (
-                <h4 className="display-5 text-center">Only logged in users can view/make a booking!</h4>
+                <div id="main">
+                    <h4 className="display-5 text-center">Only logged in users can view/make a booking!</h4>
+                </div>
             )
         }
-        return (
-            <div id="main">
-                <h2 className="display-5 text-center">Bookings</h2>
-                <h5 className="display-5 text-center">On this page, you can view all
-                your upcoming bookings and also create new bookings</h5>
 
-            </div>
+        // else display the standard page
+        return (
+                <div id="main">
+                    <div id="viewBookings">
+                        <h5 className="display-5 text-center">Add a booking</h5>
+                        <hr style={{ margin: "3px" }}></hr>
+                    </div>
+                    <h2 className="display-5 text-center">Bookings</h2>
+                    <h6 className="display-5 text-center">On this page, you can view all
+                your upcoming bookings and also create new bookings</h6>
+                </div>
 
         )
     }
