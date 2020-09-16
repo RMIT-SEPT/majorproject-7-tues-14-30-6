@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import AuthService from "../../actions/AuthService";
 import Alert from 'react-bootstrap/Alert';
-import { useHistory } from 'react-router-dom';
 
 export default class Login extends Component {
 
@@ -14,7 +13,6 @@ export default class Login extends Component {
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
     }
 
     onChange(e) {

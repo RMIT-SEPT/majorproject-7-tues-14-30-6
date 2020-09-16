@@ -6,25 +6,30 @@ import axios from "axios";
 export default class Booking extends Component {
 
 
- 
+    constructor() {
+        super();
 
+        this.state = {
+            users: []
+        };
+    }
 
-    render() {
-        var users = [];
-        // prints all users. Just for testing.
-        // use async function. Check the bookmarks
+    // get the users before the page is loaded
+    componentDidMount() {
         axios.get('http://localhost:8080/api/users')
             .then(response => response.data)
             .then(data => {
-                users = data;
-                console.log(data[0])
+                this.setState({ users: data });
             });
-        // .then() waits for the function to finish
-        // need to wait for the data to fetch first ten render the page
-        console.log(users[0]);
+    }
 
 
-        if (!localStorage.getItem("user")) {
+    render() {
+        if (this.state.users.length > 0) {
+            console.log(this.state.users[0]);
+        }
+
+        if (!sessionStorage.getItem("user")) {
             return (
                 <h4 className="display-5 text-center">Only logged in users can view/make a booking!</h4>
             )

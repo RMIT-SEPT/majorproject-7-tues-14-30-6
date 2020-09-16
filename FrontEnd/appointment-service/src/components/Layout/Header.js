@@ -29,12 +29,12 @@ class Header extends Component {
                             </ul>
 
                             {/* start of button groups */}
-                            {localStorage.getItem("user")
+                            {sessionStorage.getItem("user")
                                 ?
                                 <ul className="navbar-nav ml-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link" href ="" onClick={() => localStorage.clear()}>
-                                            Log out as {JSON.parse(localStorage.getItem("user")).username}
+                                        <a className="nav-link" href ="" onClick={() => sessionStorage.clear()}>
+                                            Log out as {JSON.parse(sessionStorage.getItem("user")).username}
                                         </a>
                                     </li>
                                 </ul>

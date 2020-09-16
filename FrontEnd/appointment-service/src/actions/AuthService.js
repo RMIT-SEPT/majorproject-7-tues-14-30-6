@@ -16,7 +16,7 @@ const register = (newAccount) => {
 // login
 const login = (account) => {
   axios.post(API_URL + "login", JSON.parse(JSON.stringify(account))).then((response) => {
-    localStorage.setItem('user', JSON.stringify(response.data));
+    sessionStorage.setItem('user', JSON.stringify(response.data));
     window.location.href = '/ ';
   }, (error) => {
     document.getElementById("message").innerHTML = "Failed to log in!";
