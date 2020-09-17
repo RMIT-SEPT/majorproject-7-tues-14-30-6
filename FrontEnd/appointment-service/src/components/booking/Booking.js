@@ -4,8 +4,6 @@ import './Booking.css'
 import axios from "axios";
 
 export default class Booking extends Component {
-
-
     constructor() {
         super();
 
@@ -37,16 +35,16 @@ export default class Booking extends Component {
 
         // else display the standard page
         return (
-                <div id="main">
-                    <div id="viewBookings">
-                        <h5 className="display-5 text-center">Add a booking</h5>
-                        <hr style={{ margin: "3px" }}></hr>
-                    </div>
-                    <h2 className="display-5 text-center">Bookings</h2>
-                    <h6 className="display-5 text-center">On this page, you can view all
-                your upcoming bookings and also create new bookings</h6>
+            <div id="main">
+                <div id="viewBookings">
+                    <h5 className="display-5 text-center">Add a booking*</h5>
+                    <hr style={{ margin: "3px" }}></hr>
                 </div>
-
+                <h2 className="display-5 text-center">Bookings</h2>
+                <h6 className="display-5 text-center">On this page, you can view all
+                your upcoming bookings and also create new bookings</h6>
+                <p id="bottomText">* We only offer services for <b>Dan's Dentist</b> and <b>Bob's Bowling Ally</b> at this moment</p>
+            </div>
         )
     }
 }

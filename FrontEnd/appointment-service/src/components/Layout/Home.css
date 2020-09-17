@@ -3,12 +3,11 @@
     width: 450px;
 }
 
-body{
+body {
     background-color: rgba(0, 123, 255, 0.15);
 }
 
-
-#homePage{
+#homePage {
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -22,7 +21,7 @@ body{
     background-color: rgba(0, 123, 255, 0.03);
 }
 
-.block-content{
+.block-content {
     margin-top: 50px;
     min-width: 850px;
     margin-bottom: 75px;
@@ -31,11 +30,11 @@ body{
     display: block;
 }
 
-.card{
+.card {
     font-size: 115%;
 }
 
-.card-right{
+.card-right {
     margin: 0;
     position: absolute;
     top: 50%;
@@ -45,7 +44,7 @@ body{
     transform: translate(0%, -50%);
 }
 
-.card-left{
+.card-left {
     border: none;
     margin: 0;
     position: absolute;
