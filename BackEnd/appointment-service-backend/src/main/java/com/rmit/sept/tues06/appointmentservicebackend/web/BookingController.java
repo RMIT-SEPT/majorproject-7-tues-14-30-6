@@ -118,6 +118,7 @@ public class BookingController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
+            @ApiResponse(responseCode = "404", description = "Booking not found", content = @Content)
     })
     @PostMapping(value = "/cancel")
     @PreAuthorize("hasRole('CUSTOMER')")

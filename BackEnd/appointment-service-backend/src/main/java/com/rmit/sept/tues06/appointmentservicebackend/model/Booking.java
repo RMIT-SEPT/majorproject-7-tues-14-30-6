@@ -29,7 +29,7 @@ public class Booking extends BaseEntity {
         this.customer = customer;
     }
 
-    @Schema(example = "Service name", description = "Service name")
+    @Schema(example = "Dentist appointment", description = "Which service the booking is for")
     public String getServiceName() {
         return serviceName;
     }
@@ -38,7 +38,7 @@ public class Booking extends BaseEntity {
         this.serviceName = serviceType;
     }
 
-    @Schema(description = "")
+    @Schema(example = "2020-09-16T14:55:40.154+00:00", description = "Timeslot of the booking")
     public Date getBookingDateTime() {
         return bookingDateTime;
     }

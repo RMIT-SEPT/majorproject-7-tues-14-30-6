@@ -64,7 +64,7 @@ public abstract class User extends BaseEntity {
         this.roles = roles;
     }
 
-    @Schema(example = "Jane Doe", description = "")
+    @Schema(example = "Jane Doe", description = "name of the user")
     public String getName() {
         return name;
     }
@@ -73,7 +73,7 @@ public abstract class User extends BaseEntity {
         this.name = name;
     }
 
-    @Schema(example = "customer", description = "")
+    @Schema(example = "customer", description = "username of the user")
     public String getUsername() {
         return username;
     }
@@ -82,7 +82,7 @@ public abstract class User extends BaseEntity {
         this.username = username;
     }
 
-    @Schema(example = "123 ABC Street", description = "")
+    @Schema(example = "123 ABC Street", description = "address of the user")
     public String getAddress() {
         return address;
     }
@@ -91,7 +91,7 @@ public abstract class User extends BaseEntity {
         this.address = address;
     }
 
-    @Schema(example = "customer@email.com", description = "")
+    @Schema(example = "customer@email.com", description = "email of the user")
     public String getEmail() {
         return email;
     }
@@ -100,7 +100,7 @@ public abstract class User extends BaseEntity {
         this.email = email;
     }
 
-    @Schema(example = "password", description = "")
+    @Schema(example = "password", description = "password of the user")
     public String getPassword() {
         return password;
     }
@@ -109,7 +109,7 @@ public abstract class User extends BaseEntity {
         this.password = password;
     }
 
-    @Schema(example = "04xxxxxxxx", description = "")
+    @Schema(example = "0499999999", description = "phone number of the user")
     public String getPhoneNumber() {
         return phoneNumber;
     }

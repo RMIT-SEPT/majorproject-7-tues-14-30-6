@@ -11,7 +11,7 @@ public class LoginRequest {
 	@NotBlank
 	private String password;
 
-	@Schema(example = "customer", description = "")
+	@Schema(example = "customer", description = "username of the user")
 	public String getUsername() {
 		return username;
 	}
@@ -20,7 +20,7 @@ public class LoginRequest {
 		this.username = username;
 	}
 
-	@Schema(example = "password", description = "")
+	@Schema(example = "password", description = "password of the user")
 	public String getPassword() {
 		return password;
 	}
