@@ -9,6 +9,7 @@ import java.util.Date;
 @Table(name = "bookings")
 public class Booking extends BaseEntity {
     @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     private String serviceName;
@@ -19,7 +20,7 @@ public class Booking extends BaseEntity {
     @Schema(example = "true", description = "Booking status (active, cancelled)")
     private boolean isActive;
 
-    @Schema(description = "")
+    @Schema(description = "Customer associated with the booking")
     public Customer getCustomer() {
         return customer;
     }
@@ -28,7 +29,7 @@ public class Booking extends BaseEntity {
         this.customer = customer;
     }
 
-    @Schema(example = "Service name", description = "")
+    @Schema(example = "Service name", description = "Service name")
     public String getServiceName() {
         return serviceName;
     }

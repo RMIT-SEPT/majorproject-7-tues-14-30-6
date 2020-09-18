@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class UserNotFoundException extends ResourceNotFoundException {
 
-    public UserNotFoundException(String username) {
-        super("User", "username", username);
+    public UserNotFoundException(String key, String value) {
+        super("User", key, value);
     }
 }

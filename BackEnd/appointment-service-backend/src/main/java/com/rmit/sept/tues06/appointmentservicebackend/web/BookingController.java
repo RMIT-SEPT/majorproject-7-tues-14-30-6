@@ -5,6 +5,7 @@ import com.rmit.sept.tues06.appointmentservicebackend.exception.BookingNotFoundF
 import com.rmit.sept.tues06.appointmentservicebackend.model.Booking;
 import com.rmit.sept.tues06.appointmentservicebackend.service.BookingService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.MapValidationErrorService;
+import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -37,6 +38,9 @@ public class BookingController {
     private BookingService bookingService;
 
     @Autowired
+    private UserService userService;
+
+    @Autowired
     private MapValidationErrorService mapValidationErrorService;
 
     @Operation(summary = "Get all bookings", tags = {"booking"})
@@ -56,11 +60,13 @@ public class BookingController {
         List<Booking> bookings = new ArrayList<>();
         Date currentDateTime = new Date();
 
-        if (!StringUtils.isEmpty(username)) {
-            if (includeCurrentAndFuture)
-                bookings.addAll(bookingService.findActiveCurrentBookingsByCustomer(currentDateTime, username));
-            if (includePast)
-                bookings.addAll(bookingService.findActivePastBookingsByCustomer(currentDateTime, username));
+        if (StringUtils.hasText(username)) {
+            if (userService.findByUsername(username) != null) {
+                if (includeCurrentAndFuture)
+                    bookings.addAll(bookingService.findActiveCurrentBookingsByCustomer(currentDateTime, username));
+                if (includePast)
+                    bookings.addAll(bookingService.findActivePastBookingsByCustomer(currentDateTime, username));
+            }
 
             if (CollectionUtils.isEmpty(bookings))
                 throw new BookingNotFoundForCustomerException(username);
