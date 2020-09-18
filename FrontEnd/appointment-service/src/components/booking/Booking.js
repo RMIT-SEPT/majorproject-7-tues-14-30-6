@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import './Booking.css'
 import axios from "axios";
+import BookingCard from "./BookingCard";
 
 const API_BOOKING_URL = "http://localhost:8080/api/bookings?past=false&current=true&customer=";
 
@@ -54,9 +55,10 @@ export default class Booking extends Component {
                         {this.state.bookings.length === 0 ?
                             <h4>No upcoming bookings</h4>
                             :
-                            <div id="bookingCard">
-                                Some bookings
-                                </div>
+                            this.state.bookings.map((booking) => (
+                                <BookingCard booking={booking} cardHeight={document.querySelector('#bookingCardArea').clientHeight} />
+                            ))
+
                         }
                         {/* loop here to generate booking cards */}
                     </div>

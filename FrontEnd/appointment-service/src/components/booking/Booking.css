@@ -46,9 +46,6 @@
     transform: translate(-50%, -50%);
 }
 
-#bookingCard{
-    height: 150px; /* ensure this has the same height as bookingCardArea min-height */
-}
 
 #bottomText {
     position: absolute;
