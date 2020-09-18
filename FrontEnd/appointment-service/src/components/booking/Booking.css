@@ -13,12 +13,41 @@
     background-color: rgba(0, 123, 255, 0.03);
 }
 
-#viewBookings {
+#addBooking {
     position: absolute;
     border: 2px solid black;
     background-image: linear-gradient(to right, rgba(0, 123, 255, 0.03), white, rgba(0, 123, 255, 0.03));
     width: 250px;
     left: -250px;
+}
+
+#viewBookings {
+    width: 75%;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#bookingCardArea {
+    width: 100%;
+    border: 2.5px solid black;
+    min-height: 150px;
+    padding: 0;
+    position: relative;
+    background-color: rgba(219, 206, 206, 0.2);
+}
+
+#bookingCardArea h4 {
+    position: absolute;
+    margin: 0;
+    top: 50%;
+    left: 50%;
+    color:rgb(110, 108, 108);
+    transform: translate(-50%, -50%);
+}
+
+#bookingCard{
+    height: 150px; /* ensure this has the same height as bookingCardArea min-height */
 }
 
 #bottomText {
