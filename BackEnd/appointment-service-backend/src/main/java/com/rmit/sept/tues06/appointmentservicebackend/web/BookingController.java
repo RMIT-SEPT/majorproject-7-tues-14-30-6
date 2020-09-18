@@ -3,8 +3,10 @@ package com.rmit.sept.tues06.appointmentservicebackend.web;
 import com.rmit.sept.tues06.appointmentservicebackend.exception.BookingNotFoundException;
 import com.rmit.sept.tues06.appointmentservicebackend.exception.BookingNotFoundForCustomerException;
 import com.rmit.sept.tues06.appointmentservicebackend.model.Booking;
+import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
+import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CancelBookingRequest;
+import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CreateBookingRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.service.BookingService;
-import com.rmit.sept.tues06.appointmentservicebackend.service.MapValidationErrorService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -14,13 +16,14 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -34,14 +37,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/bookings")
 public class BookingController {
+    public static final Logger logger = LoggerFactory.getLogger(BookingController.class);
+
     @Autowired
     private BookingService bookingService;
 
     @Autowired
     private UserService userService;
-
-    @Autowired
-    private MapValidationErrorService mapValidationErrorService;
 
     @Operation(summary = "Get all bookings", tags = {"booking"})
     @ApiResponses(value = {
@@ -103,10 +105,11 @@ public class BookingController {
     })
     @PostMapping(value = "/add")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<?> addBooking(@Valid @RequestBody Booking booking, BindingResult result) {
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-
-        if (errorMap != null) return errorMap;
+    public ResponseEntity<?> addBooking(@Valid @RequestBody CreateBookingRequest createBookingRequest) {
+        Booking booking = new Booking();
+        booking.setCustomer((Customer) userService.findById(createBookingRequest.getCustomerId()));
+        booking.setServiceName(createBookingRequest.getServiceName());
+        booking.setBookingDateTime(createBookingRequest.getBookingDateTime());
 
         return new ResponseEntity<>(bookingService.createBooking(booking), HttpStatus.CREATED);
     }
@@ -118,12 +121,8 @@ public class BookingController {
     })
     @PostMapping(value = "/cancel")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<?> cancelBooking(@Valid @RequestBody Booking booking, BindingResult result) {
-
-        ResponseEntity<?> errorMap = mapValidationErrorService.MapValidationService(result);
-
-        if (errorMap != null) return errorMap;
-
+    public ResponseEntity<?> cancelBooking(@Valid @RequestBody CancelBookingRequest cancelBookingRequest) {
+        Booking booking = bookingService.getBooking(cancelBookingRequest.getBookingId());
         return new ResponseEntity<>(bookingService.cancelBooking(booking), HttpStatus.OK);
     }
 }
