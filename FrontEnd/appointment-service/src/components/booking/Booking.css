@@ -22,7 +22,7 @@
 }
 
 #viewBookings {
-    width: 75%;
+    width: 525px;
     margin-top: 50px;
     margin-left: auto;
     margin-right: auto;
@@ -31,7 +31,7 @@
 #bookingCardArea {
     width: 100%;
     border: 2.5px solid black;
-    min-height: 150px;
+    min-height: 75px;
     padding: 0;
     position: relative;
     background-color: rgba(219, 206, 206, 0.2);

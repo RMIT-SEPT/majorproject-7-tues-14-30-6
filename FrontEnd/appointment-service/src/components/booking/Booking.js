@@ -56,7 +56,7 @@ export default class Booking extends Component {
                             <h4>No upcoming bookings</h4>
                             :
                             this.state.bookings.map((booking) => (
-                                <BookingCard booking={booking} cardHeight={document.querySelector('#bookingCardArea').clientHeight} />
+                                <BookingCard booking={booking} />
                             ))
 
                         }
