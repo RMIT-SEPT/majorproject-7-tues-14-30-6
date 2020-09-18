@@ -29,7 +29,7 @@ public class SignupRequest {
 
     private Set<String> role;
 
-    @Schema(example = "Jane Doe", description = "")
+    @Schema(example = "Jane Doe", description = "name of the user")
     public String getName() {
         return name;
     }
@@ -38,7 +38,7 @@ public class SignupRequest {
         this.name = name;
     }
 
-    @Schema(example = "customer", description = "")
+    @Schema(example = "customer", description = "username of the user")
     public String getUsername() {
         return username;
     }
@@ -47,7 +47,7 @@ public class SignupRequest {
         this.username = username;
     }
 
-    @Schema(example = "123 ABC Street", description = "")
+    @Schema(example = "123 ABC Street", description = "address of the user")
     public String getAddress() {
         return address;
     }
@@ -56,7 +56,7 @@ public class SignupRequest {
         this.address = address;
     }
 
-    @Schema(example = "customer@email.com", description = "")
+    @Schema(example = "customer@email.com", description = "email of the user")
     public String getEmail() {
         return email;
     }
@@ -65,7 +65,7 @@ public class SignupRequest {
         this.email = email;
     }
 
-    @Schema(example = "password", description = "")
+    @Schema(example = "password", description = "password of the user")
     public String getPassword() {
         return password;
     }
@@ -74,7 +74,7 @@ public class SignupRequest {
         this.password = password;
     }
 
-    @Schema(example = "04xxxxxxxx", description = "")
+    @Schema(example = "0499999999", description = "phone number of the user")
     public String getPhoneNumber() {
         return phoneNumber;
     }

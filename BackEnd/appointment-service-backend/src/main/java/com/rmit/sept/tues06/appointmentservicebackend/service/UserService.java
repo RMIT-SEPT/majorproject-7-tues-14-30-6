@@ -5,6 +5,8 @@ import com.rmit.sept.tues06.appointmentservicebackend.model.User;
 public interface UserService {
     Iterable<User> findAllUsers();
 
+    User findById(Long id);
+
     User findByUsername(String username);
 
     User findByEmail(String email);

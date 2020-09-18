@@ -17,10 +17,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String username) {
-        User user = userRepository.findByUsername(username);
+        User user = userRepository.findByUsernameIgnoreCase(username);
 
         if (user == null)
-            throw new UserNotFoundException(username);
+            throw new UserNotFoundException("username", username);
 
         return UserDetailsImpl.build(user);
     }
