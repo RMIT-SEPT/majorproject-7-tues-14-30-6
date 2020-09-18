@@ -14,7 +14,7 @@ public interface UserBaseRepository<T extends User>
      * @param email the user email.
      * @return the user having the passed email or null if no user is found.
      */
-    T findByEmail(String email);
+    T findByEmailIgnoreCase(String email);
 
-    T findByUsername(String username);
+    T findByUsernameIgnoreCase(String username);
 }
