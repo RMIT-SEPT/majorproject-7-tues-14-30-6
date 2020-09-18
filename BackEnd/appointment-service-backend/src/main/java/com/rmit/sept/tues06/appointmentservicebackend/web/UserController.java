@@ -1,7 +1,6 @@
 package com.rmit.sept.tues06.appointmentservicebackend.web;
 
 import com.rmit.sept.tues06.appointmentservicebackend.model.User;
-import com.rmit.sept.tues06.appointmentservicebackend.service.MapValidationErrorService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -28,9 +27,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private MapValidationErrorService mapValidationErrorService;
-
     @Operation(summary = "Get all users", tags = {"user"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)), @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
@@ -48,7 +44,6 @@ public class UserController {
     @GetMapping(value = "/find", params = "id")
     public ResponseEntity<?> getUserById(@Parameter(description = "The user id that needs to be fetched.")
                                          @RequestParam(value = "id", required = false) Long id) {
-        logger.info("Fetching User with id {}", id);
         return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
@@ -60,7 +55,6 @@ public class UserController {
     @GetMapping(value = "/find", params = "username")
     public ResponseEntity<?> getUserByUsername(@Parameter(description = "The username that needs to be fetched.")
                                                @RequestParam(value = "username", required = false) String username) {
-        logger.info("Fetching User with username {}", username);
         return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
     }
 
@@ -72,7 +66,6 @@ public class UserController {
     @GetMapping(value = "/find", params = "email")
     public ResponseEntity<?> getUserByEmail(@Parameter(description = "The email that needs to be fetched.")
                                             @RequestParam(value = "email", required = false) String email) {
-        logger.info("Fetching User with email {}", email);
         return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
     }
 }
