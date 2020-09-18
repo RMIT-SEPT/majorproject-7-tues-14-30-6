@@ -38,7 +38,7 @@ public class Booking extends BaseEntity {
         this.serviceName = serviceType;
     }
 
-    @Schema(example = "2020-09-16T14:55:40.154+00:00", description = "Timeslot of the booking")
+    @Schema(description = "Timeslot of the booking")
     public Date getBookingDateTime() {
         return bookingDateTime;
     }

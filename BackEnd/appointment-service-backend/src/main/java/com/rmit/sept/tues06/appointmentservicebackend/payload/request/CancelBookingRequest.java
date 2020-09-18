@@ -8,7 +8,7 @@ public class CancelBookingRequest {
     @NotNull
     private Long bookingId;
 
-    @Schema(example = "1", description = "ID of the booking to be cancelled")
+    @Schema(description = "ID of the booking to be cancelled")
     public Long getBookingId() {
         return bookingId;
     }

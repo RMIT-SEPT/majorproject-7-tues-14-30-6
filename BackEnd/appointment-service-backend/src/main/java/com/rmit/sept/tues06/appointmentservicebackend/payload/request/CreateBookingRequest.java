@@ -18,7 +18,7 @@ public class CreateBookingRequest {
     @Temporal(TemporalType.TIMESTAMP)
     private Date bookingDateTime;
 
-    @Schema(example = "1", description = "username of the user")
+    @Schema(description = "username of the user")
     public Long getCustomerId() {
         return customerId;
     }
@@ -28,7 +28,7 @@ public class CreateBookingRequest {
         return serviceName;
     }
 
-    @Schema(example = "2020-09-16T14:55:40.154+00:00", description = "Timeslot of the booking")
+    @Schema(description = "Timeslot of the booking")
     public Date getBookingDateTime() {
         return bookingDateTime;
     }
