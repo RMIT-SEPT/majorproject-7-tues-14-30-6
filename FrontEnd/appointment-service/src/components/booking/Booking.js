@@ -28,7 +28,6 @@ export default class Booking extends Component {
     }
 
     handleDateChange = date => {
-        console.log(date);
         this.setState({
             bookingDateTime: date
         });
@@ -39,13 +38,12 @@ export default class Booking extends Component {
         e.preventDefault();
 
         const newBooking = {
+            customerId: JSON.parse(sessionStorage.getItem("user")).id,
             serviceName: this.state.serviceName,
-            bookingDateTime: this.bookingDateTime
+            bookingDateTime: this.state.bookingDateTime
         }
 
-        console.log(newBooking);
-
-        // make booking in actions
+        // create booking here
 
     }
 
@@ -90,24 +88,22 @@ export default class Booking extends Component {
                 {/* add a booking */}
                 <div class="boxContent" id="leftBox">
                     <h4>Add new booking</h4>
+                    <hr />
 
                     {/* start of form  */}
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label for="serviceName">Select service</label>
-                            <select type="text" className="form-control" required>
-                                placeholder="Service name"
+                            <select type="text"
+                                className="form-control" required
+                                defaultValue={'DEFAULT'}
                                 name="serviceName"
                                 value={this.state.serviceName}
                                 onChange={this.onChange}
-
-                                <option value="" selected disabled>Please select service</option>
-                                <optgroup label="Health">
-                                    <option value="Dan's dentist">Dan's dentist</option>
-                                </optgroup>
-                                <optgroup label="Entertainment">
-                                    <option value="Bob's bowling ally">Bob's bowling ally</option>
-                                </optgroup>
+                            >
+                                <option value="DEFAULT" disabled>Please select service</option>
+                                <option value="Dan's dentist">Dan's dentist</option>
+                                <option value="Bob's bowling ally">Bob's bowling ally</option>
                             </select>
 
 
@@ -132,9 +128,10 @@ export default class Booking extends Component {
                 {/* view bookings */}
                 <div class="boxContent" id="rightBox">
                     <h4 >Your upcoming bookings</h4>
+                    <hr />
                     {this.state.bookings.length === 0 ?
                         <div id="bookingCardArea">
-                            <h4>None</h4>
+                            <h5>No upcoming bookings</h5>
                         </div>
                         :
                         // loop to generate booking card components

@@ -44,23 +44,28 @@
     float: right;
 }
 
-#bookingCardArea {
-    width: 100%;
-    border: 2.5px solid black;
-    border-radius: 0px 15px 15px 0px;
-    height: 75px;
-    padding: 0;
-    position: relative;
-    background-color: rgb(235, 235, 235, 1);
+.boxContent hr {
+    margin: 0px;
+    background-color: rgb(27, 93, 179);
 }
 
-#bookingCardArea h4 {
-    position: absolute;
-    margin: 0;
-    top: 50%;
-    left: 50%;
-    color: rgb(110, 108, 108);
-    transform: translate(-50%, -50%);
+#leftBox hr {
+    width: 195px;
+}
+
+#rightBox hr {
+    width: 275px;
+}
+
+#bookingCardArea {
+    padding: 15px 0px;
+    /* top and bottom are 15, left and right are 0 */
+    width: 100%;
+}
+
+#bookingCardArea h5 {
+    text-align: center;
+    color: white;
 }
 
 #bottomText {
