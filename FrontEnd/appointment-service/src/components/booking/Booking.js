@@ -82,24 +82,31 @@ export default class Booking extends Component {
                 your upcoming bookings and also create new bookings</h6>
 
                 {/* add a booking */}
-                <div class="boxContent" id = "leftBox">
-                    <h4>None</h4>
+                <div class="boxContent" id="leftBox">
+                    <h4>Add new booking</h4>
+
+                    {/* start of form  */}
+                    <form onSubmit={this.onSubmit}>
+
+                    </form>
+                    {/* end of form */}
+
                 </div>
 
                 {/* view bookings */}
-                <div class="boxContent" id = "rightBox">
-                    <h4 style={{ color: "white" }}>Your upcoming bookings</h4>
-                    <div id="bookingCardArea">
-                        {this.state.bookings.length === 0 ?
+                <div class="boxContent" id="rightBox">
+                    <h4 >Your upcoming bookings</h4>
+                    {this.state.bookings.length === 0 ?
+                        <div id="bookingCardArea">
                             <h4>None</h4>
-                            :
-                            // loop to generate booking card components
-                            this.state.bookings.map((booking) => (
-                                <BookingCard booking={booking} />
-                            ))
+                        </div>
+                        :
+                        // loop to generate booking card components
+                        this.state.bookings.map((booking) => (
+                            <BookingCard booking={booking} />
+                        ))
+                    }
 
-                        }
-                    </div>
                 </div>
 
                 <p id="bottomText">* We only offer services for <b>Dan's Dentist</b> and <b>Bob's Bowling Ally</b> at this moment</p>
