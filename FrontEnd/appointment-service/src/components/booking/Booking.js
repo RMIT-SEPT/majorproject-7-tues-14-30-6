@@ -20,10 +20,12 @@ export default class Booking extends Component {
         axios.get(API_BOOKING_URL + username)
             .then(response => response.data)
             .then(data => {
+                // display earlier bookings first
+                // have to create date objects because they're in string format
+                data.sort((a, b) => new Date(a.bookingDateTime) - new Date(b.bookingDateTime));
                 this.setState({ bookings: data });
             }, (error) => {
             });
-
     }
 
 
@@ -55,12 +57,12 @@ export default class Booking extends Component {
                         {this.state.bookings.length === 0 ?
                             <h4>No upcoming bookings</h4>
                             :
+                            // loop to generate booking card components
                             this.state.bookings.map((booking) => (
                                 <BookingCard booking={booking} />
                             ))
 
                         }
-                        {/* loop here to generate booking cards */}
                     </div>
                 </div>
 

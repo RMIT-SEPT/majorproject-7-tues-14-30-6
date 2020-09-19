@@ -5,7 +5,8 @@
     margin-right: auto;
     width: 55%;
     border: 5px;
-    min-height: 100vh;
+    min-height: 400px;
+    height: auto;
     margin-top: -30px;
     padding-top: 35px;
     padding-left: 50px;
@@ -25,6 +26,7 @@
     width: 525px;
     margin-top: 50px;
     margin-left: auto;
+    margin-bottom: 25px;
     margin-right: auto;
 }
 
@@ -34,7 +36,7 @@
     min-height: 75px;
     padding: 0;
     position: relative;
-    background-color: rgba(219, 206, 206, 0.2);
+    background-color: rgb(225, 225, 225);
 }
 
 #bookingCardArea h4 {
@@ -42,13 +44,10 @@
     margin: 0;
     top: 50%;
     left: 50%;
-    color:rgb(110, 108, 108);
+    color: rgb(110, 108, 108);
     transform: translate(-50%, -50%);
 }
 
-
 #bottomText {
-    position: absolute;
-    bottom: 0px;
     font-size: 80%;
 }
