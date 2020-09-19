@@ -34,6 +34,7 @@ export default class Signup extends Component {
             address: this.state.address,
             phoneNumber: this.state.phoneNumber
         }
+        
         AuthService.register(newAccount);
     }
 

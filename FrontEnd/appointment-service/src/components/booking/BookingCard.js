@@ -11,7 +11,6 @@ export default class BookingCard extends Component {
             <div id="bookingCard" key={this.props.booking.id}>
                 <h5><b>{this.props.booking.serviceName}</b></h5>
                 <h5 style={{ color: "grey" }}><b>At </b> {
-                    
                     new Date(this.props.booking.bookingDateTime).toLocaleTimeString("en-us", options) 
                 }</h5>
             </div>
