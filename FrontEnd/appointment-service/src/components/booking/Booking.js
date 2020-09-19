@@ -4,6 +4,7 @@ import './Booking.css'
 import axios from "axios";
 import BookingCard from "./BookingCard";
 import DatePicker from 'react-date-picker';
+import { Button } from 'react-bootstrap';
 
 
 const API_BOOKING_URL = "http://localhost:8080/api/bookings?past=false&current=true&customer=";
@@ -42,6 +43,8 @@ export default class Booking extends Component {
             bookingDateTime: this.bookingDateTime
         }
 
+        console.log(newBooking);
+
         // make booking in actions
 
     }
@@ -74,6 +77,9 @@ export default class Booking extends Component {
             )
         }
 
+        let currentDate = new Date();
+        let nextWeek = new Date(currentDate.getTime() + 7 * 24 * 60 * 60 * 1000);
+
         // else display the standard page
         return (
             <div id="main">
@@ -87,7 +93,37 @@ export default class Booking extends Component {
 
                     {/* start of form  */}
                     <form onSubmit={this.onSubmit}>
+                        <div className="form-group">
+                            <label for="serviceName">Select service</label>
+                            <select type="text" className="form-control" required>
+                                placeholder="Service name"
+                                name="serviceName"
+                                value={this.state.serviceName}
+                                onChange={this.onChange}
 
+                                <option value="" selected disabled>Please select service</option>
+                                <optgroup label="Health">
+                                    <option value="Dan's dentist">Dan's dentist</option>
+                                </optgroup>
+                                <optgroup label="Entertainment">
+                                    <option value="Bob's bowling ally">Bob's bowling ally</option>
+                                </optgroup>
+                            </select>
+
+
+                            <label for="bookingDateTime">Select a date</label>
+                            <DatePicker
+                                required
+                                name="bookingDateTime"
+                                className="form-control"
+                                minDate={nextWeek}
+                                onChange={this.handleDateChange}
+                                value={this.state.bookingDateTime}
+                            />
+                        </div>
+                        <Button type="submit" variant="outline-light" size="lg" block style={{ marginTop: "35px" }}>
+                            Book
+                         </Button>
                     </form>
                     {/* end of form */}
 
@@ -110,7 +146,7 @@ export default class Booking extends Component {
                 </div>
 
                 <p id="bottomText">* We only offer services for <b>Dan's Dentist</b> and <b>Bob's Bowling Ally</b> at this moment</p>
-            </div>
+            </div >
         )
     }
 }

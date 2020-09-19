@@ -25,12 +25,19 @@
     margin-bottom: 65px;
 }
 
-.boxContent h4{
+.boxContent h4 {
     color: white;
 }
 
 #leftBox {
     float: left;
+    padding-bottom: 20px;
+}
+
+#leftBox label {
+    margin-top: 10px;
+    color: white;
+    font-size: 125%;
 }
 
 #rightBox {
