@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css"
 import './Booking.css'
-import axios from "axios";
-import BookingCard from "./BookingCard";
-import DatePicker from 'react-date-picker';
-import { Button } from 'react-bootstrap';
+import axios from "axios"
+import BookingCard from "./BookingCard"
+import DatePicker from 'react-date-picker'
+import { Button } from 'react-bootstrap'
+import BookingService from '../../actions/BookingService'
 
 
 const API_BOOKING_URL = "http://localhost:8080/api/bookings?past=false&current=true&customer=";
@@ -36,15 +37,13 @@ export default class Booking extends Component {
 
     onSubmit(e) {
         e.preventDefault();
-
         const newBooking = {
             customerId: JSON.parse(sessionStorage.getItem("user")).id,
             serviceName: this.state.serviceName,
             bookingDateTime: this.state.bookingDateTime
         }
 
-        // create booking here
-
+        BookingService.book(newBooking);
     }
 
     componentDidMount() {
@@ -63,6 +62,7 @@ export default class Booking extends Component {
             }, (error) => {
             });
     }
+
 
 
     render() {
@@ -96,12 +96,10 @@ export default class Booking extends Component {
                             <label for="serviceName">Select service</label>
                             <select type="text"
                                 className="form-control" required
-                                defaultValue={'DEFAULT'}
                                 name="serviceName"
                                 value={this.state.serviceName}
                                 onChange={this.onChange}
                             >
-                                <option value="DEFAULT" disabled>Please select service</option>
                                 <option value="Dan's dentist">Dan's dentist</option>
                                 <option value="Bob's bowling ally">Bob's bowling ally</option>
                             </select>

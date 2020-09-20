@@ -10,7 +10,6 @@ const register = (newAccount) => {
     document.getElementById("status").style.display = "block";
     document.getElementById("message").innerHTML = "Error! Failed to sign up!";
   });
-
 }
 
 // login
