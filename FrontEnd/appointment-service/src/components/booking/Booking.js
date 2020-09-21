@@ -16,8 +16,8 @@ export default class Booking extends Component {
 
         this.state = {
             bookings: [],
-            serviceName: "",
-            bookingDateTime: new Date()
+            serviceName: "", // make sure this matches the default/disabled option in the select
+            bookingDateTime: "" // don't initalize a date here else it will set its default value to that
         };
 
         this.onChange = this.onChange.bind(this);
@@ -86,7 +86,7 @@ export default class Booking extends Component {
                 your upcoming bookings and also create new bookings</h6>
 
                 {/* add a booking */}
-                <div class="boxContent" id="leftBox">
+                <div className="boxContent" id="leftBox">
                     <h4>Add new booking</h4>
                     <hr />
 
@@ -100,6 +100,7 @@ export default class Booking extends Component {
                                 value={this.state.serviceName}
                                 onChange={this.onChange}
                             >
+                                <option value="" disabled>Please select a service</option>
                                 <option value="Dan's dentist">Dan's dentist</option>
                                 <option value="Bob's bowling ally">Bob's bowling ally</option>
                             </select>
@@ -124,7 +125,7 @@ export default class Booking extends Component {
                 </div>
 
                 {/* view bookings */}
-                <div class="boxContent" id="rightBox">
+                <div className="boxContent" id="rightBox">
                     <h4 >Your upcoming bookings</h4>
                     <hr />
                     {this.state.bookings.length === 0 ?
@@ -134,7 +135,7 @@ export default class Booking extends Component {
                         :
                         // loop to generate booking card components
                         this.state.bookings.map((booking) => (
-                            <BookingCard booking={booking} />
+                            <BookingCard booking={booking} key={booking.id} />
                         ))
                     }
 
