@@ -56,10 +56,6 @@ jobs: # a collection of steps
             - node_modules
           key: circleci-appointmentservicefrontend-{{ checksum "package.json" }}
 
-      - persist_to_workspace:
-          root: ~/repo
-          paths: .
-
 workflows:
   version: 2
   build_both:
