@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AuthService from "../actions/AuthService";
+import AuthService from "../../actions/AuthService";
 import Alert from 'react-bootstrap/Alert'
 
 
@@ -17,7 +17,6 @@ export default class Signup extends Component {
         };
         this.onChange = this.onChange.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-
     }
 
     onChange(e) {
@@ -34,6 +33,7 @@ export default class Signup extends Component {
             address: this.state.address,
             phoneNumber: this.state.phoneNumber
         }
+        
         AuthService.register(newAccount);
     }
 

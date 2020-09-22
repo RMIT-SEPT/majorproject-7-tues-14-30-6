@@ -12,8 +12,9 @@ export default class Home extends Component {
         return (
             <div id="homePage">
                 {/*Title*/}
+
                 <h1 className="display-5 text-center">AGME</h1>
-                <h5 className="display-5 text-center">Essential booking service for any bussiness</h5>
+                <h5 className="display-5 text-center">Essential booking service for any business</h5>
                 {/* end of title */}
 
                 {/* content */}
@@ -24,7 +25,7 @@ export default class Home extends Component {
                         <Card.Body>
                             <Card.Title><h3>Who we are</h3></Card.Title>
                             <Card.Text>
-                                <p>Here at AGME, we provide booking services for bussinesses to integrate into their site.
+                                <p>Here at AGME, we provide booking services for businesses to integrate into their site.
                                        <br></br><br></br>
                                        Through us, you will be able to provide working booking services for your customers.
                                    </p>
@@ -63,10 +64,10 @@ export default class Home extends Component {
                         <Card.Body>
                             <Card.Title><h3>Get started</h3></Card.Title>
                             <Card.Text>
-                                <p> 
-                                    First register an account if you haven't already. 
+                                <p>
+                                    First register an account if you haven't already.
                                     <br></br><br></br>
-                                    Once signed in, visit the "Get Started" page to view more information.
+                                    Once signed in, visit the "Bookings" page to make your booking.
                                 </p>
                             </Card.Text>
                         </Card.Body>
