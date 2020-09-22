@@ -1,3 +1,2 @@
-# SEPT Startup code and  project Structure documentation 
-
-# Quick Start
+# Milestone 2
+Files for milestone 2
