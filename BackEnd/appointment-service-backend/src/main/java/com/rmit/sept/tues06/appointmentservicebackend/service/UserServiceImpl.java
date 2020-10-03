@@ -2,7 +2,9 @@ package com.rmit.sept.tues06.appointmentservicebackend.service;
 
 import com.rmit.sept.tues06.appointmentservicebackend.exception.UserException;
 import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
+import com.rmit.sept.tues06.appointmentservicebackend.model.ERole;
 import com.rmit.sept.tues06.appointmentservicebackend.model.User;
+import com.rmit.sept.tues06.appointmentservicebackend.model.Worker;
 import com.rmit.sept.tues06.appointmentservicebackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,6 +43,9 @@ public class UserServiceImpl implements UserService {
             user.setPhoneNumber(user.getPhoneNumber());
             user.setRoles(user.getRoles());
             user.setAddress(user.getAddress());
+
+            if (user.getRoles().iterator().next().getName() == ERole.ROLE_WORKER)
+                ((Worker) user).setAvailabilities(((Worker) user).getAvailabilities());
 
             return userRepository.save(user);
         } catch (Exception e) {

@@ -1,9 +1,6 @@
 package com.rmit.sept.tues06.appointmentservicebackend.web;
 
-import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
-import com.rmit.sept.tues06.appointmentservicebackend.model.ERole;
-import com.rmit.sept.tues06.appointmentservicebackend.model.Role;
-import com.rmit.sept.tues06.appointmentservicebackend.model.User;
+import com.rmit.sept.tues06.appointmentservicebackend.model.*;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.LoginRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.SignupRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.response.JwtResponse;
@@ -117,9 +114,9 @@ public class AuthController {
 
                         break;
                     case "worker":
-                        Role modRole = roleRepository.findTopByName(ERole.ROLE_WORKER)
+                        Role workerRole = roleRepository.findTopByName(ERole.ROLE_WORKER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        roles.add(workerRole);
 
                         break;
                     default:
@@ -130,9 +127,13 @@ public class AuthController {
             });
         }
 
+        if (roles.iterator().next().getName() == ERole.ROLE_ADMIN)
+            user = new Admin(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()),
+                    signUpRequest.getName(), signUpRequest.getAddress(), signUpRequest.getPhoneNumber());
+
         user.setRoles(roles);
         userService.createUser(user);
 
-        return ResponseEntity.ok(new MessageResponse("Customer successfully registered."));
+        return ResponseEntity.ok(new MessageResponse(roles.iterator().next().getName() + " successfully registered."));
     }
 }
