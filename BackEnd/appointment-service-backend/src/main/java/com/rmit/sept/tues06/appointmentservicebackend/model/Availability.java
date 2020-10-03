@@ -15,7 +15,7 @@ public class Availability extends BaseEntity {
     private DayOfWeek dayOfWeek;
 
     @Column(columnDefinition = "TIME")
-    private LocalTime startTIme;
+    private LocalTime startTime;
 
     @Column(columnDefinition = "TIME")
     private LocalTime endTime;
@@ -24,8 +24,8 @@ public class Availability extends BaseEntity {
         return dayOfWeek;
     }
 
-    public LocalTime getStartTIme() {
-        return startTIme;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
     public LocalTime getEndTime() {
