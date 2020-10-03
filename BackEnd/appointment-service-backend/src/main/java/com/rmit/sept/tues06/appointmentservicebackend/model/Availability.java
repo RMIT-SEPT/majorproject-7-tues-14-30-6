@@ -8,7 +8,7 @@ import java.time.LocalTime;
 @Table(name = "availabilities")
 public class Availability extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "users", referencedColumnName = "id")
     private User worker;
 
     @Enumerated(EnumType.ORDINAL)
