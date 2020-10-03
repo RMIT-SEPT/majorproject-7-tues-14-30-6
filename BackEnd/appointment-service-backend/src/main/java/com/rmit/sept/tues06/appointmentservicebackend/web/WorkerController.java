@@ -28,7 +28,7 @@ public class WorkerController {
 
     @Autowired
     private RoleRepository roleRepository;
-    
+
     @Autowired
     private PasswordEncoder encoder;
 
@@ -48,8 +48,16 @@ public class WorkerController {
 
         User worker = new Worker(createWorkerRequest.getUsername(), createWorkerRequest.getEmail(), encoder.encode(createWorkerRequest.getPassword()), createWorkerRequest.getName(),
                 createWorkerRequest.getAddress(), createWorkerRequest.getPhoneNumber(), createWorkerRequest.getAvailabilities());
-        Set<Role> roles = new HashSet<>();
 
+        // TODO FIX NULL WORKER FIELD IN AVAILABILITY
+//        List<Availability> availabilities = new ArrayList<>();
+//        for (Availability availability : createWorkerRequest.getAvailabilities()) {
+//            availability.setWorker(worker);
+//            availabilities.add(availability);
+//        }
+//        ((Worker) worker).setAvailabilities(availabilities);
+
+        Set<Role> roles = new HashSet<>();
         Role workerRole = roleRepository.findTopByName(ERole.ROLE_WORKER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
         roles.add(workerRole);
@@ -57,5 +65,4 @@ public class WorkerController {
 
         return new ResponseEntity<>(userService.createUser(worker), HttpStatus.CREATED);
     }
-
 }

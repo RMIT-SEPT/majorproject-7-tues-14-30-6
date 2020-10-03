@@ -9,12 +9,12 @@ import java.time.LocalTime;
 @Table(name = "availabilities")
 public class Availability extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "users", referencedColumnName = "id")
+    @JoinColumn(name = "worker_id", referencedColumnName = "id", updatable = false, insertable = false, nullable = false)
     private User worker;
 
     @NotNull(message = "Day of Week is required")
     @Enumerated(EnumType.ORDINAL)
-    private DayOfWeek dayOfWeek;
+    private DayOfWeek dayOfWeek; // MONDAY = 0, SUNDAY = 6
 
     @NotNull(message = "Start time is required")
     @Column(columnDefinition = "TIME")
@@ -22,7 +22,7 @@ public class Availability extends BaseEntity {
 
     @NotNull(message = "End time is required")
     @Column(columnDefinition = "TIME")
-    private LocalTime endTime;
+    private LocalTime endTime; // TODO ADD VALIDATION - END TIME MUST BE AFTER START TIME
 
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
@@ -38,5 +38,9 @@ public class Availability extends BaseEntity {
 
     public User getWorker() {
         return worker;
+    }
+
+    public void setWorker(User worker) {
+        this.worker = worker;
     }
 }
