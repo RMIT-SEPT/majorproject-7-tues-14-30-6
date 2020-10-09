@@ -26,18 +26,33 @@ class Header extends Component {
                                         Bookings
                                     </a>
                                 </li>
+
+
+                                {/* only allow admins to view this but first check if a user is logged in */}
+                                {
+                                    sessionStorage.getItem("user") && JSON.parse(sessionStorage.getItem("user")).roles.includes("ROLE_ADMIN", 0) &&
+                                    <li className="nav-item">
+                                        <a className="nav-link" href="/worker">
+                                            Add Workers
+                                        </a>
+                                    </li>
+                                }
                             </ul>
 
+
+
                             {/* start of button groups */}
+                            {/* if the user is logged in */}
                             {sessionStorage.getItem("user")
                                 ?
                                 <ul className="navbar-nav ml-auto">
                                     <li className="nav-item">
-                                        <a className="nav-link" href ="" onClick={() => sessionStorage.clear()}>
+                                        <a className="nav-link" href="" onClick={() => sessionStorage.clear()}>
                                             Log out as {JSON.parse(sessionStorage.getItem("user")).username}
                                         </a>
                                     </li>
                                 </ul>
+                                // else if the user is logged out
                                 :
                                 <ul className="navbar-nav ml-auto">
                                     <li className="nav-item">

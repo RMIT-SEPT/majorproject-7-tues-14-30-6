@@ -11,15 +11,12 @@ import Home from './components/Layout/Home.js'
 import Login from './components/login/Login.js'
 import Signup from './components/signup/Signup'
 import Booking from './components/booking/Booking'
+import Worker from './components/worker/Worker'
 
-// this is displayed on all pages
 function App() {
-
   return (
-
     <Provider store={store}>
       <Router>
-
         <div>
           <Header />
           <Route exact path="/" component={Home} />
@@ -28,6 +25,7 @@ function App() {
           <Route exact path="/dashboard" component={Dashboard} />
           <Route exact path="/addPerson" component={AddPerson} />
           <Route exact path="/booking" component={Booking} />
+          <Route exact path="/worker" component={Worker} />
         </div>
       </Router>
     </Provider>
