@@ -17,7 +17,8 @@ export default class Booking extends Component {
         this.state = {
             bookings: [],
             serviceName: "", // make sure this matches the default/disabled option in the select
-            bookingDateTime: "" // don't initalize a date here else it will set its default value to that
+            workerName: "",
+            bookingDateTime: "" // don't initalize a date object here else it will set its default value to that
         };
 
         this.onChange = this.onChange.bind(this);
@@ -93,6 +94,8 @@ export default class Booking extends Component {
                     {/* start of form  */}
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
+
+                            {/* service name */}
                             <label for="serviceName">Select service</label>
                             <select type="text"
                                 className="form-control" required
@@ -102,8 +105,22 @@ export default class Booking extends Component {
                             >
                                 <option value="" disabled>Please select a service</option>
                                 <option value="Dan's dentist">Dan's dentist</option>
-                                <option value="Bob's bowling ally">Bob's bowling ally</option>
                             </select>
+
+                            {/* select a worker */}
+                            <label for="workerName">Select Worker</label>
+                            <select type="text"
+                                className="form-control" required
+                                name="workerName"
+                                value={this.state.workerName}
+                                onChange={this.onChange}
+                            >
+                                <option value="" disabled>Please select a worker</option>
+                                <option value="John Smith">John Smith</option>
+                                <option value="Tim Mark">Tim Mark</option>
+                            </select>
+
+
 
 
                             <label for="bookingDateTime">Select a date</label>
@@ -140,8 +157,7 @@ export default class Booking extends Component {
                     }
 
                 </div>
-
-                <p id="bottomText">* We only offer services for <b>Dan's Dentist</b> and <b>Bob's Bowling Ally</b> at this moment</p>
+                <p id="bottomText">* We only offer services for <b>Dan's Dentist</b> at this moment</p>
             </div >
         )
     }
