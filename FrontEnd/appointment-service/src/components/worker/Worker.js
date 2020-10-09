@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 export default class Worker extends Component {
     render() {
-        // display error message if not an admin
+        // display status message if not an admin
         if (!(sessionStorage.getItem("user") && JSON.parse(sessionStorage.getItem("user")).roles.includes("ROLE_ADMIN", 0))) {
             return (
                 <div id="main">
@@ -11,6 +11,7 @@ export default class Worker extends Component {
             )
         }
 
+        // display main page
         return (
             <div id="main">
                 <h2 className="display-5 text-center">Workers</h2>

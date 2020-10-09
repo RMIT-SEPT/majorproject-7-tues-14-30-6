@@ -16,6 +16,7 @@ export default class Booking extends Component {
 
         this.state = {
             bookings: [],
+            workers: [],
             serviceName: "", // make sure this matches the default/disabled option in the select
             workerName: "",
             bookingDateTime: "" // don't initalize a date object here else it will set its default value to that
@@ -63,7 +64,6 @@ export default class Booking extends Component {
             }, (error) => {
             });
     }
-
 
 
     render() {
