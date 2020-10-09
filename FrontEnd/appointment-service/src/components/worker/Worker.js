@@ -1,8 +1,43 @@
 import React, { Component } from 'react'
+import AuthService from '../../actions/AuthService.js'
 
 export default class Worker extends Component {
+    constructor() {
+        super();
+
+        this.state = {
+            username: "",
+            email: "",
+            name: "",
+            address: "",
+            phoneNumber: ""
+        };
+        this.onChange = this.onChange.bind(this);
+        this.onSubmit = this.onSubmit.bind(this);
+    }
+
+    onChange(e) {
+        this.setState({ [e.target.name]: e.target.value });
+    }
+    onSubmit(e) {
+        e.preventDefault();
+
+        const newAccount = {
+            username: this.state.username,
+            email: this.state.email,
+            // create a random default password for the worker
+            password: Math.random().toString(36).substring(5),
+            name: this.state.name,
+            address: this.state.address,
+            phoneNumber: this.state.phoneNumber
+        }
+
+        // AuthService.register(newAccount);
+    }
+
+
     render() {
-        // display status message if not an admin
+
         if (!(sessionStorage.getItem("user") && JSON.parse(sessionStorage.getItem("user")).roles.includes("ROLE_ADMIN", 0))) {
             return (
                 <div id="main">
