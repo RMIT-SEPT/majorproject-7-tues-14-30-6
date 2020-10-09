@@ -41,9 +41,9 @@ export default class Booking extends Component {
         const newBooking = {
             customerId: JSON.parse(sessionStorage.getItem("user")).id,
             serviceName: this.state.serviceName,
+            workerName: this.state.workerName,
             bookingDateTime: this.state.bookingDateTime
         }
-
         BookingService.book(newBooking);
     }
 
