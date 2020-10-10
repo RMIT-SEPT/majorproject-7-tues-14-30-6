@@ -9,6 +9,7 @@ import BookingService from '../../actions/BookingService'
 
 
 const API_BOOKING_URL = "http://localhost:8080/api/bookings?past=false&current=true&customer=";
+const API_USERS_URL = "http://localhost:8080/api/users";
 
 export default class Booking extends Component {
     constructor() {
@@ -53,6 +54,7 @@ export default class Booking extends Component {
             return;
         }
 
+        // get all the users bookings
         let username = JSON.parse(sessionStorage.getItem("user")).username;
         axios.get(API_BOOKING_URL + username)
             .then(response => response.data)
