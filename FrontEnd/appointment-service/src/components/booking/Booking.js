@@ -42,10 +42,11 @@ export default class Booking extends Component {
         e.preventDefault();
         const newBooking = {
             customerId: JSON.parse(sessionStorage.getItem("user")).id,
-            serviceName: this.state.serviceName,
+            serviceName: this.state.serviceName + " with " + this.state.workerName,
             workerName: this.state.workerName,
             bookingDateTime: this.state.bookingDateTime
         }
+
         BookingService.book(newBooking);
     }
 
@@ -66,6 +67,7 @@ export default class Booking extends Component {
             }, (error) => {
             });
 
+        // get all the workers
         axios.get(API_USERS_URL)
             .then(response => response.data)
             .then(data => {
@@ -75,12 +77,15 @@ export default class Booking extends Component {
                     let role;
                     // check all their roles
                     for (role of user.roles) {
-                        console.log(role);
+                        if (role.name === "ROLE_WORKER") {
+                            this.setState(prevState => ({
+                                workers: [...prevState.workers, user]
+                            }))
+                        }
                     }
                 }
             }, (error) => { });
     }
-
 
 
     render() {
@@ -132,11 +137,19 @@ export default class Booking extends Component {
                                 value={this.state.workerName}
                                 onChange={this.onChange}
                             >
-                                <option value="" disabled>Please select a worker</option>
-                                <option value="John Smith">John Smith</option>
-                                <option value="Tim Mark">Tim Mark</option>
-                            </select>
 
+                                {this.state.workers.length === 0
+                                    ?
+                                    <option value="" disabled>No available workers at this time</option>
+                                    :
+                                    <option value="" disabled>Please select a worker</option>
+                                }
+
+                                {this.state.workers.map((worker) => (
+                                    <option value={worker.name}>{worker.name}</option>
+                                ))
+                                }
+                            </select>
 
 
 
