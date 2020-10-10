@@ -65,7 +65,22 @@ export default class Booking extends Component {
                 this.setState({ bookings: data });
             }, (error) => {
             });
+
+        axios.get(API_USERS_URL)
+            .then(response => response.data)
+            .then(data => {
+                let user;
+                // for all users
+                for (user of data) {
+                    let role;
+                    // check all their roles
+                    for (role of user.roles) {
+                        console.log(role);
+                    }
+                }
+            }, (error) => { });
     }
+
 
 
     render() {
