@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import AuthService from '../../actions/AuthService.js'
+import './Worker.css'
 
 export default class Worker extends Component {
     constructor() {
@@ -29,10 +30,11 @@ export default class Worker extends Component {
             password: Math.random().toString(36).substring(5),
             name: this.state.name,
             address: this.state.address,
-            phoneNumber: this.state.phoneNumber
+            phoneNumber: this.state.phoneNumber,
+            role: ["worker"]
         }
 
-        // AuthService.register(newAccount);
+        AuthService.register(newAccount);
     }
 
 
@@ -51,6 +53,57 @@ export default class Worker extends Component {
             <div id="main">
                 <h2 className="display-5 text-center">Workers</h2>
                 <h6 className="display-5 text-center">On this page, you can add workers for clients to book through them</h6>
+
+                <form onSubmit={this.onSubmit}>
+                    <div className="form-group">
+                        <input type="text" className="form-control form-control-lg "
+                            placeholder="Username of worker"
+                            name="username"
+                            value={this.state.username}
+                            onChange={this.onChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <input type="email" className="form-control form-control-lg "
+                            placeholder="E-mail of worker"
+                            name="email"
+                            value={this.state.email}
+                            onChange={this.onChange}
+                        />
+                    </div>
+
+
+
+                    <div className="form-group">
+                        <input type="text" className="form-control form-control-lg "
+                            placeholder="Full Name of worker"
+                            name="name"
+                            value={this.state.name}
+                            onChange={this.onChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <input type="text" className="form-control form-control-lg "
+                            placeholder="Address of worker"
+                            name="address"
+                            value={this.state.address}
+                            onChange={this.onChange}
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <input type="tel" className="form-control form-control-lg "
+                            placeholder="Phone number of worker"
+                            name="phoneNumber"
+                            pattern="^(?:\+?(61))? ?(?:\((?=.*\)))?(0?[2-57-8])\)? ?(\d\d(?:[- ](?=\d{3})|(?!\d\d[- ]?\d[- ]))\d\d[- ]?\d[- ]?\d{3})$"
+                            value={this.state.phoneNumber}
+                            onChange={this.onChange}
+                        />
+                    </div>
+                    <input type="submit" value="Register" className="btn btn-primary btn-block mt-4" />
+                </form>
 
             </div>
         )
