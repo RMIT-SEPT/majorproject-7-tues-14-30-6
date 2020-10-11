@@ -61,6 +61,10 @@ public class AuthController {
     private JwtUtils jwtUtils;
 
     @PostMapping("/login")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = LoginRequest.class)),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = JwtResponse.class))}),
+    })
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -80,7 +84,7 @@ public class AuthController {
                 roles));
     }
 
-    @Operation(summary = "Register user", description = "New users are customers by default.", tags = {"auth"})
+    @Operation(summary = "Register user", description = "New users are customers by default", tags = {"auth"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),

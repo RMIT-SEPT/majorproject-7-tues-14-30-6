@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,15 +74,16 @@ public class UserController {
         return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
     }
 
-    @Operation(summary = "Update user details", tags = {"user"})
+    @Operation(summary = "Update user details", description = "This can only be done by an authenticated user", tags = {"user"}, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UpdateUserRequest.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "User not found"),
-            @ApiResponse(responseCode = "400", description = "Email is already taken")})
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Email is already taken", content = @Content)})
     @PutMapping(value = "/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest updateUserRequest, @PathVariable Long id) {
+    public ResponseEntity<?> updateUser(@Parameter(description = "Access Token") @RequestHeader(value = "x-access-token") String accessToken, @RequestBody UpdateUserRequest updateUserRequest,
+                                        @Parameter(description = "User Id") @PathVariable Long id) {
         User user = null;
         User emailMatch = null;
         try {
