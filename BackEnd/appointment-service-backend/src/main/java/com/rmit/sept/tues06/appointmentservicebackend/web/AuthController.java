@@ -1,5 +1,6 @@
 package com.rmit.sept.tues06.appointmentservicebackend.web;
 
+import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
 import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
 import com.rmit.sept.tues06.appointmentservicebackend.model.ERole;
 import com.rmit.sept.tues06.appointmentservicebackend.model.Role;
@@ -18,6 +19,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -40,6 +43,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    public static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -80,16 +85,30 @@ public class AuthController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content)
-            })
+    })
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userService.findByUsername(signUpRequest.getUsername()) != null) {
+        User usernameMatch = null;
+        try {
+            usernameMatch = userService.findByUsername(signUpRequest.getUsername());
+        } catch (UserNotFoundException userNotFoundException) {
+            logger.info(userNotFoundException.getMessage());
+        }
+
+        if (usernameMatch != null) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userService.findByEmail(signUpRequest.getEmail()) != null) {
+        User emailMatch = null;
+        try {
+            emailMatch = userService.findByEmail(signUpRequest.getEmail());
+        } catch (UserNotFoundException userNotFoundException) {
+            logger.info(userNotFoundException.getMessage());
+        }
+
+        if (emailMatch != null) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));

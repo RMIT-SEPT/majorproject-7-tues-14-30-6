@@ -1,6 +1,9 @@
 package com.rmit.sept.tues06.appointmentservicebackend.web;
 
+import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
 import com.rmit.sept.tues06.appointmentservicebackend.model.User;
+import com.rmit.sept.tues06.appointmentservicebackend.payload.request.UpdateUserRequest;
+import com.rmit.sept.tues06.appointmentservicebackend.payload.response.MessageResponse;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -67,5 +70,29 @@ public class UserController {
     public ResponseEntity<?> getUserByEmail(@Parameter(description = "The email that needs to be fetched.")
                                             @RequestParam(value = "email", required = false) String email) {
         return new ResponseEntity<>(userService.findByEmail(email), HttpStatus.OK);
+    }
+
+    @Operation(summary = "Update user details", tags = {"user"})
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<?> updateUser(@RequestBody UpdateUserRequest updateUserRequest, @PathVariable Long id) {
+        User emailMatch = null;
+        try {
+            emailMatch = userService.findByEmail(updateUserRequest.getEmail());
+        } catch (UserNotFoundException userNotFoundException) {
+            logger.info(userNotFoundException.getMessage());
+        }
+
+        if (emailMatch != null && !emailMatch.getId().equals(id))
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+
+        User user = userService.findById(id);
+        user.setEmail(updateUserRequest.getEmail());
+        user.setName(updateUserRequest.getName());
+        user.setAddress(updateUserRequest.getAddress());
+        user.setPhoneNumber(updateUserRequest.getPhoneNumber());
+
+        return new ResponseEntity<>(userService.updateUser(id, user), HttpStatus.OK);
     }
 }

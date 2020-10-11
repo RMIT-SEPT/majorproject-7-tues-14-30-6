@@ -2,8 +2,10 @@ package com.rmit.sept.tues06.appointmentservicebackend.web;
 
 import com.rmit.sept.tues06.appointmentservicebackend.exception.BookingNotFoundException;
 import com.rmit.sept.tues06.appointmentservicebackend.exception.BookingNotFoundForCustomerException;
+import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
 import com.rmit.sept.tues06.appointmentservicebackend.model.Booking;
 import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
+import com.rmit.sept.tues06.appointmentservicebackend.model.User;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CancelBookingRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CreateBookingRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.service.BookingService;
@@ -63,7 +65,14 @@ public class BookingController {
         Date currentDateTime = new Date();
 
         if (StringUtils.hasText(username)) {
-            if (userService.findByUsername(username) != null) {
+            User usernameMatch = null;
+            try {
+                usernameMatch = userService.findByUsername(username);
+            } catch (UserNotFoundException userNotFoundException) {
+                logger.info(userNotFoundException.getMessage());
+            }
+
+            if (usernameMatch != null) {
                 if (includeCurrentAndFuture)
                     bookings.addAll(bookingService.findActiveCurrentBookingsByCustomer(currentDateTime, username));
                 if (includePast)
