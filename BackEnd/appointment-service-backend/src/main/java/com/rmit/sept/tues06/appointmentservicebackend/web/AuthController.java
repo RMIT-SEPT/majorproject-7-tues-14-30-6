@@ -84,7 +84,7 @@ public class AuthController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content),
     })
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
