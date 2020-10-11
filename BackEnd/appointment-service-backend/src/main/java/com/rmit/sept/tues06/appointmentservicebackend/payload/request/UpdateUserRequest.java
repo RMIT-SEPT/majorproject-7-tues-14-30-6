@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 public class UpdateUserRequest {
+    @NotBlank(message = "Username is required")
+    private String username;
     @NotBlank(message = "Name is required")
     private String name;
     @Email
@@ -18,7 +20,12 @@ public class UpdateUserRequest {
     @NotBlank(message = "Phone number is required")
     private String phoneNumber;
 
-    @Schema(example = "John Smith", description = "username of the user")
+    @Schema(example = "customer", description = "username of the user")
+    public String getUsername() {
+        return username;
+    }
+
+    @Schema(example = "John Smith", description = "name of the user")
     public String getName() {
         return name;
     }

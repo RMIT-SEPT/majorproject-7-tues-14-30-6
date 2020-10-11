@@ -114,7 +114,7 @@ public class BookingController {
     })
     @PostMapping(value = "/add")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<?> addBooking(@Parameter(description = "Access Token") @RequestHeader(value = "x-access-token") String accessToken,
+    public ResponseEntity<?> addBooking(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
                                         @Valid @RequestBody CreateBookingRequest createBookingRequest) {
         Booking booking = new Booking();
         booking.setCustomer((Customer) userService.findById(createBookingRequest.getCustomerId()));
@@ -132,7 +132,7 @@ public class BookingController {
     })
     @PostMapping(value = "/cancel")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public ResponseEntity<?> cancelBooking(@Parameter(description = "Access Token") @RequestHeader(value = "x-access-token") String accessToken,
+    public ResponseEntity<?> cancelBooking(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
                                            @Valid @RequestBody CancelBookingRequest cancelBookingRequest) {
         Booking booking = bookingService.getBooking(cancelBookingRequest.getBookingId());
         return new ResponseEntity<>(bookingService.cancelBooking(booking), HttpStatus.OK);

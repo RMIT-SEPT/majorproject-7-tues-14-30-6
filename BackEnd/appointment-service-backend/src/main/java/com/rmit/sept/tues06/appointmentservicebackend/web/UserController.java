@@ -4,6 +4,7 @@ import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundExce
 import com.rmit.sept.tues06.appointmentservicebackend.model.User;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.UpdateUserRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.response.MessageResponse;
+import com.rmit.sept.tues06.appointmentservicebackend.security.jwt.JwtUtils;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,6 +32,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Operation(summary = "Get all users", tags = {"user"})
     @ApiResponses(value = {
@@ -79,11 +83,18 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UpdateUserRequest.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Email is already taken", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Email is already taken or logged in user is not the same as user to update", content = @Content)})
     @PutMapping(value = "/{id}")
     @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> updateUser(@Parameter(description = "Access Token") @RequestHeader(value = "x-access-token") String accessToken, @RequestBody UpdateUserRequest updateUserRequest,
+    public ResponseEntity<?> updateUser(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken, @RequestBody UpdateUserRequest updateUserRequest,
                                         @Parameter(description = "User Id") @PathVariable Long id) {
+
+        String loggedInUsername = jwtUtils.getUserNameFromJwtToken(accessToken.substring(accessToken.indexOf(" ")));
+        if (!updateUserRequest.getUsername().equals(loggedInUsername))
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: You are not allowed to change another user's details!"));
+
         User user = null;
         User emailMatch = null;
         try {
