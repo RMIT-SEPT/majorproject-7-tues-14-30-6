@@ -32,6 +32,7 @@ public class WorkerController {
     @Autowired
     private PasswordEncoder encoder;
 
+    // TODO ONLY ALLOW ADMIN TO ACCESS THIS ROUTE
     @PostMapping("/add")
     public ResponseEntity<?> createWorker(@Valid @RequestBody CreateWorkerRequest createWorkerRequest) {
         if (userService.findByUsername(createWorkerRequest.getUsername()) != null) {
@@ -65,4 +66,7 @@ public class WorkerController {
 
         return new ResponseEntity<>(userService.createUser(worker), HttpStatus.CREATED);
     }
+
+    // TODO ADD, UPDATE AND REMOVE WORKER AVAILABILITY ROUTES (CAN BE ACCESSED BY WORKERS TOO)
+
 }

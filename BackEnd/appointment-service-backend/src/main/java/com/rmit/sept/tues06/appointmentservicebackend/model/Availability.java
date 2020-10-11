@@ -1,5 +1,7 @@
 package com.rmit.sept.tues06.appointmentservicebackend.model;
 
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
@@ -26,6 +28,10 @@ public class Availability extends BaseEntity {
 
     public DayOfWeek getDayOfWeek() {
         return dayOfWeek;
+    }
+
+    public String getWeekday() {
+        return StringUtils.capitalize(dayOfWeek.name());
     }
 
     public LocalTime getStartTime() {
