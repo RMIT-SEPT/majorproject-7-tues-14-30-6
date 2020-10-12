@@ -40,7 +40,7 @@ public class Availability extends BaseEntity {
         setDayOfWeek(DayOfWeek.valueOf(weekDay.trim().toUpperCase()));
     }
 
-    @Schema(description = "start time of availability for the day")
+    @Schema(example = "08:00", description = "start time of availability for the day")
     public LocalTime getStartTime() {
         return startTime;
     }
@@ -49,7 +49,7 @@ public class Availability extends BaseEntity {
         this.startTime = startTime;
     }
 
-    @Schema(description = "end time of availability for the day")
+    @Schema(example = "21:00", description = "end time of availability for the day")
     public LocalTime getEndTime() {
         return endTime;
     }

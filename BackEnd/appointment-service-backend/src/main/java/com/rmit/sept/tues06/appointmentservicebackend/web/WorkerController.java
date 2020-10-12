@@ -130,7 +130,7 @@ public class WorkerController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AddUpdateAvailabilityRequest.class)),
+                    schema = @Schema(implementation = Availability.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Availability.class))}),
             @ApiResponse(responseCode = "404", description = "User or availability not found", content = @Content)
     })
