@@ -53,7 +53,7 @@ public class BookingController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = Booking.class))),
-                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))})
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Booking.class)))})
     })
     @GetMapping("")
     public List<Booking> getBookings(@Parameter(description = "Specify username of customer whose bookings need to be fetched")
@@ -161,7 +161,8 @@ public class BookingController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = User.class))),
-                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = User.class)))
+            }),
             @ApiResponse(responseCode = "404", description = "Booking or worker not found", content = @Content)
     })
     @GetMapping("/{id}/availableWorkers")

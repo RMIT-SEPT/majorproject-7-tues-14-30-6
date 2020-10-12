@@ -6,6 +6,7 @@ import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundExce
 import com.rmit.sept.tues06.appointmentservicebackend.model.*;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.AddUpdateAvailabilityRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CreateWorkerRequest;
+import com.rmit.sept.tues06.appointmentservicebackend.payload.response.AvailabilityResponse;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.response.MessageResponse;
 import com.rmit.sept.tues06.appointmentservicebackend.repository.RoleRepository;
 import com.rmit.sept.tues06.appointmentservicebackend.service.AvailabilityService;
@@ -30,6 +31,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -57,7 +59,8 @@ public class WorkerController {
     @Operation(summary = "Get all workers", tags = {"worker"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = User.class))), @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
+                    array = @ArraySchema(schema = @Schema(implementation = User.class))),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = User.class)))}),
     })
     @GetMapping("")
     public List<User> getWorkers() {
@@ -190,21 +193,46 @@ public class WorkerController {
         return new ResponseEntity<>(availabilityService.removeAvailability(id), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get availabilities for a worker", tags = {"worker"},
-            security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Get availabilities for a worker", tags = {"worker"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = Availability.class))),
-                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Availability.class))}),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Availability.class)))}),
             @ApiResponse(responseCode = "404", description = "Worker or availability not found", content = @Content)
     })
     @GetMapping("/{workerId}/availability")
-    public List<Availability> getAvailabilities(@Parameter(description = "Worker Id") @PathVariable Long workerId) {
+    public List<Availability> getWorkerAvailability(@Parameter(description = "Worker Id") @PathVariable Long workerId) {
         User user = userService.findById(workerId);
         List<Availability> availabilities = ((Worker) user).getAvailabilities();
 
         if (CollectionUtils.isEmpty(availabilities))
             throw new AvailabilitiesNotFoundForWorkerException(user.getUsername());
+
+        return availabilities;
+    }
+
+    @Operation(summary = "Get availabilities of all workers", tags = {"worker"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = AvailabilityResponse.class))),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = AvailabilityResponse.class)))})
+    })
+    @GetMapping("/availability")
+    public List<AvailabilityResponse> getAvailabilities() {
+        List<User> workers = userService.findUsersByType(ERole.ROLE_WORKER);
+        List<AvailabilityResponse> availabilities = new ArrayList<>();
+
+        for (User worker : workers)
+            for (Availability availability : ((Worker) worker).getAvailabilities()) {
+                AvailabilityResponse availabilityResponse = new AvailabilityResponse();
+                availabilityResponse.setWorkerId(worker.getId());
+                availabilityResponse.setEndTime(availability.getEndTime());
+                availabilityResponse.setStartTime(availability.getStartTime());
+                availabilityResponse.setWeekDay(availability.getWeekDay());
+                availabilityResponse.setId(availability.getId());
+
+                availabilities.add(availabilityResponse);
+            }
 
         return availabilities;
     }

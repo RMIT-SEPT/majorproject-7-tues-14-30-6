@@ -40,7 +40,8 @@ public class UserController {
     @Operation(summary = "Get all users", tags = {"user"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
-                    array = @ArraySchema(schema = @Schema(implementation = User.class))), @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
+                    array = @ArraySchema(schema = @Schema(implementation = User.class))),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = User.class)))}),
     })
     @GetMapping("")
     public Iterable<User> getAllUsers() {
