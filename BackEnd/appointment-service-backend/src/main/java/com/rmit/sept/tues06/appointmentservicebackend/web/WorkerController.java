@@ -70,7 +70,8 @@ public class WorkerController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Worker.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Worker.class))}),
-            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")

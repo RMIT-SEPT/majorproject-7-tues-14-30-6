@@ -109,7 +109,8 @@ public class BookingController {
     @Operation(summary = "Add a booking", description = "This can only be done by a customer", tags = {"booking"}, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class)),
-                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))})
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping(value = "/add")
     @PreAuthorize("hasRole('CUSTOMER')")
@@ -127,7 +128,8 @@ public class BookingController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
-            @ApiResponse(responseCode = "404", description = "Booking not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Booking not found", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping(value = "/cancel")
     @PreAuthorize("hasRole('CUSTOMER')")
@@ -142,7 +144,8 @@ public class BookingController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
-            @ApiResponse(responseCode = "404", description = "Booking or worker not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Booking or worker not found", content = @Content),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping("/assign")
     @PreAuthorize("hasRole('ADMIN')")
