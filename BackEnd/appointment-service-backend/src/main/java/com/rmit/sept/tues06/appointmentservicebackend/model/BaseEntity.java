@@ -2,6 +2,7 @@ package com.rmit.sept.tues06.appointmentservicebackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,10 +15,12 @@ public class BaseEntity {
 
     @JsonFormat(pattern = "yyyy-mm-dd")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     private Date created_At;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     private Date updated_At;
 
     public Long getId() {

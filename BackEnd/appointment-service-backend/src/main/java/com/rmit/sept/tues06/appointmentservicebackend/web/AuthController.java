@@ -59,7 +59,8 @@ public class AuthController {
 
     @PostMapping("/login")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = LoginRequest.class)),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = JwtResponse.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = JwtResponse.class))}),
     })
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {

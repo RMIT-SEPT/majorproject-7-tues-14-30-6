@@ -57,13 +57,13 @@ public class BookingController {
     })
     @GetMapping("")
     public List<Booking> getBookings(@Parameter(description = "Specify username of customer whose bookings need to be fetched")
-                                     @RequestParam(value = "customer", required = false) String username,
-                                     @Parameter(description = "Specify whether past bookings need to be fetched", required = true)
-                                     @RequestParam(value = "past") boolean includePast,
-                                     @Parameter(description = "Specify whether current and future bookings need to be fetched", required = true)
-                                     @RequestParam(value = "current") boolean includeCurrentAndFuture,
+                                         @RequestParam(value = "customer", required = false) String username,
+                                     @Parameter(description = "Specify whether past bookings need to be fetched", required = false)
+                                         @RequestParam(defaultValue = "true", value = "past", required = false) boolean includePast,
+                                     @Parameter(description = "Specify whether current and future bookings need to be fetched", required = false)
+                                         @RequestParam(defaultValue = "true", value = "current", required = false) boolean includeCurrentAndFuture,
                                      @Parameter(description = "Specify whether cancelled bookings need to be fetched")
-                                     @RequestParam(value = "cancelled", required = false) boolean includeCancelled) {
+                                         @RequestParam(value = "cancelled", required = false) boolean includeCancelled) {
         List<Booking> bookings = new ArrayList<>();
         LocalDateTime currentDateTime = LocalDateTime.now();
 

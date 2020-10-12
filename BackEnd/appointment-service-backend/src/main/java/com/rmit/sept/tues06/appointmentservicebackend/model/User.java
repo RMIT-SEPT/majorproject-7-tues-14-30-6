@@ -22,6 +22,7 @@ public abstract class User extends BaseEntity {
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Set<Role> roles = new HashSet<>();
 
@@ -120,7 +121,7 @@ public abstract class User extends BaseEntity {
     }
 
     @Schema(example = "ROLE_CUSTOMER", description = "role/type of the user")
-    public String getUserRole() {
+    public String getRole() {
         return roles.iterator().next().getName().name();
     }
 }

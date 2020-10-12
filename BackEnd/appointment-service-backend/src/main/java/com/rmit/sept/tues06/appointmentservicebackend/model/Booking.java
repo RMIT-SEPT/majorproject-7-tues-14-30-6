@@ -17,12 +17,14 @@ import java.time.LocalDateTime;
 public class Booking extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "worker_id")
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Worker worker;
@@ -32,7 +34,6 @@ public class Booking extends BaseEntity {
     @JsonFormat(pattern = "dd-MM-yyyy HH:mm")
     private LocalDateTime bookingDateTime;
 
-    @Schema(example = "true", description = "Booking status (active, cancelled)")
     private boolean isActive;
 
     @Schema(description = "Id of customer who booked the timeslot")
@@ -55,7 +56,12 @@ public class Booking extends BaseEntity {
 
     @Schema(example = "John Smith", description = "Name of worker assigned to the booking")
     public String getWorkerName() {
-        return worker.getName();
+        String name = "";
+
+        if (worker != null)
+            name = worker.getName();
+
+        return name;
     }
 
     @Schema(example = "Dentist appointment", description = "Which service the booking is for")
@@ -76,6 +82,7 @@ public class Booking extends BaseEntity {
         this.bookingDateTime = date;
     }
 
+    @Schema(example = "true", description = "Booking status (true if active, false if cancelled)")
     public boolean isActive() {
         return isActive;
     }

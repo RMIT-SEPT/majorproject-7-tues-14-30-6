@@ -68,7 +68,7 @@ public class WorkerController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = CreateWorkerRequest.class)),
+                    schema = @Schema(implementation = Worker.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Worker.class))}),
             @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content)
     })
@@ -120,7 +120,7 @@ public class WorkerController {
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Availability.class))}),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
-    @PostMapping("/{workerId}/availability/add")
+    @PostMapping("/{workerId}/availability")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> addAvailability(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
                                              @Parameter(description = "Worker Id") @PathVariable Long workerId,

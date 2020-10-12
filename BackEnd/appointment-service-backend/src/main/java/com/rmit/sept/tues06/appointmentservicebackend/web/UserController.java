@@ -85,7 +85,7 @@ public class UserController {
 
     @Operation(summary = "Update user details", description = "This can only be done by an authenticated user", tags = {"user"}, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UpdateUserRequest.class)),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
             @ApiResponse(responseCode = "400", description = "Email is already taken or logged in user is not the same as user to be updated", content = @Content)
