@@ -17,14 +17,12 @@ import java.time.LocalDateTime;
 public class Booking extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "worker_id")
-    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Worker worker;

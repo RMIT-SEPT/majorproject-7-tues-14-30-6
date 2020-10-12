@@ -70,7 +70,7 @@ public class WorkerController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Worker.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Worker.class))}),
-            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content)
+            @ApiResponse(responseCode = "500", description = "Username or email is already taken", content = @Content)
     })
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
@@ -116,7 +116,7 @@ public class WorkerController {
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
-                    schema = @Schema(implementation = AddUpdateAvailabilityRequest.class)),
+                    schema = @Schema(implementation = Availability.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Availability.class))}),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
@@ -154,7 +154,7 @@ public class WorkerController {
 
         if (!((Worker) user).hasAvailability(id))
             return ResponseEntity
-                    .badRequest()
+                    .status(404)
                     .body(new MessageResponse("Availability id " + id + " not found for the user"));
 
         Availability availability = availabilityService.findById(id);
@@ -182,7 +182,7 @@ public class WorkerController {
 
         if (!((Worker) user).hasAvailability(id))
             return ResponseEntity
-                    .badRequest()
+                    .status(404)
                     .body(new MessageResponse("Availability id " + id + " not found for the user"));
 
         return new ResponseEntity<>(availabilityService.removeAvailability(id), HttpStatus.OK);

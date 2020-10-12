@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Tag(name = "General", description = "User authentication API")
+@Tag(name = "General")
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -84,9 +84,10 @@ public class AuthController {
 
     @Operation(summary = "Register user", description = "New users are customers by default", tags = {"auth"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
-                    @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = MessageResponse.class)),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = MessageResponse.class))}),
+            @ApiResponse(responseCode = "500", description = "Username or email is already taken", content = @Content),
     })
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {

@@ -15,12 +15,10 @@ public class BaseEntity {
 
     @JsonFormat(pattern = "yyyy-mm-dd")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     private Date created_At;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     private Date updated_At;
 
     public Long getId() {
@@ -58,6 +56,7 @@ public class BaseEntity {
         return getId().equals(other.getId());
     }
 
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     public Date getCreated_At() {
         return created_At;
     }
@@ -66,6 +65,7 @@ public class BaseEntity {
         this.created_At = created_At;
     }
 
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     public Date getUpdated_At() {
         return updated_At;
     }
