@@ -1,23 +1,28 @@
 package com.rmit.sept.tues06.appointmentservicebackend.model;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 public class Worker extends User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Availability> availabilities;
+    @JoinColumn(name = "worker_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Availability> availabilities = new ArrayList<>();
 
-    public Worker(String username, String email, String password, String name, String address, String phoneNumber, List<Availability> availabilities) {
+    public Worker(String username, String email, String password, String name, String address, String phoneNumber) {
         super(username, email, password, name, address, phoneNumber);
-        this.availabilities = availabilities;
     }
 
     public Worker() {
         super();
+    }
+
+    public void addAvailability(Availability availability) {
+        this.availabilities.add(availability);
     }
 
     public List<Availability> getAvailabilities() {
@@ -26,5 +31,9 @@ public class Worker extends User {
 
     public void setAvailabilities(List<Availability> availabilities) {
         this.availabilities = availabilities;
+    }
+
+    public boolean hasAvailability(Long availabilityId) {
+        return availabilities.stream().anyMatch(a -> a.getId().equals(availabilityId));
     }
 }

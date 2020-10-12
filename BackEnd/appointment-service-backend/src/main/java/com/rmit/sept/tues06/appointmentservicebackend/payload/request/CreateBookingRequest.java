@@ -6,7 +6,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class CreateBookingRequest {
     @NotNull
@@ -16,7 +16,7 @@ public class CreateBookingRequest {
     private String serviceName;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date bookingDateTime;
+    private LocalDateTime bookingDateTime;
 
     @Schema(description = "username of the user")
     public Long getCustomerId() {
@@ -29,7 +29,7 @@ public class CreateBookingRequest {
     }
 
     @Schema(description = "Timeslot of the booking")
-    public Date getBookingDateTime() {
+    public LocalDateTime getBookingDateTime() {
         return bookingDateTime;
     }
 }

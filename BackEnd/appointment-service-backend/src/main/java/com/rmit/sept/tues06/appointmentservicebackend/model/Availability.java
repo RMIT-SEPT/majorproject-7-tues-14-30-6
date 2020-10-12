@@ -1,52 +1,60 @@
 package com.rmit.sept.tues06.appointmentservicebackend.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.DayOfWeek;
 import java.time.LocalTime;
 
 @Entity
 @Table(name = "availabilities")
 public class Availability extends BaseEntity {
-    @ManyToOne
-    @JoinColumn(name = "worker_id", referencedColumnName = "id", updatable = false, insertable = false, nullable = false)
-    private User worker;
-
-    @NotNull(message = "Day of Week is required")
     @Enumerated(EnumType.ORDINAL)
-    private DayOfWeek dayOfWeek; // MONDAY = 0, SUNDAY = 6
+    private DayOfWeek dayOfWeek;
 
-    @NotNull(message = "Start time is required")
+    @JsonFormat(pattern = "HH:mm")
     @Column(columnDefinition = "TIME")
     private LocalTime startTime;
 
-    @NotNull(message = "End time is required")
+    @JsonFormat(pattern = "HH:mm")
     @Column(columnDefinition = "TIME")
-    private LocalTime endTime; // TODO ADD VALIDATION - END TIME MUST BE AFTER START TIME
+    private LocalTime endTime; // TODO ADD VALIDATION CHECKS - END TIME MUST BE AFTER START TIME
 
-    public DayOfWeek getDayOfWeek() {
-        return dayOfWeek;
+    @Schema(example = "2", description = "the day of the week in numerical format, based on the ISO-8601 standard (AUS: Monday = 1, Sunday = 7)")
+    public int getDayOfWeek() {
+        return dayOfWeek.getValue();
     }
 
-    public String getWeekday() {
-        return StringUtils.capitalize(dayOfWeek.name());
+    private void setDayOfWeek(DayOfWeek dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
     }
 
+    @Schema(example = "Tuesday", description = "the day of the week in string format")
+    public String getWeekDay() {
+        return StringUtils.capitalize(dayOfWeek.name().toLowerCase());
+    }
+
+    public void setWeekDay(String weekDay) {
+        setDayOfWeek(DayOfWeek.valueOf(weekDay.trim().toUpperCase()));
+    }
+
+    @Schema(description = "start time of availability for the day")
     public LocalTime getStartTime() {
         return startTime;
     }
 
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    @Schema(description = "end time of availability for the day")
     public LocalTime getEndTime() {
         return endTime;
     }
 
-    public User getWorker() {
-        return worker;
-    }
-
-    public void setWorker(User worker) {
-        this.worker = worker;
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 }
