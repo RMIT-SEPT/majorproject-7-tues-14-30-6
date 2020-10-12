@@ -88,7 +88,7 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-            @ApiResponse(responseCode = "500", description = "Email is already taken or logged in user is not the same as user to be updated", content = @Content)
+            @ApiResponse(responseCode = "400", description = "Email is already taken or logged in user is not the same as user to be updated", content = @Content)
     })
     @PutMapping(value = "/{id}")
     @PreAuthorize("isAuthenticated()")
