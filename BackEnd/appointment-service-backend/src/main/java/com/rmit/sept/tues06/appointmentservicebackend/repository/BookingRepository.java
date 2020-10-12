@@ -22,4 +22,7 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
 
     @Query("select b from Booking b where b.isActive = TRUE and b.bookingDateTime >= :bookingDateTime and b.customer.username = :username ORDER BY b.bookingDateTime DESC")
     List<Booking> findActiveCurrentBookingsByCustomer(@Param("bookingDateTime") LocalDateTime bookingDateTime, @Param("username") String username);
+
+    @Query("select b from Booking b where b.isActive = TRUE and b.bookingDateTime >= :bookingDateTime and b.worker.id = :workerId ORDER BY b.bookingDateTime DESC")
+    List<Booking> findUpcomingBookingsByWorker(@Param("bookingDateTime") LocalDateTime bookingDateTime, @Param("workerId") Long workerId);
 }

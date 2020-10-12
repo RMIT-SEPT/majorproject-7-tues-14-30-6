@@ -42,6 +42,11 @@ public class BookingServiceImpl implements BookingService {
     }
 
     @Override
+    public List<Booking> findUpcomingBookingsByWorker(LocalDateTime date, Long workerId) {
+        return bookingRepository.findUpcomingBookingsByWorker(date, workerId);
+    }
+
+    @Override
     public Booking createBooking(Booking booking) {
         Booking newBooking = new Booking();
         newBooking.setBookingDateTime(booking.getBookingDateTime());

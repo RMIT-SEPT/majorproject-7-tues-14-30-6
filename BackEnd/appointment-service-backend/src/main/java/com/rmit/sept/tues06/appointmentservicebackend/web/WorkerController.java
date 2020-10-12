@@ -10,6 +10,7 @@ import com.rmit.sept.tues06.appointmentservicebackend.payload.response.Availabil
 import com.rmit.sept.tues06.appointmentservicebackend.payload.response.MessageResponse;
 import com.rmit.sept.tues06.appointmentservicebackend.repository.RoleRepository;
 import com.rmit.sept.tues06.appointmentservicebackend.service.AvailabilityService;
+import com.rmit.sept.tues06.appointmentservicebackend.service.BookingService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,6 +32,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -49,6 +51,9 @@ public class WorkerController {
 
     @Autowired
     private AvailabilityService availabilityService;
+
+    @Autowired
+    private BookingService bookingService;
 
     @Autowired
     private RoleRepository roleRepository;
@@ -236,4 +241,19 @@ public class WorkerController {
 
         return availabilities;
     }
+
+    @Operation(summary = "Get upcoming bookings assigned to a worker", tags = {"worker"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = Booking.class))),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Booking.class)))
+            }),
+            @ApiResponse(responseCode = "404", description = "Worker not found", content = @Content)
+    })
+    @GetMapping("/{workerId}/bookings")
+    public List<Booking> getAssignedBookings(@Parameter(description = "Worker Id") @PathVariable Long workerId) {
+        User user = userService.findById(workerId);
+        return bookingService.findUpcomingBookingsByWorker(LocalDateTime.now(), user.getId());
+    }
+
 }

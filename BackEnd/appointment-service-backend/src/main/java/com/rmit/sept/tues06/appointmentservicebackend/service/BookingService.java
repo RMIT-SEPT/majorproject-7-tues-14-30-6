@@ -17,6 +17,8 @@ public interface BookingService {
 
     List<Booking> findActiveCurrentBookingsByCustomer(LocalDateTime date, String username);
 
+    List<Booking> findUpcomingBookingsByWorker(LocalDateTime date, Long workerId);
+
     Booking createBooking(Booking booking);
 
     Booking cancelBooking(Booking booking);
