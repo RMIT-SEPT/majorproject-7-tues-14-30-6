@@ -1,7 +1,9 @@
 package com.rmit.sept.tues06.appointmentservicebackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.persistence.Entity;
@@ -15,11 +17,14 @@ import java.time.LocalDateTime;
 public class Booking extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Customer customer;
 
     @ManyToOne
     @JoinColumn(name = "worker_id")
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private Worker worker;
 
     private String serviceName;
