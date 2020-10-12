@@ -9,6 +9,8 @@ import com.rmit.sept.tues06.appointmentservicebackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -26,12 +28,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUsername(String username) {
-        return userRepository.findByUsernameIgnoreCase(username.toLowerCase());
+        User user = userRepository.findByUsernameIgnoreCase(username.toLowerCase());
+
+        if (user == null)
+            throw new UserNotFoundException("username", username);
+
+        return user;
     }
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmailIgnoreCase(email.toLowerCase());
+        User user = userRepository.findByEmailIgnoreCase(email.toLowerCase());
+
+        if (user == null)
+            throw new UserNotFoundException("email", email);
+
+        return user;
     }
 
     @Override
@@ -53,4 +65,13 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User updateUser(Long id, User user) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (!userOptional.isPresent())
+            throw new UserNotFoundException("id", id + "");
+
+        return userRepository.save(user);
+    }
 }
