@@ -1,14 +1,13 @@
 package com.rmit.sept.tues06.appointmentservicebackend.web;
 
 import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
-import com.rmit.sept.tues06.appointmentservicebackend.model.Booking;
-import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
-import com.rmit.sept.tues06.appointmentservicebackend.model.User;
+import com.rmit.sept.tues06.appointmentservicebackend.model.*;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.AssignWorkerRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CancelBookingRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CreateBookingRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.service.BookingService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
+import com.rmit.sept.tues06.appointmentservicebackend.service.WorkerService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -45,6 +44,10 @@ public class BookingController {
 
     @Autowired
     private UserService userService;
+
+
+    @Autowired
+    private WorkerService workerService;
 
     @Operation(summary = "Get all bookings", tags = {"booking"})
     @ApiResponses(value = {
@@ -99,7 +102,7 @@ public class BookingController {
             @ApiResponse(responseCode = "404", description = "Booking not found", content = @Content)
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getBookingById(@Parameter(description = "Booking Id", required = true) @PathVariable(value = "id") Long id) {
+    public ResponseEntity<?> getBookingById(@Parameter(description = "Booking Id", required = true) @PathVariable Long id) {
         return new ResponseEntity<>(bookingService.findById(id), HttpStatus.OK);
     }
 
@@ -151,16 +154,24 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.assignWorker(booking, worker), HttpStatus.OK);
     }
 
-//    @Operation(summary = "Get workers who can be assigned to a booking timeslot", description = "This can only be done by an admin", tags = {"booking"})
-//    @ApiResponses(value = {
-//            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
-//                    array = @ArraySchema(schema = @Schema(implementation = User.class))),
-//                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))})
-//    })
-//    @GetMapping("/{id}/availableWorkers")
-//    public List<User> getAvailableWorkers() {
-//        List<User> workers = ;
-//
-//        return workers;
-//    }
+    @Operation(summary = "Get workers who can be assigned to the booking timeslot", tags = {"booking"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = User.class))),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
+            @ApiResponse(responseCode = "404", description = "Booking or worker not found", content = @Content)
+    })
+    @GetMapping("/{id}/availableWorkers")
+    public List<User> getAvailableWorkers(@Parameter(description = "Booking Id") @PathVariable Long id) {
+        List<User> availableWorkers = new ArrayList<>();
+        List<User> workers = userService.findUsersByType(ERole.ROLE_WORKER);
+        Booking booking = bookingService.findById(id);
+
+        for (User worker : workers) {
+            if (workerService.isAvailable((Worker) worker, booking.getBookingDateTime()))
+                availableWorkers.add(worker);
+        }
+
+        return availableWorkers;
+    }
 }
