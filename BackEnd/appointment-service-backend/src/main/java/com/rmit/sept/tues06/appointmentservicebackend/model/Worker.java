@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 public class Worker extends User {
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
     @JoinColumn(name = "worker_id", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<Availability> availabilities = new ArrayList<>();

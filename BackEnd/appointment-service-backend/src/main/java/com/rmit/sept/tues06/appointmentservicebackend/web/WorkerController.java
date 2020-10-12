@@ -186,6 +186,7 @@ public class WorkerController {
                     .status(404)
                     .body(new MessageResponse("Availability id " + id + " not found for the user"));
 
+
         return new ResponseEntity<>(availabilityService.removeAvailability(id), HttpStatus.OK);
     }
 

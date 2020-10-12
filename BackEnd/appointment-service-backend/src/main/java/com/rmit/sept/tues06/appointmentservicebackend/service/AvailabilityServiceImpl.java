@@ -29,7 +29,7 @@ public class AvailabilityServiceImpl implements AvailabilityService {
     @Override
     public Availability removeAvailability(Long id) {
         Availability availability = findById(id);
-        availabilityRepository.delete(availability);
+        availabilityRepository.deleteById(id);
 
         return availability;
     }
