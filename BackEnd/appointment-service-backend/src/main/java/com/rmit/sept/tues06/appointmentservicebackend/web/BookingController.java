@@ -4,6 +4,7 @@ import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundExce
 import com.rmit.sept.tues06.appointmentservicebackend.model.Booking;
 import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
 import com.rmit.sept.tues06.appointmentservicebackend.model.User;
+import com.rmit.sept.tues06.appointmentservicebackend.payload.request.AssignWorkerRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CancelBookingRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CreateBookingRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.service.BookingService;
@@ -98,8 +99,8 @@ public class BookingController {
             @ApiResponse(responseCode = "404", description = "Booking not found", content = @Content)
     })
     @GetMapping(value = "/{id}")
-    public ResponseEntity<?> getBookingById(@Parameter(description = "The booking id that needs to be fetched.", required = true) @PathVariable(value = "id") Long id) {
-        return new ResponseEntity<>(bookingService.getBooking(id), HttpStatus.OK);
+    public ResponseEntity<?> getBookingById(@Parameter(description = "Booking Id", required = true) @PathVariable(value = "id") Long id) {
+        return new ResponseEntity<>(bookingService.findById(id), HttpStatus.OK);
     }
 
     @Operation(summary = "Add a booking", description = "This can only be done by a customer", tags = {"booking"}, security = @SecurityRequirement(name = "bearerAuth"))
@@ -129,7 +130,37 @@ public class BookingController {
     @PreAuthorize("hasRole('CUSTOMER')")
     public ResponseEntity<?> cancelBooking(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
                                            @Valid @RequestBody CancelBookingRequest cancelBookingRequest) {
-        Booking booking = bookingService.getBooking(cancelBookingRequest.getBookingId());
+        Booking booking = bookingService.findById(cancelBookingRequest.getBookingId());
         return new ResponseEntity<>(bookingService.cancelBooking(booking), HttpStatus.OK);
     }
+
+    @Operation(summary = "Assign a worker to a booking timeslot", description = "This can only be done by an admin", tags = {"booking"},
+            security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class)),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
+            @ApiResponse(responseCode = "404", description = "Booking or worker not found", content = @Content)
+    })
+    @PostMapping("/assign")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> assignWorker(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
+                                          @Valid @RequestBody AssignWorkerRequest assignWorkerRequest) {
+        Booking booking = bookingService.findById(assignWorkerRequest.getBookingId());
+        User worker = userService.findById(assignWorkerRequest.getWorkerId());
+
+        return new ResponseEntity<>(bookingService.assignWorker(booking, worker), HttpStatus.OK);
+    }
+
+//    @Operation(summary = "Get workers who can be assigned to a booking timeslot", description = "This can only be done by an admin", tags = {"booking"})
+//    @ApiResponses(value = {
+//            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+//                    array = @ArraySchema(schema = @Schema(implementation = User.class))),
+//                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))})
+//    })
+//    @GetMapping("/{id}/availableWorkers")
+//    public List<User> getAvailableWorkers() {
+//        List<User> workers = ;
+//
+//        return workers;
+//    }
 }

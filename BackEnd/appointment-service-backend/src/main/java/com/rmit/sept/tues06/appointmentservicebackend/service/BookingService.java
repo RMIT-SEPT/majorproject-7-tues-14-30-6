@@ -1,12 +1,13 @@
 package com.rmit.sept.tues06.appointmentservicebackend.service;
 
 import com.rmit.sept.tues06.appointmentservicebackend.model.Booking;
+import com.rmit.sept.tues06.appointmentservicebackend.model.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingService {
-    Booking getBooking(Long bookingId);
+    Booking findById(Long bookingId);
 
     List<Booking> findActivePastBookings(LocalDateTime date);
 
@@ -19,4 +20,6 @@ public interface BookingService {
     Booking createBooking(Booking booking);
 
     Booking cancelBooking(Booking booking);
+
+    Booking assignWorker(Booking booking, User worker);
 }

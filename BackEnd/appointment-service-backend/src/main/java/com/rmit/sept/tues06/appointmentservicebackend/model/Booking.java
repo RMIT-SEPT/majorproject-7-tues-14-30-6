@@ -35,7 +35,7 @@ public class Booking extends BaseEntity {
     @Schema(example = "true", description = "Booking status (active, cancelled)")
     private boolean isActive;
 
-    @Schema(description = "Customer who booked the timeslot")
+    @Schema(description = "Id of customer who booked the timeslot")
     public Customer getCustomer() {
         return customer;
     }
@@ -44,13 +44,18 @@ public class Booking extends BaseEntity {
         this.customer = customer;
     }
 
-    @Schema(description = "Worker assigned to the booking timeslot")
+    @Schema(description = "Id of worker assigned to the booking")
     public Worker getWorker() {
         return worker;
     }
 
     public void setWorker(Worker worker) {
         this.worker = worker;
+    }
+
+    @Schema(example = "John Smith", description = "Name of worker assigned to the booking")
+    public String getWorkerName() {
+        return worker.getName();
     }
 
     @Schema(example = "Dentist appointment", description = "Which service the booking is for")

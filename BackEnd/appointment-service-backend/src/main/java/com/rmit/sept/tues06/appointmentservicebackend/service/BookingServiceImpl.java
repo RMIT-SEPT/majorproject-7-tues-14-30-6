@@ -2,6 +2,8 @@ package com.rmit.sept.tues06.appointmentservicebackend.service;
 
 import com.rmit.sept.tues06.appointmentservicebackend.exception.BookingNotFoundException;
 import com.rmit.sept.tues06.appointmentservicebackend.model.Booking;
+import com.rmit.sept.tues06.appointmentservicebackend.model.User;
+import com.rmit.sept.tues06.appointmentservicebackend.model.Worker;
 import com.rmit.sept.tues06.appointmentservicebackend.repository.BookingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +17,7 @@ public class BookingServiceImpl implements BookingService {
     private BookingRepository bookingRepository;
 
     @Override
-    public Booking getBooking(Long bookingId) {
+    public Booking findById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElseThrow(() -> new BookingNotFoundException(bookingId + ""));
     }
 
@@ -53,6 +55,13 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking cancelBooking(Booking booking) {
         booking.setActive(false);
+
+        return bookingRepository.save(booking);
+    }
+
+    @Override
+    public Booking assignWorker(Booking booking, User worker) {
+        booking.setWorker((Worker) worker);
 
         return bookingRepository.save(booking);
     }

@@ -54,6 +54,16 @@ public class WorkerController {
     @Autowired
     private PasswordEncoder encoder;
 
+    @Operation(summary = "Get all workers", tags = {"worker"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = User.class))), @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
+    })
+    @GetMapping("")
+    public List<User> getWorkers() {
+        return userService.findUsersByType(ERole.ROLE_WORKER);
+    }
+
     @Operation(summary = "Add a worker with their availabilities", description = "This can only be done by an admin", tags = {"worker"},
             security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
@@ -110,12 +120,12 @@ public class WorkerController {
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Availability.class))}),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
     })
-    @PostMapping("/{userId}/availability/add")
+    @PostMapping("/{workerId}/availability/add")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> addAvailability(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
-                                             @Parameter(description = "User Id") @PathVariable Long userId,
+                                             @Parameter(description = "Worker Id") @PathVariable Long workerId,
                                              @Valid @RequestBody AddUpdateAvailabilityRequest addAvailabilityRequest) {
-        User user = userService.findById(userId);
+        User user = userService.findById(workerId);
 
         Availability availability = new Availability();
         availability.setWeekDay(addAvailabilityRequest.getWeekDay());
@@ -132,15 +142,15 @@ public class WorkerController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Availability.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Availability.class))}),
-            @ApiResponse(responseCode = "404", description = "User or availability not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Worker or availability not found", content = @Content)
     })
-    @PutMapping("/{userId}/availability/{id}")
+    @PutMapping("/{workerId}/availability/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateAvailability(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
-                                                @Parameter(description = "User Id") @PathVariable Long userId,
+                                                @Parameter(description = "Worker Id") @PathVariable Long workerId,
                                                 @Valid @RequestBody AddUpdateAvailabilityRequest updateAvailabilityRequest,
                                                 @Parameter(description = "Availability Id") @PathVariable Long id) {
-        User user = userService.findById(userId);
+        User user = userService.findById(workerId);
 
         if (!((Worker) user).hasAvailability(id))
             return ResponseEntity
@@ -161,14 +171,14 @@ public class WorkerController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Availability.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Availability.class))}),
-            @ApiResponse(responseCode = "404", description = "User or availability not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Worker or availability not found", content = @Content)
     })
-    @DeleteMapping("/{userId}/availability/{id}")
+    @DeleteMapping("/{workerId}/availability/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> removeAvailability(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
-                                                @Parameter(description = "User Id") @PathVariable Long userId,
+                                                @Parameter(description = "Worker Id") @PathVariable Long workerId,
                                                 @Parameter(description = "Availability Id") @PathVariable Long id) {
-        User user = userService.findById(userId);
+        User user = userService.findById(workerId);
 
         if (!((Worker) user).hasAvailability(id))
             return ResponseEntity
@@ -184,11 +194,11 @@ public class WorkerController {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
                     array = @ArraySchema(schema = @Schema(implementation = Availability.class))),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Availability.class))}),
-            @ApiResponse(responseCode = "404", description = "User or availability not found", content = @Content)
+            @ApiResponse(responseCode = "404", description = "Worker or availability not found", content = @Content)
     })
-    @GetMapping("/{userId}/availability")
-    public List<Availability> getAvailabilities(@Parameter(description = "User Id") @PathVariable Long userId) {
-        User user = userService.findById(userId);
+    @GetMapping("/{workerId}/availability")
+    public List<Availability> getAvailabilities(@Parameter(description = "Worker Id") @PathVariable Long workerId) {
+        User user = userService.findById(workerId);
         List<Availability> availabilities = ((Worker) user).getAvailabilities();
 
         if (CollectionUtils.isEmpty(availabilities))
