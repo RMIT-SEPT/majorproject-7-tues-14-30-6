@@ -1,0 +1,19 @@
+version: "3"
+services:
+  backend:
+    image: "sept/backend"
+    build:
+      context: "./BackEnd/appointment-service-backend"
+    container_name: "backend"
+    ports:
+      - "8080:8080"
+
+  frontend:
+    image: "sept/frontend"
+    build:
+      context: "./FrontEnd/appointment-service"
+    container_name: "frontend"
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
