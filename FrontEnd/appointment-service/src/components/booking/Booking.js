@@ -8,7 +8,7 @@ import { Button } from 'react-bootstrap'
 import BookingService from '../../actions/BookingService'
 
 
-const API_BOOKING_URL = "http://localhost:8080/api/bookings?past=false&current=true&customer=";
+const API_BOOKING_URL = "/api/bookings?past=false&current=true&customer=";
 
 export default class Booking extends Component {
     constructor() {
