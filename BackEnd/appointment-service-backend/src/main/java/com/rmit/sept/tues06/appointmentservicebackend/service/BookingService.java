@@ -9,6 +9,12 @@ import java.util.List;
 public interface BookingService {
     Booking findById(Long bookingId);
 
+    List<Booking> findAvailableBookings();
+
+    List<Booking> findAssignableBookings();
+
+    List<Booking> findCancelledBookings();
+
     List<Booking> findActivePastBookings(LocalDateTime date);
 
     List<Booking> findActiveCurrentBookings(LocalDateTime date);
@@ -20,6 +26,8 @@ public interface BookingService {
     List<Booking> findUpcomingBookingsByWorker(LocalDateTime date, Long workerId);
 
     Booking createBooking(Booking booking);
+
+    Booking updateBooking(Booking booking);
 
     Booking cancelBooking(Booking booking);
 

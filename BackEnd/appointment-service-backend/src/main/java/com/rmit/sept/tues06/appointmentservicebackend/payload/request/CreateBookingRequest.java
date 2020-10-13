@@ -5,23 +5,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public class CreateBookingRequest {
-    @NotNull
-    private Long customerId;
-
     @NotBlank
     private String serviceName;
 
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime bookingDateTime;
-
-    @Schema(description = "username of the user")
-    public Long getCustomerId() {
-        return customerId;
-    }
 
     @Schema(example = "Dentist appointment", description = "Which service the booking is for")
     public String getServiceName() {

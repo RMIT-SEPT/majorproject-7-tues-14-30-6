@@ -5,6 +5,8 @@ import com.rmit.sept.tues06.appointmentservicebackend.model.*;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.AssignWorkerRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CancelBookingRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CreateBookingRequest;
+import com.rmit.sept.tues06.appointmentservicebackend.payload.request.CreateCustomerBookingRequest;
+import com.rmit.sept.tues06.appointmentservicebackend.security.jwt.JwtUtils;
 import com.rmit.sept.tues06.appointmentservicebackend.service.BookingService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import com.rmit.sept.tues06.appointmentservicebackend.service.WorkerService;
@@ -45,9 +47,11 @@ public class BookingController {
     @Autowired
     private UserService userService;
 
-
     @Autowired
     private WorkerService workerService;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @Operation(summary = "Get all bookings", tags = {"booking"})
     @ApiResponses(value = {
@@ -57,13 +61,13 @@ public class BookingController {
     })
     @GetMapping("")
     public List<Booking> getBookings(@Parameter(description = "Specify username of customer whose bookings need to be fetched")
-                                         @RequestParam(value = "customer", required = false) String username,
-                                     @Parameter(description = "Specify whether past bookings need to be fetched", required = false)
-                                         @RequestParam(defaultValue = "true", value = "past", required = false) boolean includePast,
-                                     @Parameter(description = "Specify whether current and future bookings need to be fetched", required = false)
-                                         @RequestParam(defaultValue = "true", value = "current", required = false) boolean includeCurrentAndFuture,
+                                     @RequestParam(value = "customer", required = false) String username,
+                                     @Parameter(description = "Specify whether past bookings need to be fetched")
+                                     @RequestParam(defaultValue = "true", value = "past", required = false) boolean includePast,
+                                     @Parameter(description = "Specify whether current and future bookings need to be fetched")
+                                     @RequestParam(defaultValue = "true", value = "current", required = false) boolean includeCurrentAndFuture,
                                      @Parameter(description = "Specify whether cancelled bookings need to be fetched")
-                                         @RequestParam(value = "cancelled", required = false) boolean includeCancelled) {
+                                     @RequestParam(defaultValue = "false", value = "cancelled", required = false) boolean includeCancelled) {
         List<Booking> bookings = new ArrayList<>();
         LocalDateTime currentDateTime = LocalDateTime.now();
 
@@ -87,13 +91,35 @@ public class BookingController {
                 bookings.addAll(bookingService.findActiveCurrentBookings(currentDateTime));
             if (includePast)
                 bookings.addAll(bookingService.findActivePastBookings(currentDateTime));
-
-            // TODO additional filtering for cancelled bookings
-//            if (includeCancelled)
+            if (includeCancelled)
+                bookings.addAll(bookingService.findCancelledBookings());
         }
 
         return bookings;
     }
+
+    @Operation(summary = "Get bookings that can be booked by a customer", tags = {"booking"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = Booking.class))),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Booking.class)))})
+    })
+    @GetMapping("/available")
+    public List<Booking> getAvailableBookings() {
+        return bookingService.findAvailableBookings();
+    }
+
+    @Operation(summary = "Get bookings that can be assigned to workers", tags = {"booking"})
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = Booking.class))),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = Booking.class)))})
+    })
+    @GetMapping("/assignable")
+    public List<Booking> getAssignableBookings() {
+        return bookingService.findAssignableBookings();
+    }
+
 
     @Operation(summary = "Get booking by id", tags = {"booking"})
     @ApiResponses(value = {
@@ -106,22 +132,39 @@ public class BookingController {
         return new ResponseEntity<>(bookingService.findById(id), HttpStatus.OK);
     }
 
-    @Operation(summary = "Add a booking", description = "This can only be done by a customer", tags = {"booking"}, security = @SecurityRequirement(name = "bearerAuth"))
+    @Operation(summary = "Add a booking timeslot", description = "This can only be done by an admin", tags = {"booking"}, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
     })
     @PostMapping(value = "/add")
-    @PreAuthorize("hasRole('CUSTOMER')")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> addBooking(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
                                         @Valid @RequestBody CreateBookingRequest createBookingRequest) {
         Booking booking = new Booking();
-        booking.setCustomer((Customer) userService.findById(createBookingRequest.getCustomerId()));
         booking.setServiceName(createBookingRequest.getServiceName());
         booking.setBookingDateTime(createBookingRequest.getBookingDateTime());
 
+        // TODO CAN ONLY ADD TIMESLOT FOR FUTURE TIMES
+
         return new ResponseEntity<>(bookingService.createBooking(booking), HttpStatus.CREATED);
+    }
+
+    @Operation(summary = "Book a timeslot", description = "This can only be done by a customer", tags = {"booking"}, security = @SecurityRequirement(name = "bearerAuth"))
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Booking.class)),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = Booking.class))}),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content)
+    })
+    @PostMapping(value = "/book")
+    @PreAuthorize("hasRole('CUSTOMER')")
+    public ResponseEntity<?> addBookingForCustomer(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken,
+                                                   @Valid @RequestBody CreateCustomerBookingRequest createCustomerBookingRequest) {
+        Booking booking = bookingService.findById(createCustomerBookingRequest.getBookingId());
+        booking.setCustomer((Customer) userService.findByUsername(jwtUtils.getUserNameFromJwtToken(accessToken.substring(accessToken.indexOf(" ")))));
+
+        return new ResponseEntity<>(bookingService.updateBooking(booking), HttpStatus.OK);
     }
 
     @Operation(summary = "Cancel a booking", description = "This can only be done by a customer", tags = {"booking"}, security = @SecurityRequirement(name = "bearerAuth"))

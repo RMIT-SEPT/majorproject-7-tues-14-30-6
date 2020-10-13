@@ -11,6 +11,13 @@ import java.util.List;
 
 @Repository
 public interface BookingRepository extends JpaRepository<Booking, Long> {
+    List<Booking> findBookingByCustomerNull();
+
+    List<Booking> findBookingByWorkerNull();
+
+    @Query("select b from Booking b where b.isActive = FALSE ORDER BY b.bookingDateTime DESC")
+    List<Booking> findCancelledBookings();
+
     @Query("select b from Booking b where b.isActive = TRUE and b.bookingDateTime < :bookingDateTime ORDER BY b.bookingDateTime DESC")
     List<Booking> findActivePastBookings(@Param("bookingDateTime") LocalDateTime bookingDateTime);
 

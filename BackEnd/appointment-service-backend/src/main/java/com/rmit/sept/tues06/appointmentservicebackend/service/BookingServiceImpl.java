@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,6 +20,35 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public Booking findById(Long bookingId) {
         return bookingRepository.findById(bookingId).orElseThrow(() -> new BookingNotFoundException(bookingId + ""));
+    }
+
+    @Override
+    public List<Booking> findAvailableBookings() {
+        List<Booking> bookings = bookingRepository.findBookingByCustomerNull();
+        List<Booking> availableBookings = new ArrayList<>();
+
+        for (Booking booking : bookings)
+            if (booking.isActive() && booking.getBookingDateTime().isAfter(LocalDateTime.now()))
+                availableBookings.add(booking);
+
+        return availableBookings;
+    }
+
+    @Override
+    public List<Booking> findAssignableBookings() {
+        List<Booking> bookings = bookingRepository.findBookingByWorkerNull();
+        List<Booking> availableBookings = new ArrayList<>();
+
+        for (Booking booking : bookings)
+            if (booking.isActive() && booking.getBookingDateTime().isAfter(LocalDateTime.now()))
+                availableBookings.add(booking);
+
+        return availableBookings;
+    }
+
+    @Override
+    public List<Booking> findCancelledBookings() {
+        return bookingRepository.findCancelledBookings();
     }
 
     @Override
@@ -55,6 +85,11 @@ public class BookingServiceImpl implements BookingService {
         newBooking.setActive(true);
 
         return bookingRepository.save(newBooking);
+    }
+
+    @Override
+    public Booking updateBooking(Booking booking) {
+        return bookingRepository.save(booking);
     }
 
     @Override

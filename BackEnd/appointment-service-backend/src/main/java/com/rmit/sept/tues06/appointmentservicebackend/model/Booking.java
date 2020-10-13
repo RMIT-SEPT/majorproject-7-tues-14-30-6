@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "bookings")
 public class Booking extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "customer_id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
     private Customer customer;
