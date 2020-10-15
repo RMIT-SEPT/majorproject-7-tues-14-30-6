@@ -1,6 +1,8 @@
 package com.rmit.sept.tues06.appointmentservicebackend.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -12,15 +14,18 @@ public class BaseEntity {
     private Long id;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Date created_At;
 
     @JsonFormat(pattern = "yyyy-mm-dd")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Date updated_At;
 
     public Long getId() {
         return id;
     }
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     public boolean isPersisted() {
         return id != null;
     }
@@ -51,6 +56,7 @@ public class BaseEntity {
         return getId().equals(other.getId());
     }
 
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     public Date getCreated_At() {
         return created_At;
     }
@@ -59,6 +65,7 @@ public class BaseEntity {
         this.created_At = created_At;
     }
 
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
     public Date getUpdated_At() {
         return updated_At;
     }

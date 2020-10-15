@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.validation.constraints.NotNull;
 
-public class CancelBookingRequest {
+public class CreateCustomerBookingRequest {
     @NotNull
     private Long bookingId;
 
