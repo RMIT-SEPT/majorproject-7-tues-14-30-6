@@ -74,19 +74,15 @@ export default class Booking extends Component {
                 let user;
                 // for all users
                 for (user of data) {
-                    let role;
                     // check all their roles
-                    for (role of user.roles) {
-                        if (role.name === "ROLE_WORKER") {
-                            this.setState(prevState => ({
-                                workers: [...prevState.workers, user]
-                            }))
-                        }
+                    if (user.role === "ROLE_WORKER") {
+                        this.setState(prevState => ({
+                            workers: [...prevState.workers, user]
+                        }))
                     }
                 }
             }, (error) => { });
     }
-
 
     render() {
         // display message if user is not logged in
