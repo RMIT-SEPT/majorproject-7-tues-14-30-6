@@ -1,11 +1,16 @@
 package com.rmit.sept.tues06.appointmentservicebackend.service;
 
-import com.rmit.sept.tues06.appointmentservicebackend.exception.UserException;
 import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
+import com.rmit.sept.tues06.appointmentservicebackend.model.ERole;
 import com.rmit.sept.tues06.appointmentservicebackend.model.User;
 import com.rmit.sept.tues06.appointmentservicebackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -18,34 +23,58 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<User> findUsersById(Set<Integer> idList) {
+        return userRepository.findByIdIn(idList);
+    }
+
+    @Override
+    public List<User> findUsersByType(ERole role) {
+        List<User> users = new ArrayList<>();
+        Iterable<User> allUsers = userRepository.findAll();
+        for (User u : allUsers)
+            if (u.getRoles().iterator().next().getName() == role)
+                users.add(u);
+
+        return users;
+    }
+
+    @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException("id", id + ""));
     }
 
     @Override
     public User findByUsername(String username) {
-        return userRepository.findByUsernameIgnoreCase(username.toLowerCase());
+        User user = userRepository.findByUsernameIgnoreCase(username.toLowerCase());
+
+        if (user == null)
+            throw new UserNotFoundException("username", username);
+
+        return user;
     }
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByEmailIgnoreCase(email.toLowerCase());
+        User user = userRepository.findByEmailIgnoreCase(email.toLowerCase());
+
+        if (user == null)
+            throw new UserNotFoundException("email", email);
+
+        return user;
     }
 
     @Override
     public User createUser(User user) {
-        try {
-            user.setUsername(user.getUsername().toLowerCase());
-            user.setEmail(user.getEmail().toLowerCase());
-            user.setName(user.getName());
-            user.setPhoneNumber(user.getPhoneNumber());
-            user.setRoles(user.getRoles());
-            user.setAddress(user.getAddress());
-
-            return userRepository.save(user);
-        } catch (Exception e) {
-            throw new UserException("User '" + user.getUsername().toLowerCase() + "' already exists");
-        }
+        return userRepository.save(user);
     }
 
+    @Override
+    public User updateUser(Long id, User user) {
+        Optional<User> userOptional = userRepository.findById(id);
+
+        if (!userOptional.isPresent())
+            throw new UserNotFoundException("id", id + "");
+
+        return userRepository.save(user);
+    }
 }

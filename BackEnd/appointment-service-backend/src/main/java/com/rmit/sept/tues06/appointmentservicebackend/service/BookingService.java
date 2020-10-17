@@ -1,22 +1,35 @@
 package com.rmit.sept.tues06.appointmentservicebackend.service;
 
 import com.rmit.sept.tues06.appointmentservicebackend.model.Booking;
+import com.rmit.sept.tues06.appointmentservicebackend.model.User;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingService {
-    Booking getBooking(Long bookingId);
+    Booking findById(Long bookingId);
 
-    List<Booking> findActivePastBookings(Date date);
+    List<Booking> findAvailableBookings();
 
-    List<Booking> findActiveCurrentBookings(Date date);
+    List<Booking> findAssignableBookings();
 
-    List<Booking> findActivePastBookingsByCustomer(Date date, String username);
+    List<Booking> findCancelledBookings();
 
-    List<Booking> findActiveCurrentBookingsByCustomer(Date date, String username);
+    List<Booking> findActivePastBookings(LocalDateTime date);
+
+    List<Booking> findActiveCurrentBookings(LocalDateTime date);
+
+    List<Booking> findActivePastBookingsByCustomer(LocalDateTime date, String username);
+
+    List<Booking> findActiveCurrentBookingsByCustomer(LocalDateTime date, String username);
+
+    List<Booking> findUpcomingBookingsByWorker(LocalDateTime date, Long workerId);
 
     Booking createBooking(Booking booking);
 
+    Booking updateBooking(Booking booking);
+
     Booking cancelBooking(Booking booking);
+
+    Booking assignWorker(Booking booking, User worker);
 }

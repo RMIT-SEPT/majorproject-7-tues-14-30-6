@@ -1,9 +1,7 @@
 package com.rmit.sept.tues06.appointmentservicebackend.web;
 
-import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
-import com.rmit.sept.tues06.appointmentservicebackend.model.ERole;
-import com.rmit.sept.tues06.appointmentservicebackend.model.Role;
-import com.rmit.sept.tues06.appointmentservicebackend.model.User;
+import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
+import com.rmit.sept.tues06.appointmentservicebackend.model.*;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.LoginRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.SignupRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.response.JwtResponse;
@@ -18,6 +16,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -34,12 +34,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Tag(name = "auth", description = "the user authentication API")
+@Tag(name = "General")
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+    public static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -56,6 +58,11 @@ public class AuthController {
     private JwtUtils jwtUtils;
 
     @PostMapping("/login")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = JwtResponse.class)),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = JwtResponse.class))}),
+    })
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -75,21 +82,36 @@ public class AuthController {
                 roles));
     }
 
-    @Operation(summary = "Register user", description = "New users are customers by default.", tags = {"auth"})
+    @Operation(summary = "Register user", description = "New users are customers by default", tags = {"auth"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
-                    @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content)
-            })
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = MessageResponse.class)),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = MessageResponse.class))}),
+            @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content),
+    })
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
-        if (userService.findByUsername(signUpRequest.getUsername()) != null) {
+        User usernameMatch = null;
+        try {
+            usernameMatch = userService.findByUsername(signUpRequest.getUsername());
+        } catch (UserNotFoundException userNotFoundException) {
+            logger.info(userNotFoundException.getMessage());
+        }
+
+        if (usernameMatch != null) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userService.findByEmail(signUpRequest.getEmail()) != null) {
+        User emailMatch = null;
+        try {
+            emailMatch = userService.findByEmail(signUpRequest.getEmail());
+        } catch (UserNotFoundException userNotFoundException) {
+            logger.info(userNotFoundException.getMessage());
+        }
+
+        if (emailMatch != null) {
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: Email is already in use!"));
@@ -117,9 +139,9 @@ public class AuthController {
 
                         break;
                     case "worker":
-                        Role modRole = roleRepository.findTopByName(ERole.ROLE_WORKER)
+                        Role workerRole = roleRepository.findTopByName(ERole.ROLE_WORKER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        roles.add(workerRole);
 
                         break;
                     default:
@@ -130,9 +152,13 @@ public class AuthController {
             });
         }
 
+        if (roles.iterator().next().getName() == ERole.ROLE_ADMIN)
+            user = new Admin(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()),
+                    signUpRequest.getName(), signUpRequest.getAddress(), signUpRequest.getPhoneNumber());
+
         user.setRoles(roles);
         userService.createUser(user);
 
-        return ResponseEntity.ok(new MessageResponse("Customer successfully registered."));
+        return ResponseEntity.ok(new MessageResponse(roles.iterator().next().getName() + " successfully registered."));
     }
 }
