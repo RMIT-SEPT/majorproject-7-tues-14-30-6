@@ -215,8 +215,9 @@ public class BookingController {
         Booking booking = bookingService.findById(id);
 
         for (User worker : workers) {
-            if (workerService.isAvailable((Worker) worker, booking.getBookingDateTime()))
-                availableWorkers.add(worker);
+            if (worker instanceof Worker)
+                if (workerService.isAvailable((Worker) worker, booking.getBookingDateTime()))
+                    availableWorkers.add(worker);
         }
 
         return availableWorkers;

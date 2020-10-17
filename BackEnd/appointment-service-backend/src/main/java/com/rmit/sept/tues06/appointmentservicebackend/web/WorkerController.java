@@ -32,11 +32,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.DayOfWeek;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Tag(name = "Worker")
 
@@ -212,6 +210,8 @@ public class WorkerController {
 
         if (CollectionUtils.isEmpty(availabilities))
             throw new AvailabilitiesNotFoundForWorkerException(user.getUsername());
+
+        availabilities.sort(Comparator.comparing(a -> DayOfWeek.valueOf(a.getWeekDay().toUpperCase())));
 
         return availabilities;
     }
