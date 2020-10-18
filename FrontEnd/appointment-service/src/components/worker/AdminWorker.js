@@ -7,7 +7,12 @@ import { Alert, Container, Row, Col } from 'react-bootstrap';
 import './AdminWorker.css';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
-const API_WORKERS_URL = 'http://localhost:8080/api/workers';
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
+}
+
+const API_WORKERS_URL = BASE_URL + '/api/workers';
 
 export default class AdminWorker extends Component {
 	constructor() {

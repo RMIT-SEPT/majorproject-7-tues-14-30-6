@@ -1,11 +1,16 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8080';
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
+}
+
+const API_URL = BASE_URL + '/api/auth';
 
 // register an account
 const register = (newAccount) => {
 	axios
-		.post(API_URL + '/api/auth/register', JSON.parse(JSON.stringify(newAccount)))
+		.post(API_URL + '/register', JSON.parse(JSON.stringify(newAccount)))
 		.then((response) => {
 			window.location.href = '/login';
 		})
@@ -26,7 +31,7 @@ const registerWorker = (newAccount) => {
 	let authorization = tokenType + ' ' + accessToken;
 
 	axios
-		.post(API_URL + '/api/workers/add', JSON.parse(JSON.stringify(newAccount)), {
+		.post(BASE_URL + '/api/workers/add', JSON.parse(JSON.stringify(newAccount)), {
 			headers: {
 				Authorization: authorization,
 			},
@@ -47,7 +52,7 @@ const registerWorker = (newAccount) => {
 // login
 const login = (account) => {
 	axios
-		.post(API_URL + '/api/auth/login', JSON.parse(JSON.stringify(account)))
+		.post(API_URL + '/login', JSON.parse(JSON.stringify(account)))
 		.then((response) => {
 			sessionStorage.setItem('user', JSON.stringify(response.data));
 			window.location.href = '/ ';

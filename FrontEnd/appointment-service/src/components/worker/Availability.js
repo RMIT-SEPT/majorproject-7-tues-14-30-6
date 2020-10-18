@@ -8,7 +8,12 @@ import AvailabilityService from '../../actions/AvailabilityService';
 import AddAvailabilityModal from './AddAvailabilityModal';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
-const API_URL = 'http://localhost:8080/api/workers';
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
+}
+
+const API_URL = BASE_URL + '/api/workers';
 
 export default class Availability extends Component {
 	constructor() {
@@ -18,7 +23,7 @@ export default class Availability extends Component {
 			availabilities: [],
 			modalShow: false,
 			availabilityId: 0,
-			weekDay: "Monday",
+			weekDay: 'Monday',
 			startTime: null,
 			endTime: null,
 		};

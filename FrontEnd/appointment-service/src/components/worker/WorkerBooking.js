@@ -4,7 +4,12 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import { Container, Row, Col } from 'react-bootstrap';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
-const API_URL = 'http://localhost:8080';
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
+}
+
+const API_URL = BASE_URL;
 
 export default class WorkerBooking extends Component {
 	constructor() {
@@ -19,7 +24,7 @@ export default class WorkerBooking extends Component {
 		if (!sessionStorage.getItem('user')) {
 			return;
 		}
-		
+
 		let userId = JSON.parse(sessionStorage.getItem('user')).id;
 
 		// get all bookings assigned to the worker
@@ -64,9 +69,13 @@ export default class WorkerBooking extends Component {
 							bordered={false}
 							condensed={true}
 						>
-							<TableHeaderColumn dataField="bookingDateTime" dataSort={true}>Booking Date</TableHeaderColumn>
+							<TableHeaderColumn dataField="bookingDateTime" dataSort={true}>
+								Booking Date
+							</TableHeaderColumn>
 							<TableHeaderColumn dataField="serviceName">Service Name</TableHeaderColumn>
-							<TableHeaderColumn dataField="customerName" dataSort={true}>Customer</TableHeaderColumn>
+							<TableHeaderColumn dataField="customerName" dataSort={true}>
+								Customer
+							</TableHeaderColumn>
 							<TableHeaderColumn isKey dataField="id" hidden={true} />
 						</BootstrapTable>
 					</Col>

@@ -1,6 +1,11 @@
 import axios from 'axios';
 
-const WORKER_URL = 'http://localhost:8080/api/workers';
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
+}
+
+const WORKER_URL = BASE_URL + '/api/workers';
 
 const addAvailability = (data) => {
 	let user = JSON.parse(sessionStorage.getItem('user'));
@@ -49,14 +54,11 @@ const removeAvailability = (data) => {
 	let authorization = tokenType + ' ' + accessToken;
 
 	axios
-		.delete(
-			WORKER_URL + `/${data.workerId}/availability/${data.id}`,
-			{
-				headers: {
-					Authorization: authorization,
-				},
-			}
-		)
+		.delete(WORKER_URL + `/${data.workerId}/availability/${data.id}`, {
+			headers: {
+				Authorization: authorization,
+			},
+		})
 		.then(
 			(response) => {
 				window.location.href = '/availability';
