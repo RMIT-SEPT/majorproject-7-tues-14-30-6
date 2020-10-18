@@ -43,6 +43,16 @@ public class Booking extends BaseEntity {
         this.customer = customer;
     }
 
+    @Schema(example = "John Smith", description = "Name of customer who booked the timeslot")
+    public String getCustomerName() {
+        String name = "";
+
+        if (customer != null)
+            name = customer.getName();
+
+        return name;
+    }
+
     @Schema(description = "Id of worker assigned to the booking")
     public Worker getWorker() {
         return worker;

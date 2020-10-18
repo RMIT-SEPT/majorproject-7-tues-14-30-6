@@ -28,7 +28,7 @@ public class BookingServiceImpl implements BookingService {
         List<Booking> availableBookings = new ArrayList<>();
 
         for (Booking booking : bookings)
-            if (booking.isActive() && booking.getBookingDateTime().isAfter(LocalDateTime.now()))
+            if (booking.isActive() && booking.getWorker() != null && booking.getBookingDateTime().isAfter(LocalDateTime.now()))
                 availableBookings.add(booking);
 
         return availableBookings;
