@@ -18,7 +18,7 @@ export default class Availability extends Component {
 			availabilities: [],
 			modalShow: false,
 			availabilityId: 0,
-			weekDay: 'Monday',
+			weekDay: "Monday",
 			startTime: null,
 			endTime: null,
 		};
@@ -41,7 +41,6 @@ export default class Availability extends Component {
 
 	handleRowClick = (row) => {
 		this.setState({ availabilityId: row.id });
-		this.setState({ weekDay: row.weekDay });
 	};
 
 	handleStartTimeChange = (value) => {
