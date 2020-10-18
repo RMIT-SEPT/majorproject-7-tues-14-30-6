@@ -77,6 +77,15 @@ export default class AdminWorker extends Component {
 
 		return (
 			<BootstrapTable data={this.state.availabilities}>
+				<TableHeaderColumn dataField="weekDay" dataSort={true}>
+					Week Day
+				</TableHeaderColumn>
+				<TableHeaderColumn dataField="startTime" dataSort={true}>
+					Start Time
+				</TableHeaderColumn>
+				<TableHeaderColumn dataField="endTime" dataSort={true}>
+					End Time
+				</TableHeaderColumn>
 				<TableHeaderColumn dataField="id" isKey hidden />
 			</BootstrapTable>
 		);
