@@ -1,64 +1,72 @@
 package com.rmit.sept.tues06.appointmentservicebackend.payload.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 import java.util.List;
 
 public class JwtResponse {
-	private String token;
-	private String type = "Bearer";
-	private Long id;
-	private String username;
-	private String email;
-	private List<String> roles;
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
+    private final List<String> roles;
+    private String token;
+    @Schema(accessMode = Schema.AccessMode.WRITE_ONLY)
+    private String type = "Bearer";
+    private Long id;
+    private String username;
+    private String email;
 
-	public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
-		this.token = accessToken;
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.roles = roles;
-	}
+    public JwtResponse(String accessToken, Long id, String username, String email, List<String> roles) {
+        this.token = accessToken;
+        this.id = id;
+        this.username = username;
+        this.email = email;
+        this.roles = roles;
+    }
 
-	public String getAccessToken() {
-		return token;
-	}
+    @Schema(example = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjdXN0b21lciIsImlhdCI6MTYwMjUwNzAzNywiZXhwIjoxNjAyNTkzNDM3fQ.xLgGRH1k4WV3aRJNn6KLUte0Deo2UrHiqI4tJlCvgaKf5g5ttB0eG-m8FX0Da4iThbysHhqh8zMjS8y9UgAomg")
+    public String getAccessToken() {
+        return token;
+    }
 
-	public void setAccessToken(String accessToken) {
-		this.token = accessToken;
-	}
+    public void setAccessToken(String accessToken) {
+        this.token = accessToken;
+    }
 
-	public String getTokenType() {
-		return type;
-	}
+    public List<String> getRoles() {
+        return this.roles;
+    }
 
-	public void setTokenType(String tokenType) {
-		this.type = tokenType;
-	}
+    @Schema(example = "Bearer")
+    public String getTokenType() {
+        return type;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    public void setTokenType(String tokenType) {
+        this.type = tokenType;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getEmail() {
-		return email;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @Schema(example = "customer@email.com")
+    public String getEmail() {
+        return email;
+    }
 
-	public String getUsername() {
-		return username;
-	}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+    @Schema(example = "customer")
+    public String getUsername() {
+        return username;
+    }
 
-	public List<String> getRoles() {
-		return roles;
-	}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

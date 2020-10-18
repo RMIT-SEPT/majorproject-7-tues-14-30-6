@@ -1,17 +1,20 @@
 package com.rmit.sept.tues06.appointmentservicebackend.payload.response;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 public class MessageResponse {
-	private String message;
+    private String message;
 
-	public MessageResponse(String message) {
-	    this.message = message;
-	  }
+    public MessageResponse(String message) {
+        this.message = message;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    @Schema(example = "ROLE_CUSTOMER successfully registered.")
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

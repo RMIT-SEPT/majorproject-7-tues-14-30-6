@@ -1,5 +1,6 @@
 package com.rmit.sept.tues06.appointmentservicebackend.payload.request;
 
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import javax.persistence.Column;
@@ -83,7 +84,7 @@ public class SignupRequest {
         this.phoneNumber = phoneNumber;
     }
 
-    @Schema(enumAsRef = true)
+    @ArraySchema(schema = @Schema(example = "customer"))
     public Set<String> getRole() {
         return this.role;
     }

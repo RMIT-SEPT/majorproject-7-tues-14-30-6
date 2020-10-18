@@ -1,10 +1,7 @@
 package com.rmit.sept.tues06.appointmentservicebackend.web;
 
 import com.rmit.sept.tues06.appointmentservicebackend.exception.UserNotFoundException;
-import com.rmit.sept.tues06.appointmentservicebackend.model.Customer;
-import com.rmit.sept.tues06.appointmentservicebackend.model.ERole;
-import com.rmit.sept.tues06.appointmentservicebackend.model.Role;
-import com.rmit.sept.tues06.appointmentservicebackend.model.User;
+import com.rmit.sept.tues06.appointmentservicebackend.model.*;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.LoginRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.request.SignupRequest;
 import com.rmit.sept.tues06.appointmentservicebackend.payload.response.JwtResponse;
@@ -37,7 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Tag(name = "auth", description = "the user authentication API")
+@Tag(name = "General")
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -62,7 +59,8 @@ public class AuthController {
 
     @PostMapping("/login")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = LoginRequest.class)),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = JwtResponse.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = JwtResponse.class))}),
     })
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
@@ -86,8 +84,9 @@ public class AuthController {
 
     @Operation(summary = "Register user", description = "New users are customers by default", tags = {"auth"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
-                    @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    schema = @Schema(implementation = MessageResponse.class)),
+                    @Content(mediaType = "application/xml", schema = @Schema(implementation = MessageResponse.class))}),
             @ApiResponse(responseCode = "400", description = "Username or email is already taken", content = @Content),
     })
     @PostMapping("/register")
@@ -140,9 +139,9 @@ public class AuthController {
 
                         break;
                     case "worker":
-                        Role modRole = roleRepository.findTopByName(ERole.ROLE_WORKER)
+                        Role workerRole = roleRepository.findTopByName(ERole.ROLE_WORKER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-                        roles.add(modRole);
+                        roles.add(workerRole);
 
                         break;
                     default:
@@ -153,9 +152,13 @@ public class AuthController {
             });
         }
 
+        if (roles.iterator().next().getName() == ERole.ROLE_ADMIN)
+            user = new Admin(signUpRequest.getUsername(), signUpRequest.getEmail(), encoder.encode(signUpRequest.getPassword()),
+                    signUpRequest.getName(), signUpRequest.getAddress(), signUpRequest.getPhoneNumber());
+
         user.setRoles(roles);
         userService.createUser(user);
 
-        return ResponseEntity.ok(new MessageResponse("Customer successfully registered."));
+        return ResponseEntity.ok(new MessageResponse(roles.iterator().next().getName() + " successfully registered."));
     }
 }

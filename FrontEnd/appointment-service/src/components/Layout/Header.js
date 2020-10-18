@@ -1,63 +1,58 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { withRouter } from 'react-router-dom';
 
 class Header extends Component {
-    render() {
-        return (
-            <div>
-                <nav className="navbar navbar-expand-sm navbar-dark bg-primary mb-4">
-                    <div className="container">
-                        <a className="navbar-brand" href="/">
-                            AGME
-                     </a>
-                        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile-nav">
-                            <span className="navbar-toggler-icon" />
-                        </button>
+	render() {
+		return (
+			<Navbar expand="lg" bg="primary" variant="dark" className="mb-5">
+				<Container>
+					<Navbar.Brand href="/">AGME</Navbar.Brand>
+					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+					<Navbar.Collapse>
+						<Nav className="mr-auto" activeKey={this.props.location.pathname}>
+							<Nav.Link href="/">Home</Nav.Link>
+							{sessionStorage.getItem('user') &&
+							JSON.parse(sessionStorage.getItem('user')).roles.includes('ROLE_CUSTOMER', 0) && (
+								<Nav.Link href="/booking">Bookings</Nav.Link>
+							)}
+							{sessionStorage.getItem('user') &&
+							JSON.parse(sessionStorage.getItem('user')).roles.includes('ROLE_ADMIN', 0) && (
+								<React.Fragment>
+									<Nav.Link href="/admin-booking">Bookings</Nav.Link>
+									<Nav.Link href="/worker">Workers</Nav.Link>
+								</React.Fragment>
+							)}
+							{sessionStorage.getItem('user') &&
+							JSON.parse(sessionStorage.getItem('user')).roles.includes('ROLE_WORKER', 0) && (
+								<React.Fragment>
+									<Nav.Link href="/worker-booking">Bookings</Nav.Link>
+									<Nav.Link href="/availability">Availability</Nav.Link>
+								</React.Fragment>
+							)}
+						</Nav>
 
-                        <div className="collapse navbar-collapse" id="mobile-nav">
-                            <ul className="navbar-nav mr-auto">
-                                {/* <li className="nav-item">
-                                    <a className="nav-link" href="/dashboard">
-                                        Dashboard
-                                    </a>
-                                </li> */}
-
-                                <li className="nav-item">
-                                    <a className="nav-link" href="/booking">
-                                        Bookings
-                                    </a>
-                                </li>
-                            </ul>
-
-                            {/* start of button groups */}
-                            {sessionStorage.getItem("user")
-                                ?
-                                <ul className="navbar-nav ml-auto">
-                                    <li className="nav-item">
-                                        <a className="nav-link" href ="" onClick={() => sessionStorage.clear()}>
-                                            Log out as {JSON.parse(sessionStorage.getItem("user")).username}
-                                        </a>
-                                    </li>
-                                </ul>
-                                :
-                                <ul className="navbar-nav ml-auto">
-                                    <li className="nav-item">
-                                        <a className="nav-link" href="/login">
-                                            Login
-                                    </a>
-                                    </li>
-                                    <li className="nav-item">
-                                        <a className="nav-link " href="/signup">
-                                            Sign Up
-                            </a>
-                                    </li>
-                                </ul>
-                            }
-                            {/*End of button groups */}
-                        </div>
-                    </div>
-                </nav>
-            </div>
-        )
-    }
+						<Nav>
+							{sessionStorage.getItem('user') ? (
+								<React.Fragment>
+									<Navbar.Text>
+										Signed in as: {JSON.parse(sessionStorage.getItem('user')).username}
+									</Navbar.Text>
+									<Nav.Link href="/login" onClick={() => sessionStorage.clear()}>
+										Log out
+									</Nav.Link>
+								</React.Fragment>
+							) : (
+								<React.Fragment>
+									<Nav.Link href="/login">Login</Nav.Link>
+									<Nav.Link href="/signup">Register</Nav.Link>
+								</React.Fragment>
+							)}
+						</Nav>
+					</Navbar.Collapse>
+				</Container>
+			</Navbar>
+		);
+	}
 }
-export default Header;
+export default withRouter(Header);

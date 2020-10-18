@@ -8,6 +8,7 @@ import com.rmit.sept.tues06.appointmentservicebackend.security.jwt.JwtUtils;
 import com.rmit.sept.tues06.appointmentservicebackend.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -22,7 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "user", description = "the user API")
+@Tag(name = "User")
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -38,40 +39,45 @@ public class UserController {
 
     @Operation(summary = "Get all users", tags = {"user"})
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)), @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json",
+                    array = @ArraySchema(schema = @Schema(implementation = User.class))),
+                    @Content(mediaType = "application/xml", array = @ArraySchema(schema = @Schema(implementation = User.class)))}),
     })
     @GetMapping("")
     public Iterable<User> getAllUsers() {
         return userService.findAllUsers();
     }
 
-    @Operation(summary = "Get user by id", tags = {"user"})
+    @Operation(summary = "Get user", tags = {"user"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)})
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     @GetMapping(value = "/find", params = "id")
     public ResponseEntity<?> getUserById(@Parameter(description = "The id of the user that needs to be fetched")
                                          @RequestParam(value = "id", required = false) Long id) {
         return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get user by username", tags = {"user"})
+    @Operation(summary = "Get user", tags = {"user"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)})
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     @GetMapping(value = "/find", params = "username")
     public ResponseEntity<?> getUserByUsername(@Parameter(description = "The username of the user that needs to be fetched")
                                                @RequestParam(value = "username", required = false) String username) {
         return new ResponseEntity<>(userService.findByUsername(username), HttpStatus.OK);
     }
 
-    @Operation(summary = "Get user by email", tags = {"user"})
+    @Operation(summary = "Get user", tags = {"user"})
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
-            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)})
+            @ApiResponse(responseCode = "404", description = "User not found", content = @Content)
+    })
     @GetMapping(value = "/find", params = "email")
     public ResponseEntity<?> getUserByEmail(@Parameter(description = "The email of the user that needs to be fetched")
                                             @RequestParam(value = "email", required = false) String email) {
@@ -80,25 +86,30 @@ public class UserController {
 
     @Operation(summary = "Update user details", description = "This can only be done by an authenticated user", tags = {"user"}, security = @SecurityRequirement(name = "bearerAuth"))
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = UpdateUserRequest.class)),
+            @ApiResponse(responseCode = "200", description = "successful operation", content = {@Content(mediaType = "application/json", schema = @Schema(implementation = User.class)),
                     @Content(mediaType = "application/xml", schema = @Schema(implementation = User.class))}),
             @ApiResponse(responseCode = "404", description = "User not found", content = @Content),
-            @ApiResponse(responseCode = "400", description = "Email is already taken or logged in user is not the same as user to update", content = @Content)})
+            @ApiResponse(responseCode = "400", description = "Email is already taken or logged in user is not the same as user to be updated", content = @Content)
+    })
     @PutMapping(value = "/{id}")
     @PreAuthorize("isAuthenticated()")
     public ResponseEntity<?> updateUser(@Parameter(description = "Access Token") @RequestHeader(value = "Authorization") String accessToken, @RequestBody UpdateUserRequest updateUserRequest,
                                         @Parameter(description = "User Id") @PathVariable Long id) {
+        User user = null;
+        try {
+            user = userService.findById(id);
+        } catch (UserNotFoundException userNotFoundException) {
+            logger.info(userNotFoundException.getMessage());
+        }
 
         String loggedInUsername = jwtUtils.getUserNameFromJwtToken(accessToken.substring(accessToken.indexOf(" ")));
-        if (!updateUserRequest.getUsername().equals(loggedInUsername))
+        if (user != null && !user.getUsername().equals(loggedInUsername))
             return ResponseEntity
                     .badRequest()
                     .body(new MessageResponse("Error: You are not allowed to change another user's details!"));
 
-        User user = null;
         User emailMatch = null;
         try {
-            user = userService.findById(id);
             emailMatch = userService.findByEmail(updateUserRequest.getEmail());
         } catch (UserNotFoundException userNotFoundException) {
             logger.info(userNotFoundException.getMessage());
