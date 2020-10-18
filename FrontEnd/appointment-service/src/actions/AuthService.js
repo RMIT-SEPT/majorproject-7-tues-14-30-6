@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-let BASE_URL = "";
-if (process.env.REACT_APP_PROD !== "true") {
-  BASE_URL = "http://localhost:8080";
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
 }
 
-const API_URL = BASE_URL + "/api/auth";
+const API_URL = BASE_URL + '/api/auth';
 
 // register an account
 const register = (newAccount) => {

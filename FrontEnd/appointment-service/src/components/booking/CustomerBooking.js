@@ -9,8 +9,13 @@ import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 import BookingService from '../../actions/BookingService';
 
-const API_BOOKING_URL = 'http://localhost:8080/api/bookings';
-const API_USERS_URL = 'http://localhost:8080/api/users';
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
+}
+
+const API_BOOKING_URL = BASE_URL + '/api/bookings';
+const API_USERS_URL = BASE_URL + '/api/users';
 
 export default class CustomerBooking extends Component {
 	constructor() {
@@ -133,9 +138,13 @@ export default class CustomerBooking extends Component {
 							}}
 							expandComponent={this.expandComponent}
 						>
-							<TableHeaderColumn dataField="bookingDateTime" dataSort={true}>Booking Date</TableHeaderColumn>
+							<TableHeaderColumn dataField="bookingDateTime" dataSort={true}>
+								Booking Date
+							</TableHeaderColumn>
 							<TableHeaderColumn dataField="serviceName">Service Name</TableHeaderColumn>
-							<TableHeaderColumn dataField="workerName" dataSort={true}>Worker</TableHeaderColumn>
+							<TableHeaderColumn dataField="workerName" dataSort={true}>
+								Worker
+							</TableHeaderColumn>
 							<TableHeaderColumn isKey dataField="id" hidden={true} />
 						</BootstrapTable>
 					</Col>

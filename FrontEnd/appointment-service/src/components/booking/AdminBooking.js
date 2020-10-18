@@ -7,7 +7,11 @@ import BookingService from '../../actions/BookingService';
 import AddBookingModal from './AddBookingModal';
 import 'react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
-const API_URL = 'http://localhost:8080';
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
+}
+const API_URL = BASE_URL;
 
 export default class AdminBooking extends Component {
 	constructor() {

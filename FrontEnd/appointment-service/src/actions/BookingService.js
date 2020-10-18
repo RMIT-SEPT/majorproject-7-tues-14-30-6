@@ -1,11 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
-let BASE_URL = "";
-if (process.env.REACT_APP_PROD !== "true") {
-  BASE_URL = "http://localhost:8080";
+let BASE_URL = '';
+if (process.env.REACT_APP_PROD !== 'true') {
+	BASE_URL = 'http://localhost:8080';
 }
 
-const BOOKING_URL = BASE_URL + "/api/bookings";
+const BOOKING_URL = BASE_URL + '/api/bookings';
 
 const book = (booking) => {
 	let user = JSON.parse(sessionStorage.getItem('user'));
