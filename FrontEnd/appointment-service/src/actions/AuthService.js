@@ -4,15 +4,19 @@ const API_URL = 'http://localhost:8080';
 
 // register an account
 const register = (newAccount) => {
-	axios.post(API_URL + '/api/auth/register', JSON.parse(JSON.stringify(newAccount))).then(
-		(response) => {
+	axios
+		.post(API_URL + '/api/auth/register', JSON.parse(JSON.stringify(newAccount)))
+		.then((response) => {
 			window.location.href = '/login';
-		},
-		(error) => {
-			document.getElementById('status').style.display = 'block';
-			document.getElementById('message').innerHTML = error.message;
-		}
-	);
+		})
+		.catch((error) => {
+			document.getElementById('status').style.display = 'none';
+
+			if (error.response) {
+				document.getElementById('status').style.display = 'block';
+				document.getElementById('message').innerHTML = error.response.data.message;
+			}
+		});
 };
 
 const registerWorker = (newAccount) => {
@@ -27,15 +31,17 @@ const registerWorker = (newAccount) => {
 				Authorization: authorization,
 			},
 		})
-		.then(
-			(response) => {
-				window.location.href = '/worker';
-			},
-			(error) => {
+		.then((response) => {
+			window.location.href = '/worker';
+		})
+		.catch((error) => {
+			document.getElementById('status').style.display = 'none';
+
+			if (error.response) {
 				document.getElementById('status').style.display = 'block';
-				document.getElementById('message').innerHTML = error.message;
+				document.getElementById('message').innerHTML = error.response.data.message;
 			}
-		);
+		});
 };
 
 // login
