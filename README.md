@@ -4,9 +4,9 @@
 
 ## Members
 
-- CERVENJAK, Joshua (s3783156)
-- NG, Kaye (s3766374)
-- RANDALL, Rylee (s3780297)
+- CERVENJAK, Joshua
+- NG, Kaye
+- RANDALL, Rylee
 
 ## Records
 
